@@ -1,38 +1,38 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
+import java.util.HashMap;
 
-import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 
 import com.javadocking.DockingManager;
 import com.javadocking.dock.BorderDock;
@@ -46,105 +46,195 @@ import com.javadocking.dock.factory.ToolBarDockFactory;
 import com.javadocking.dockable.DefaultDockable;
 import com.javadocking.dockable.Dockable;
 import com.javadocking.dockable.DockableState;
+import com.javadocking.dockable.DockingMode;
+import com.javadocking.dockable.DraggableContent;
 import com.javadocking.dockable.StateActionDockable;
-import com.javadocking.dockable.action.DefaultDockableStateAction;
 import com.javadocking.dockable.action.DefaultDockableStateActionFactory;
+import com.javadocking.drag.DragListener;
 import com.javadocking.event.DockingEvent;
 import com.javadocking.event.DockingListener;
 import com.javadocking.model.DefaultDockingPath;
 import com.javadocking.model.DockingPath;
 import com.javadocking.model.FloatDockModel;
-import com.javadocking.util.LookAndFeelUtil;
 import com.javadocking.visualizer.DockingMinimizer;
 import com.javadocking.visualizer.FloatExternalizer;
 import com.javadocking.visualizer.SingleMaximizer;
 
-public class UClairAnalyzer extends JPanel implements TreeSelectionListener {
+public class UClairAnalyzer extends JPanel implements ActionListener {
+
+	/**
+	 * 
+	 */
 
 	// Static fields.
 
-	public static final int FRAME_WIDTH = 1400;
-	public static final int FRAME_HEIGHT = 800;
+	private static final long serialVersionUID = 1L;
+	public static final int FRAME_WIDTH = 1300;
+	public static final int FRAME_HEIGHT = 900;
 
-	// Fields.
+	// Create Values
 
-	private Dockable[] dockables;
-	private DockingPath dockingPath;
-	private JMenu windowMenu;
+	FloatDockModel dockModel;
 
-	// Constructors.
+	TextPanel textPanel1;
+	TextPanel textPanel2;
+	TextPanel textPanel3;
+	TextPanel textPanel4;
+
+	Dockable dockable_JTree;
+	
+	ContactTree jtree_panel = new ContactTree();
+	
+	Dockable dockable_Analysis_Invisible;	// 추가될 창 위치를 갖고 보이지는 않는다.
+	Dockable dockable3;
+	Dockable dockable4;
+
+	TabDock leftTabDock;
+	TabDock centerTabDock;
+	TabDock bottomTabDock;
+
+	SplitDock topSplitDock;
+	SplitDock bottomSplitDock;
+	SplitDock totalSplitDock;
+
+	JMenuBar menuBar;
+	
+	DockingPath dockingPath;
+
+	/**
+	 * 메뉴 목록 ( 파일, 분석, 테스트케이스, 도움말 )
+	 */
+	JMenu m_file;
+	JMenu m_analysis;
+	JMenu m_testcase;
+	JMenu m_help;
+
+	/**
+	 * 파일 메뉴 하위목록
+	 */
+	JMenuItem mi_proj_open;
+	JMenuItem mi_proj_close;
+	JMenuItem mi_prog_exit;
+
+	/**
+	 * 테이블 행 목록
+	 * 
+	 */
+	String[] columnType = { "스크립트명", "계산스크립트 검증" };
+	/**
+	 * 분석 메뉴 하위목록
+	 */
+	public enum Analysis_Selector {
+		NonExistTag, VirtualTag, PhysicalAddress, ObjConnTag, Event, CalcScript, ObjEffectCompatibility, None
+	}
+
+	Analysis_Selector analySelector = Analysis_Selector.None;
+
+	JMenuItem mi_analy_nonexistTag;
+	JMenuItem mi_analy_virtualTag;
+	JMenuItem mi_analy_physicalAddress;
+	JMenuItem mi_analy_objconnTag;
+	JMenuItem mi_analy_event;
+	JMenuItem mi_analy_calcScript;
+	JMenuItem mi_analy_objeffectCompatibility;
+
+	HashMap<Analysis_Selector, Dockable> dock_hashmap_array = new HashMap<Analysis_Selector, Dockable>();
+	String tableName = "";
+	
+	JTabbedPane jtab;
+	/**
+	 * 테스트케이스 메뉴 하위목록
+	 */
+	JMenuItem mi_testcase_ioTestcaseCreate;
+	JMenuItem mi_testcase_monitorTestCaseCreate;
+
+	/**
+	 * 도움말 메뉴 하위목록
+	 */
+	JMenuItem mi_help_showContents;
+	JMenuItem mi_help_infoEditorInfo;
+	JMenuItem mi_help_systemEditorInfo;
+	
+	// Constructor.
 
 	public UClairAnalyzer(JFrame frame) {
-
 		super(new BorderLayout());
 
-		// Create the dock model for the docks, minimizer and maximizer.
-		FloatDockModel dockModel = new FloatDockModel("workspace.dck");
-		String frameId = "frame";
-		dockModel.addOwner(frameId, frame);
-
-		// Give the dock model to the docking manager.
+		// 독 모델을 생성
+		dockModel = new FloatDockModel();
+		dockModel.addOwner("frame0", frame);
+		
+		// 독 모델에 기능을 넣어줌
 		DockingManager.setDockModel(dockModel);
 
-		// Create the content components.
+		// 컴포넌트 생성
+		textPanel1 = new TextPanel("");
+		textPanel2 = new TextPanel("This is invisible Window.");
+		textPanel3 = new TextPanel("");
+		textPanel4 = new TextPanel("");
 
-		// The dockables.
-		dockables = new Dockable[5];
-		JPanel buttonPanel = createButtonPanel();
-		JPanel helloPanel = new JPanel();
-		JPanel chartPanel1 = new JPanel();
-		JPanel chartPanel2 = new JPanel();
-		JPanel chartPanel3 = new JPanel();
+		// 메시지 탭 0417 이승환
+		jtab = new JTabbedPane();
+		jtab.addTab("System out", new JPanel());
+		jtab.addTab("System err", new JPanel());
+		
+		// 패널을 독기능을 넣어주고 독설정을 해준다
+		dockable_JTree = new DefaultDockable("Window1", jtree_panel, "분석기", null, DockingMode.ALL);
+		dockable_Analysis_Invisible = new DefaultDockable("Window2", textPanel2, "분석기 창이 나올 위치", null, DockingMode.ALL);
+		dockable3 = new DefaultDockable("Window3", jtab, "메시지", null, DockingMode.ALL);
 
-		// Create the dockables around the content components.
-		dockables[0] = createDockable("buttonPanel", buttonPanel, "분석기", null, "Create new charts");
-		dockables[1] = createDockable("helloPanel", helloPanel, "Hello", null, "Hello, I am another dockable");
-		dockables[2] = createDockable("chartPanel1", chartPanel1, "Window", null, "Chart number 1");
-		dockables[3] = createDockable("chartPanel2", chartPanel2, "System out", null, "Chart number 2");
-		dockables[4] = createDockable("chartPanel3", chartPanel3, "System err", null, "Chart number 3");
+		//독커블 4 시연을 위해 잠깐 안보이게 했음 207번 줄
+		dockable4 = new DefaultDockable("Window4", textPanel4, "System err", null, DockingMode.ALL);
 
-		// Give the float dock a different child dock factory.
-		// We don't want the floating docks to be splittable.
+		dockable_JTree = addActions(dockable_JTree);
+		dockable_Analysis_Invisible = addActions(dockable_Analysis_Invisible);
+		dockable3 = addActions(dockable3);
+		dockable4 = addActions(dockable4);
+
 		FloatDock floatDock = dockModel.getFloatDock(frame);
 		floatDock.setChildDockFactory(new LeafDockFactory(false));
 
-		// Create the tab docks.
-		TabDock centerTabbedDock = new TabDock();
-		TabDock leftTabbedDock = new TabDock();
-		TabDock bottomTabbedDock = new TabDock();
+		// 탭 도크 생성
+		leftTabDock = new TabDock();
+		centerTabDock = new TabDock();		
+		bottomTabDock = new TabDock();
 
-		// Add the dockables to these tab docks.
-		centerTabbedDock.addDockable(dockables[2], new Position(0));
-//		centerTabbedDock.addDockable(dockables[3], new Position(1));
-//		centerTabbedDock.addDockable(dockables[4], new Position(2));
+		// 탭 도크에 독테이블을 추가
+		leftTabDock.addDockable(dockable_JTree, new Position(0));
+		centerTabDock.addDockable(dockable_Analysis_Invisible, new Position(0));
+		centerTabDock.setSelectedDockable(dockable_Analysis_Invisible);
 
-		centerTabbedDock.setSelectedDockable(dockables[2]);
-		leftTabbedDock.addDockable(dockables[0], new Position(0));
-		// bottomTabbedDock.addDockable(dockables[1], new Position(0));
-		bottomTabbedDock.addDockable(dockables[3], new Position(0));
-		bottomTabbedDock.addDockable(dockables[4], new Position(1));
+		bottomTabDock.addDockable(dockable3, new Position(0));
+		//bottomTabDock.addDockable(dockable4, new Position(1));
 
-		SplitDock rightSplitDock = new SplitDock();
-		rightSplitDock.addChildDock(bottomTabbedDock, new Position(Position.BOTTOM));
-		rightSplitDock.addChildDock(centerTabbedDock, new Position(Position.TOP));
-		rightSplitDock.setDividerLocation(500);
+		// 윈도우의 탭독 구간을 나눌수 있게 만들어줌
+		// 구간 독 에 탭 도크를 놓을수 있게 만든다.
 
-		SplitDock leftSplitDock = new SplitDock();
-		leftSplitDock.addChildDock(leftTabbedDock, new Position(Position.CENTER));
+		topSplitDock = new SplitDock();
+		topSplitDock.addChildDock(leftTabDock, new Position(Position.LEFT));
+		topSplitDock.addChildDock(centerTabDock, new Position(Position.RIGHT));
+		topSplitDock.setDividerLocation(220);
 
-		SplitDock totalSplitDock = new SplitDock();
-		totalSplitDock.addChildDock(leftSplitDock, new Position(Position.LEFT));
-		totalSplitDock.addChildDock(rightSplitDock, new Position(Position.RIGHT));
-		totalSplitDock.setDividerLocation(180);
+		bottomSplitDock = new SplitDock();
+		bottomSplitDock.addChildDock(bottomTabDock, new Position(Position.CENTER));
 
-		// Add the root dock to the dock model.
+		totalSplitDock = new SplitDock();
+		totalSplitDock.addChildDock(topSplitDock, new Position(Position.TOP));
+		totalSplitDock.addChildDock(bottomSplitDock, new Position(Position.BOTTOM));
+		totalSplitDock.setDividerLocation(570);
+
+		
+		// 도크 모델에 올려놓음
 		dockModel.addRootDock("totalDock", totalSplitDock, frame);
 
-		// Create a maximizer and add it to the dock model.
+		
+		/*
+		 * 도킹창 최소화, 최대화기능을 수행하기 위한 코드
+		 * 
+		 */
 		SingleMaximizer maximizePanel = new SingleMaximizer(totalSplitDock);
 		dockModel.addVisualizer("maximizer", maximizePanel, frame);
 
-		// Create a docking minimizer and add it to the dock model.
 		BorderDock minimizerBorderDock = new BorderDock(new ToolBarDockFactory());
 		minimizerBorderDock.setMode(BorderDock.MODE_MINIMIZE_BAR);
 		minimizerBorderDock.setCenterComponent(maximizePanel);
@@ -153,272 +243,372 @@ public class UClairAnalyzer extends JPanel implements TreeSelectionListener {
 		DockingMinimizer minimizer = new DockingMinimizer(borderDocker);
 		dockModel.addVisualizer("minimizer", minimizer, frame);
 
-		// Add an externalizer to the dock model.
 		dockModel.addVisualizer("externalizer", new FloatExternalizer(frame), frame);
 
-		// Add this dock also as root dock to the dock model.
+		// root 도커와 같은 위치에 추가한다.
 		dockModel.addRootDock("minimizerBorderDock", minimizerBorderDock, frame);
 
-		// Add the border dock to this panel.
-		this.add(minimizerBorderDock, BorderLayout.CENTER);
+		
+		// 패널에 스플릿 패널 추가
+		add(minimizerBorderDock, BorderLayout.CENTER);
 
-		// Add the paths of the docked dockables to the model with the docking paths.
-		addDockingPath(dockables[0]);
-		addDockingPath(dockables[1]);
-		addDockingPath(dockables[2]);
-		addDockingPath(dockables[3]);
-		addDockingPath(dockables[4]);
+		/*
+		 * 도킹창들에 대한 path를 추가한다. 이후 dockingPath를 통해 창이 추가될 위치를 고정한다.
+		 */
+		addDockingPath(dockable_JTree);
+		addDockingPath(dockable_Analysis_Invisible);
+		addDockingPath(dockable3);
+		addDockingPath(dockable4);
+		
+		dockingPath = DockingManager.getDockingPathModel().getDockingPath(dockable_Analysis_Invisible.getID());
 
-		dockingPath = DockingManager.getDockingPathModel().getDockingPath(dockables[2].getID());
+		centerTabDock.setVisible(false);
+		
+		
+		//---------------------------Menu--------------------------
 
-		// Create the menubar.
-		JMenuBar menuBar = createMenu(dockables);
+		menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
+		m_file = new JMenu("파일");
+		m_analysis = new JMenu("분석");
+		m_testcase = new JMenu("테스트 케이스");
+		m_help = new JMenu("도움말");
+
+		menuBar.add(m_file);
+		menuBar.add(m_analysis);
+		menuBar.add(m_testcase);
+		menuBar.add(m_help);
+
+		mi_proj_open = new JMenuItem("프로젝트 열기");
+		mi_proj_close = new JMenuItem("프로젝트 닫기");
+		mi_prog_exit = new JMenuItem("종료", KeyEvent.VK_F4);
+
+		mi_proj_open
+				.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK | ActionEvent.CTRL_MASK));
+		mi_proj_open.getAccessibleContext().setAccessibleDescription("프로젝트 열기");
+		mi_proj_open.addActionListener(this);
+
+		mi_proj_close
+				.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK | ActionEvent.CTRL_MASK));
+
+		mi_prog_exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+		mi_prog_exit.getAccessibleContext().setAccessibleDescription("Exit the application");
+		mi_prog_exit.addActionListener(this);
+
+		m_file.add(mi_proj_open);
+		m_file.add(mi_proj_close);
+		m_file.addSeparator();
+		m_file.add(mi_prog_exit);
+
+		mi_analy_nonexistTag = new JMenuItem("존재하지 않는 태그 분석");
+		mi_analy_virtualTag = new JMenuItem("가상태그 종속성 분석");
+		mi_analy_physicalAddress = new JMenuItem("물리주소 종속성 분석");
+		mi_analy_objconnTag = new JMenuItem("객체태그 연결정보 분석");
+		mi_analy_event = new JMenuItem("이벤트 종속성 분석");
+		mi_analy_calcScript = new JMenuItem("계산 스크립트 검증");
+		mi_analy_objeffectCompatibility = new JMenuItem("객체효과 양립성 분석");
+
+		mi_analy_nonexistTag.addActionListener(this);
+		mi_analy_virtualTag.addActionListener(this);
+		mi_analy_physicalAddress.addActionListener(this);
+		mi_analy_objconnTag.addActionListener(this);
+		mi_analy_event.addActionListener(this);
+		mi_analy_calcScript.addActionListener(this);
+		mi_analy_objeffectCompatibility.addActionListener(this);
+
+		m_analysis.add(mi_analy_nonexistTag);
+		m_analysis.add(mi_analy_virtualTag);
+		m_analysis.add(mi_analy_physicalAddress);
+		m_analysis.add(mi_analy_objconnTag);
+		m_analysis.add(mi_analy_event);
+		m_analysis.add(mi_analy_calcScript);
+		m_analysis.add(mi_analy_objeffectCompatibility);
+
+		mi_testcase_ioTestcaseCreate = new JMenuItem("IO 테스트 케이스 생성기");
+		mi_testcase_monitorTestCaseCreate = new JMenuItem("화면 테스트 케이스 생성기");
+
+		m_testcase.add(mi_testcase_ioTestcaseCreate);
+		m_testcase.add(mi_testcase_monitorTestCaseCreate);
+
+		mi_help_showContents = new JMenuItem("도움말 보기(목차)");
+		mi_help_infoEditorInfo = new JMenuItem("정보 편집기 정보");
+		mi_help_systemEditorInfo = new JMenuItem("시스템 편집기 정보");
+
+		mi_help_showContents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
+
+		m_help.add(mi_help_showContents);
+		m_help.addSeparator();
+		m_help.add(mi_help_infoEditorInfo);
+		m_help.add(mi_help_systemEditorInfo);
 	}
 
-	private JPanel createButtonPanel() {
+	/**
+	 * implements ActionListener --> called,  메뉴 클릭시 종료 기능과 같은 이벤트를 한곳에서 처리합니다.
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
 
-		JPanel panel = new JPanel(new BorderLayout());
-
-		new JFrame();
-		DefaultMutableTreeNode af = new DefaultMutableTreeNode("AFactory");
-		DefaultMutableTreeNode a = new DefaultMutableTreeNode("프로젝트 정보 분석");
-		DefaultMutableTreeNode b = new DefaultMutableTreeNode("존재하지 않는 태그 분석");
-		DefaultMutableTreeNode c = new DefaultMutableTreeNode("개별태그 종속성 분석");
-		DefaultMutableTreeNode d = new DefaultMutableTreeNode("가상태그 종속성 분석");
-		DefaultMutableTreeNode e = new DefaultMutableTreeNode("물리주소 종속성 분석");
-		DefaultMutableTreeNode f = new DefaultMutableTreeNode("객체태그 연결정보 분석");
-		DefaultMutableTreeNode g = new DefaultMutableTreeNode("이벤트 종속성 분석");
-		DefaultMutableTreeNode h = new DefaultMutableTreeNode("이벤트 종속성 분석");
-		DefaultMutableTreeNode i = new DefaultMutableTreeNode("계산스크립트 검증");
-		DefaultMutableTreeNode j = new DefaultMutableTreeNode("객체효과 양립성 분석");
-
-		af.add(a);
-		af.add(b);
-		af.add(c);
-		af.add(d);
-		af.add(e);
-		af.add(f);
-		af.add(g);
-		// af.add(h);
-		af.add(i);
-		af.add(j);
-		JTree jt = new JTree(af);
-		jt.setToggleClickCount(2);
-		panel.add(jt);
-		// return panel;
-		// JTextField currentSelectionField = new JTextField("Current Selection: NONE");
-		// jt.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
-		jt.addTreeSelectionListener(new TreeSelectionListener() {
-
-			@Override
-			public void valueChanged(TreeSelectionEvent e) {
-				// TODO Auto-generated method stub
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) jt.getLastSelectedPathComponent();
-
-				if (node == null)
-					// Nothing is selected.
-					return;
-
-				// 트리 노드 이름 얻어오는거
-				Object nodeInfo = node.getUserObject();
-
-				if (node.isLeaf()) {
-
-					// JOptionPane.showConfirmDialog(null,nodeInfo+ " 실행하시겠습니까?", "확인",
-					// JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null);
-				} else {
-
-				}
-
-//				jt.expandPath(new TreePath(a.getPath()));
-//			    currentSelectionField.setText(e.getPath().toString());
-			}
-		});
-
-		jt.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getClickCount() == 2) {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) jt.getLastSelectedPathComponent();
-
-					Object nodeInfo = node.getUserObject(); // 트리 안에 노드 이름 얻어오는거
-
-					if (e.getButton() == 1) {
-					} // 클릭
-					if (e.getClickCount() == 2) {
-						if (nodeInfo == "AFactory")
-							return;
-						int res = JOptionPane.showConfirmDialog(null, nodeInfo + " 실행하시겠습니까?", "확인",
-								JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null);
-						if (res == 0) { // OK=0 , Cancel=2 리턴
-							String[] columnType = { "스크립트명", "계산스크립트 검증" };
-							Object[][] data = { { "", "" }, { "", "" },
-
-							};
-
-							JTable table = new JTable(data, columnType);
-							JPanel project = new JPanel(new BorderLayout());
-
-							project.add(new JScrollPane(table)); // table 추가 장소
-
-							// 도킹 패널 생성
-							Dockable dockable = createDockable("" + nodeInfo, project, "" + nodeInfo, null, "JTABLE ");
-
-							// 도킹 패널이 어느부분에 생성되는가?
-							DockingPath newDockingPath = DefaultDockingPath.copyDockingPath(dockable, dockingPath);
-							DockingManager.getDockingPathModel().add(newDockingPath);
-
-							// 도키패널에 기능 및 경로 부여
-							DockingManager.getDockingExecutor().changeDocking(dockable, dockingPath);
-
-						}
-					}
-
-				}
-			}
-		});
-		return panel;
-	}
-
-	private Dockable addAllActions(Dockable dockable) {
-
-		Dockable wrapper = new StateActionDockable(dockable, new DefaultDockableStateActionFactory(),
-				DockableState.statesClosed());
-		wrapper = new StateActionDockable(wrapper, new DefaultDockableStateActionFactory(),
-				DockableState.statesAllExceptClosed());
-		return wrapper;
-
-	}
-
-	private Dockable createDockable(String id, Component content, String title, Icon icon, String description) {
-
-		// Create the dockable.
-		DefaultDockable dockable = new DefaultDockable(id, content, title, icon);
-
-		// Add a description to the dockable. It will be displayed in the tool tip.
-		dockable.setDescription(description);
-
-		Dockable dockableWithActions = addAllActions(dockable);
-
-		return dockableWithActions;
-
-	}
-
-	private JMenuBar createMenu(Dockable[] dockables) {
-		// Create the menu bar.
-		JMenuBar menuBar = new JMenuBar();
-
-		// Build the File menu.
-		JMenu fileMenu = new JMenu("파일");
-		JMenu fileanalysis = new JMenu("분석");
-		JMenu filetest = new JMenu("테스트 케이스");
-		JMenu filehelp = new JMenu("도움말");
-
-		fileMenu.setMnemonic(KeyEvent.VK_F);
-		fileMenu.getAccessibleContext().setAccessibleDescription("The File Menu");
-		menuBar.add(fileMenu);
-		menuBar.add(fileanalysis);
-		menuBar.add(filetest);
-		menuBar.add(filehelp);
-
-		fileanalysis.add("존재하지 않는 태그 분석");
-		fileanalysis.add("가상태그 종속성 분석");
-		fileanalysis.add("물리주소 종속성 분석");
-		fileanalysis.add("객체태그 연결정보 분석");
-		fileanalysis.add("이벤트 종속성 분석");
-		fileanalysis.add("계산스크립트 검증");
-		fileanalysis.add("객체효과 양립성 분석");
-
-		// fileanalysis.setEnabled(false);
-
-		filetest.add("IO 테스트 케이스 생성기");
-		filetest.add("화면 테스트 케이스 생성기");
-
-		filehelp.add("도움말");
-		// Build the Window menu.
-		windowMenu = new JMenu("Window");
-		windowMenu.setMnemonic(KeyEvent.VK_W);
-		windowMenu.getAccessibleContext().setAccessibleDescription("The Window Menu");
-		// menuBar.add(windowMenu);
-
-		// The JMenuItem for File
-		JMenuItem p_open = new JMenuItem("프로젝트 열기");
-		p_open.setAccelerator(
-				KeyStroke.getKeyStroke(KeyEvent.VK_O, java.awt.Event.CTRL_MASK | java.awt.Event.SHIFT_MASK));
-		p_open.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-				jfc.setDialogTitle("Choose a directory to save your file: ");
-				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				int returnValue = jfc.showSaveDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION) {
-					if (jfc.getSelectedFile().isDirectory()) {
-						System.out.println("You selected the directory: " + jfc.getSelectedFile());
-					}
-				}
-			}
-		});
-
-		JMenuItem p_close = new JMenuItem("프로젝트 닫기");
-		p_close.setAccelerator(
-				KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.Event.CTRL_MASK | java.awt.Event.SHIFT_MASK));
-
-		JMenuItem menuItem = new JMenuItem("Exit", KeyEvent.VK_F4);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("Exit te application");
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		fileMenu.add(p_open);
-		fileMenu.add(p_close);
-		fileMenu.addSeparator();
-		fileMenu.add(menuItem);
-
-		// The JMenuItems for the dockables.
-		for (int index = 0; index < dockables.length; index++) {
-			// Create the check box menu for the dockable.
-			JCheckBoxMenuItem cbMenuItem = new DockableMenuItem(dockables[index]);
-			windowMenu.add(cbMenuItem);
+		analySelector = Analysis_Selector.None;
+		if (e.getSource() == mi_prog_exit) {
+			System.exit(0);
+		} else if (e.getSource() == mi_analy_nonexistTag) {
+			analySelector = Analysis_Selector.NonExistTag;
+		} else if (e.getSource() == mi_analy_virtualTag) {
+			analySelector = Analysis_Selector.VirtualTag;
+		} else if (e.getSource() == mi_analy_physicalAddress) {
+			analySelector = Analysis_Selector.PhysicalAddress;
+		} else if (e.getSource() == mi_analy_objconnTag) {
+			analySelector = Analysis_Selector.ObjConnTag;
+		} else if (e.getSource() == mi_analy_event) {
+			analySelector = Analysis_Selector.Event;
+		} else if (e.getSource() == mi_analy_calcScript) {
+			analySelector = Analysis_Selector.CalcScript;
+		} else if (e.getSource() == mi_analy_objeffectCompatibility) {
+			analySelector = Analysis_Selector.ObjEffectCompatibility;
+		} else if (e.getSource() == mi_proj_open) {
+			openProjFile();
 		}
 
-		return menuBar;
-
+		callAnalysisWindow(analySelector);
 	}
 
-	private DockingPath addDockingPath(Dockable dockable) {
+	private void openProjFile() {
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		jfc.showDialog(this, null);
 
+		String folderName = jfc.getSelectedFile().getPath();
+		
+		int pos = folderName.lastIndexOf( "\\" );
+		String ext = folderName.substring( pos + 1 );
+		
+		System.out.println(ext);
+		
+		for(Analysis_Selector analysis: Analysis_Selector.values()) {
+			if(dock_hashmap_array.containsKey(analysis)) {
+
+				//DockingManager.getDockingExecutor().changeDocking(dock_hashmap_array.get(analysis), dockingPath);
+				leftTabDock.removeDockable(dock_hashmap_array.get(analysis));
+				bottomTabDock.removeDockable(dock_hashmap_array.get(analysis));
+				centerTabDock.removeDockable(dock_hashmap_array.get(analysis));
+				
+			}
+		}
+		jtree_panel.setFolderName(ext);
+		
+		invalidate();
+		repaint();
+	}
+
+	/**
+	 * 분석과 관련된 창 생성 또는 포커스기능을 한다.
+	 * 
+	 * @param Analysis_Selector
+	 */
+	private void callAnalysisWindow(Analysis_Selector select) {
+		
+		if(select == Analysis_Selector.None) return;
+		
+		System.out.println("------------분석창 호출됨--------------");
+		
+		// Create the Table.
+		JPanel tablePanel = new Table(8); 
+		
+		// Create the dockable for the Table.
+		switch (select) {
+		case NonExistTag:
+			tableName = mi_analy_nonexistTag.getText();
+			break;
+		case VirtualTag:
+			tableName = mi_analy_virtualTag.getText();
+			break;
+		case PhysicalAddress:
+			tableName = mi_analy_physicalAddress.getText();
+			break;
+		case ObjConnTag:
+			tableName = mi_analy_objconnTag.getText();
+			break;
+		case Event:
+			tableName = mi_analy_event.getText();
+			break;
+		case CalcScript:
+			tableName = mi_analy_calcScript.getText();
+			break;
+		case ObjEffectCompatibility:
+			tableName = mi_analy_objeffectCompatibility.getText();
+			break;
+			default:
+				tableName = "";
+				break;
+		}
+		
+		if(tableName.equals("")) return;
+		
+		if(dock_hashmap_array.containsKey(select)) {
+			System.out.println(dock_hashmap_array.get(select));
+			
+
+			DockingManager.getDockingExecutor().changeDocking(dock_hashmap_array.get(select), dockingPath);
+			
+		}else {
+						
+			int dialogResult = JOptionPane.showConfirmDialog (null, tableName +"을(를) 실행하시겠습니까?","Confirm",JOptionPane.YES_NO_OPTION);
+			if(dialogResult == JOptionPane.NO_OPTION){
+			  return;
+			}
+			
+			Dockable dockable = createDockable(tableName, tablePanel, tableName,  null, tableName);
+			
+			
+			dock_hashmap_array.put(select, dockable);
+
+			DockingManager.getDockingExecutor().changeDocking(dockable, dockingPath);
+			
+			dockable.getContent().getParent().setFocusable(true);
+			
+			dockable.addDockingListener(new DockingListener() {
+				
+				@Override
+				public void dockingWillChange(DockingEvent e) {
+				}
+				
+				@Override
+				public void dockingChanged(DockingEvent e) {
+					if(e.getDestinationDock() != null) {
+						dock_hashmap_array.put(select, dockable);
+						System.out.println("added : "+dockable);
+					}else {
+						dock_hashmap_array.remove(select);
+						System.out.println("deleted : "+dockable);
+					}
+				}
+			});
+			
+			centerTabDock.removeDockable(dockable_Analysis_Invisible);
+			centerTabDock.setVisible(true);
+		}
+	}
+	
+	/**
+	 * 동적으로 도킹창 생성을 위한 코드이다.
+	 * 
+	 * Create a dockable for a given content component.
+	 * 
+	 * @param 	id 		The ID of the dockable. The IDs of all dockables should be different.
+	 * @param 	content The content of the dockable. 
+	 * @param 	title 	The title of the dockable.
+	 * @param 	icon 	The icon of the dockable.
+	 * @return			The created dockable.
+	 * @throws 	IllegalArgumentException	If the given ID is null.
+	 */
+	private Dockable createDockable(String id, JPanel content, String title, Icon icon, String description) {
+		
+		// Create the dockable.
+		DefaultDockable dockable = new DefaultDockable(id, content, title, icon);
+		
+		// Add a description to the dockable. It will be displayed in the tool tip.
+		dockable.setDescription(description);
+		
+		Dockable dockableWithActions = addAllActions(dockable);
+		
+		return dockableWithActions;
+	}
+
+	private Dockable addAllActions(DefaultDockable dockable) {
+		
+		Dockable wrapper = new StateActionDockable(dockable, new DefaultDockableStateActionFactory(), DockableState.statesClosed());
+		wrapper = new StateActionDockable(wrapper, new DefaultDockableStateActionFactory(), DockableState.statesAllExceptClosed());
+		return wrapper;
+	}
+	
+	
+	/**
+	 *	JTable 생성을 위한 클래스이다.
+	 */
+	public class Table extends JPanel
+	{
+		// Static fields.
+
+		public static final int LIST = 0;
+		public static final int TABLE = 1;
+		
+		// Fields.
+
+		private int tableSize = TABLE;
+		
+		// Constructors.
+
+		public Table(int tableSize)
+		{
+			super(new BorderLayout());
+
+			this.tableSize = tableSize; 
+			
+			MyTableModel dataModel = new MyTableModel();
+			JTable table = new JTable(dataModel);
+			JScrollPane scrollpane = new JScrollPane(table);
+			add(scrollpane, BorderLayout.CENTER);
+
+		}
+
+		// Getters / Setters.
+
+		public int getTableSize()
+		{
+			return tableSize;
+		}
+
+		public void setTableSize(int size)
+		{
+			this.tableSize = size;
+		}
+
+		/**
+		 * 안에 코드가 그냥 테이블사이즈가 0이면 1x20, 그외면 4x4 테이블을 만든다. 이후 수정이 필요
+		 */
+		private class MyTableModel extends AbstractTableModel
+		{
+			public int getColumnCount()
+			{
+				if (tableSize == LIST)
+				{
+					return 1;
+				}
+				return 2;
+			}
+
+			@Override
+		    public String getColumnName(int index) {
+		        return columnType[index];
+			}
+			
+			public int getRowCount()
+			{
+				if (tableSize == LIST)
+				{
+					return 20;
+				}
+				return 2;
+			}
+
+			public Object getValueAt(int row, int col)
+			{
+				return " ";
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 도킹 창에대한 path를 추가하기위한 메소드이다.
+	 * 
+	 * @param dockable
+	 * @return DockingPath
+	 */
+
+	private DockingPath addDockingPath(Dockable dockable) {
+		
 		if (dockable.getDock() != null) {
 			// Create the docking path of the dockable.
 			DockingPath dockingPath = DefaultDockingPath.createDockingPath(dockable);
@@ -427,93 +617,199 @@ public class UClairAnalyzer extends JPanel implements TreeSelectionListener {
 		}
 
 		return null;
-
 	}
 
-	// Private classes.
+	/**
+	 * Docking창에 최소화, 최대화, 창분리 버튼을 생성함
+	 * 
+	 * @param dockable
+	 * @return
+	 */
+	private Dockable addActions(Dockable dockable) {
 
-	private class DockableMenuItem extends JCheckBoxMenuItem {
-		public DockableMenuItem(Dockable dockable) {
-			super(dockable.getTitle(), dockable.getIcon());
+		// Decorate with state actions.
+		Dockable wrapper = new StateActionDockable(dockable, new DefaultDockableStateActionFactory(), new int[0]);
+		int[] states = { DockableState.NORMAL, DockableState.MINIMIZED, DockableState.MAXIMIZED,
+				DockableState.EXTERNALIZED };
+		wrapper = new StateActionDockable(wrapper, new DefaultDockableStateActionFactory(), states);
 
-			setSelected(dockable.getDock() != null);
-
-			DockableMediator dockableMediator = new DockableMediator(dockable, this);
-			dockable.addDockingListener(dockableMediator);
-			addItemListener(dockableMediator);
-		}
+		return wrapper;
 	}
 
-	private class DockableMediator implements ItemListener, DockingListener {
+	/**
+	 * 창 아무데나 드래그하여 창 이동을 할 수 있는 JLabel을 상속받은 TextPanel 클래스이다.
+	 */
+	private class TextPanel extends JPanel implements DraggableContent {
 
-		private Dockable dockable;
-		private Action closeAction;
-		private Action restoreAction;
-		private JMenuItem dockableMenuItem;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JLabel label;
 
-		public DockableMediator(Dockable dockable, JMenuItem dockableMenuItem) {
+		public TextPanel(String text) {
+			super(new FlowLayout());
 
-			this.dockable = dockable;
-			this.dockableMenuItem = dockableMenuItem;
-			closeAction = new DefaultDockableStateAction(dockable, DockableState.CLOSED);
-			restoreAction = new DefaultDockableStateAction(dockable, DockableState.NORMAL);
+			// The panel.
+			setMinimumSize(new Dimension(100, 100));
+			setPreferredSize(new Dimension(150, 150));
+			setBackground(Color.white);
 
+			setBorder(BorderFactory.createLineBorder(Color.white));
+
+			// The label.
+			label = new JLabel(text);
+			label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			add(label);
 		}
 
-		public void itemStateChanged(ItemEvent itemEvent) {
+		// Implementations of DraggableContent.
 
-			dockable.removeDockingListener(this);
-			if (itemEvent.getStateChange() == ItemEvent.DESELECTED) {
-				// Close the dockable.
-				closeAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Close"));
-			} else {
-				// Restore the dockable.
-				restoreAction.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Restore"));
+		public void addDragListener(DragListener dragListener) {
+			addMouseListener(dragListener);
+			addMouseMotionListener(dragListener);
+			label.addMouseListener(dragListener);
+			label.addMouseMotionListener(dragListener);
+		}
+	}
+	
+	/**
+	 * 트리를 생성하는 클래스, JPanel로 묶어 클래스화했다.
+	 *
+	 */
+	private class ContactTree extends JPanel implements MouseListener {
+
+		DefaultMutableTreeNode analy_nonexistTag_Node;
+		DefaultMutableTreeNode analy_virtualTag_Node;
+		DefaultMutableTreeNode analy_physicalAddress_Node;
+		DefaultMutableTreeNode analy_objconnTag_Node;
+		DefaultMutableTreeNode analy_event_Node;
+		DefaultMutableTreeNode analy_calcScript_Node;
+		DefaultMutableTreeNode analy_objeffectCompatibility_Node;
+
+		DefaultMutableTreeNode rootNode;
+
+		DefaultTreeModel treeModel;
+
+		JTree tree;
+
+		public ContactTree() {
+
+			analy_nonexistTag_Node = new DefaultMutableTreeNode("존재하지 않는 태그 분석");
+			analy_virtualTag_Node = new DefaultMutableTreeNode("가상태그 종속성 분석");
+			analy_physicalAddress_Node = new DefaultMutableTreeNode("물리주소 종속성 분석");
+			analy_objconnTag_Node = new DefaultMutableTreeNode("객체태그 연결정보 분석");
+			analy_event_Node = new DefaultMutableTreeNode("이벤트 종속성 분석");
+			analy_calcScript_Node = new DefaultMutableTreeNode("계산 스크립트 검증");
+			analy_objeffectCompatibility_Node = new DefaultMutableTreeNode("객체효과 양립성 분석");
+				
+			rootNode = new DefaultMutableTreeNode("Monitoring");
+			rootNode.add(analy_nonexistTag_Node);
+			rootNode.add(analy_virtualTag_Node);
+			rootNode.add(analy_physicalAddress_Node);
+			rootNode.add(analy_objconnTag_Node);
+			rootNode.add(analy_event_Node);
+			rootNode.add(analy_calcScript_Node);
+			rootNode.add(analy_objeffectCompatibility_Node);
+
+			// Create the tree model.
+			treeModel = new DefaultTreeModel(rootNode);
+
+			
+			// Create the JTree from the tree model.
+			tree = new JTree(treeModel);
+			
+			// Expand the tree.
+			for (int row = 0; row < tree.getRowCount(); row++) {
+				tree.expandRow(row);
 			}
-			dockable.addDockingListener(this);
+
+			tree.addMouseListener(this);
+
+			// Add the tree in a scroll pane.
+			setLayout(new BorderLayout());
+			add(new JScrollPane(tree), BorderLayout.CENTER);
 
 		}
+		
+		public void setFolderName(String folderName) {
+			rootNode.setUserObject(folderName);
+			treeModel.nodeChanged(rootNode);
+			
+		}
 
-		public void dockingChanged(DockingEvent dockingEvent) {
-			if (dockingEvent.getDestinationDock() != null) {
-				dockableMenuItem.removeItemListener(this);
-				dockableMenuItem.setSelected(true);
-				dockableMenuItem.addItemListener(this);
-			} else {
-				dockableMenuItem.removeItemListener(this);
-				dockableMenuItem.setSelected(false);
-				dockableMenuItem.addItemListener(this);
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			int selRow = tree.getRowForLocation(e.getX(), e.getY());
+			TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+
+			if (selRow != -1) {
+
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+
+				if (selectedNode == analy_nonexistTag_Node) {
+					analySelector = Analysis_Selector.NonExistTag;
+				} else if (selectedNode == analy_virtualTag_Node) {
+
+					analySelector = Analysis_Selector.VirtualTag;
+				} else if (selectedNode == analy_physicalAddress_Node) {
+					analySelector = Analysis_Selector.PhysicalAddress;
+				} else if (selectedNode == analy_objconnTag_Node) {
+					analySelector = Analysis_Selector.ObjConnTag;
+				} else if (selectedNode == analy_event_Node) {
+					analySelector = Analysis_Selector.Event;
+				} else if (selectedNode == analy_calcScript_Node) {
+					analySelector = Analysis_Selector.CalcScript;
+				} else if (selectedNode == analy_objeffectCompatibility_Node) {
+					analySelector = Analysis_Selector.ObjEffectCompatibility;
+				} else {
+					analySelector = Analysis_Selector.None;
+				}
+
+				if (e.getClickCount() == 1) {
+					
+				} else if (e.getClickCount() == 2) {
+
+					callAnalysisWindow(analySelector);
+				}
 			}
 		}
 
-		public void dockingWillChange(DockingEvent dockingEvent) {
+		@Override
+		public void mouseReleased(MouseEvent e) {
 		}
 
 	}
-
-	// Main method.
-
+	/**
+	 *  ----------------------------------------Main method.----------------------
+	 */
 	public static void createAndShowGUI() {
 
-		// Remove the borders from the split panes and the split pane dividers.
-		LookAndFeelUtil.removeAllSplitPaneBorders();
-
 		// Create the frame.
-		JFrame frame = new JFrame("UClairAnalyzer");
-
-		// Set the default location and size.
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setLocation((screenSize.width - FRAME_WIDTH) / 2, (screenSize.height - FRAME_HEIGHT) / 2);
-		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-
+		JFrame frame = new JFrame("UClair Analyzer");
 		// Create the panel and add it to the frame.
 		UClairAnalyzer panel = new UClairAnalyzer(frame);
 		frame.getContentPane().add(panel);
 
 		// Set the frame properties and show it.
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setLocation((screenSize.width - FRAME_WIDTH) / 2, (screenSize.height - FRAME_HEIGHT) / 2);
+		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public static void main(String args[]) {
@@ -523,11 +819,5 @@ public class UClairAnalyzer extends JPanel implements TreeSelectionListener {
 			}
 		};
 		SwingUtilities.invokeLater(doCreateAndShowGUI);
-	}
-
-	@Override
-	public void valueChanged(TreeSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }
