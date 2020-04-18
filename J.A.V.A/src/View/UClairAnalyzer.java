@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -179,9 +180,9 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		jtab.addTab("System err", new JPanel());
 		
 		// 패널을 독기능을 넣어주고 독설정을 해준다
-		dockable_JTree = new DefaultDockable("Window1", jtree_panel, "분석기", null, DockingMode.ALL);
-		dockable_Analysis_Invisible = new DefaultDockable("Window2", textPanel2, "분석기 창이 나올 위치", null, DockingMode.ALL);
-		dockable3 = new DefaultDockable("Window3", jtab, "메시지", null, DockingMode.ALL);
+		dockable_JTree = new DefaultDockable("Window1", jtree_panel, "분석기", new ImageIcon(getClass().getResource("/com/javadocking/resources/images/person12.gif")), DockingMode.ALL);
+		dockable_Analysis_Invisible = new DefaultDockable("Window2", textPanel2, "분석기 창이 나올 위치", null , DockingMode.ALL);
+		dockable3 = new DefaultDockable("Window3", jtab, "메시지", new ImageIcon(getClass().getResource("/com/javadocking/resources/images/text12.gif")), DockingMode.ALL);
 
 		//독커블 4 시연을 위해 잠깐 안보이게 했음 207번 줄
 		dockable4 = new DefaultDockable("Window4", textPanel4, "System err", null, DockingMode.ALL);
@@ -293,7 +294,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 				.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK | ActionEvent.CTRL_MASK));
 
 		mi_prog_exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-		mi_prog_exit.getAccessibleContext().setAccessibleDescription("Exit the application");
+		mi_prog_exit.getAccessibleContext().setAccessibleDescription("프로그램 종료");
 		mi_prog_exit.addActionListener(this);
 
 		m_file.add(mi_proj_open);
@@ -802,7 +803,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		// Create the panel and add it to the frame.
 		UClairAnalyzer panel = new UClairAnalyzer(frame);
 		frame.getContentPane().add(panel);
-
+		
 		// Set the frame properties and show it.
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -810,6 +811,8 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	
 	}
 
 	public static void main(String args[]) {
