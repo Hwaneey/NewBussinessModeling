@@ -10,5 +10,14 @@
 	<classpathentry kind="lib" path="lib/nimrodlf.jar"/>
 	<classpathentry kind="lib" path="lib/substance-lite.jar"/>
 	<classpathentry kind="lib" path="lib/tinylaf.jar"/>
+	<classpathentry kind="lib" path="poi/poi-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/poi-examples-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/poi-excelant-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/poi-ooxml-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/poi-ooxml-schemas-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/poi-scratchpad-3.11-20141221.jar"/>
+	<classpathentry kind="lib" path="poi/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/UndecoratorBis.jar"/>
+	<classpathentry kind="lib" path="lib/jxl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
