@@ -476,7 +476,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 			tableName = "";
 			break;
 		}
-
+		//아무렇게나 수정을 했습니다 암래랃ㄹ매ㅏ맫
 		if (tableName.equals(""))
 			return;
 
