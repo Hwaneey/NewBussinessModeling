@@ -114,7 +114,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 	SplitDock totalSplitDock;
 
 	JMenuBar menuBar;
-
+ ///
 	DockingPath dockingPath;
 
 	/**
@@ -180,6 +180,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 	
 	File path;
 	String node1; //노드 device.xls 경로
+	String node2; //노드 tagdiction.xls 경로
 	
 	//엑셀 나타내는 값
 	XSSFRow row;
@@ -415,7 +416,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		String folderName = jfc.getSelectedFile().getPath();	
 		int pos = folderName.lastIndexOf( "\\" );
 		String ext = folderName.substring( pos + 1 );
-//		System.out.println(ext);
+
 		
 		path = new File(folderName);
 
@@ -448,6 +449,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 
 		// Create the Table.
 		JPanel tablePanel = new Table(node1);
+		JPanel tablePanel2 = new Table(node2);
 
 		// Create the dockable for the Table.
 		switch (select) {
@@ -476,7 +478,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 			tableName = "";
 			break;
 		}
-		//아무렇게나 수정을 했습니다 암래랃ㄹ매ㅏ맫
+
 		if (tableName.equals(""))
 			return;
 
@@ -492,77 +494,65 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 			if (dialogResult == JOptionPane.NO_OPTION) {
 				return;
 			}
-			//ExcelToJtable(node1)
-			System.out.println(node1);
-			Dockable dockable = createDockable(tableName,tablePanel, tableName, null, tableName);
+			switch (select) {
+			case NonExistTag:
+				System.out.println(node1);
+				Dockable dockable = createDockable(node1,tablePanel, tableName, null, tableName);
+				dock_hashmap_array.put(select, dockable);
+				DockingManager.getDockingExecutor().changeDocking(dockable, dockingPath);
+				break;
+			case VirtualTag:
+				System.out.println(node2);
+				Dockable dockable2 = createDockable(node2,tablePanel2, tableName, null, tableName);
+				dock_hashmap_array.put(select, dockable2);
+				DockingManager.getDockingExecutor().changeDocking(dockable2, dockingPath);
+				dockable2.getContent().getParent().setFocusable(true);
+				break;
+			case PhysicalAddress:
+				tableName = mi_analy_physicalAddress.getText();
+				break;
+			case ObjConnTag:
+				tableName = mi_analy_objconnTag.getText();
+				break;
+			case Event:
+				tableName = mi_analy_event.getText();
+				break;
+			case CalcScript:
+				tableName = mi_analy_calcScript.getText();
+				break;
+			case ObjEffectCompatibility:
+				tableName = mi_analy_objeffectCompatibility.getText();
+				break;
+			default:
+				tableName = "";
+				break;
+			}
 
-			dock_hashmap_array.put(select, dockable);
 
-			DockingManager.getDockingExecutor().changeDocking(dockable, dockingPath);
-
-			dockable.getContent().getParent().setFocusable(true);
-
-			dockable.addDockingListener(new DockingListener() {
-
-				@Override
-				public void dockingWillChange(DockingEvent e) {
-				}
-
-				@Override
-				public void dockingChanged(DockingEvent e) {
-					if (e.getDestinationDock() != null) {
-						dock_hashmap_array.put(select, dockable);
-						System.out.println("added : " + dockable);
-					} else {
-						dock_hashmap_array.remove(select);
-						System.out.println("deleted : " + dockable);
-					}
-				}
-			});
+//			dockable.getContent().getParent().setFocusable(true);
+//			dockable.addDockingListener(new DockingListener() {
+//
+//				@Override
+//				public void dockingWillChange(DockingEvent e) {
+//				}
+//
+//				@Override
+//				public void dockingChanged(DockingEvent e) {
+//					if (e.getDestinationDock() != null) {
+//						dock_hashmap_array.put(select, dockable);
+//						System.out.println("added : " + dockable);
+//					} else {
+//						dock_hashmap_array.remove(select);
+//						System.out.println("deleted : " + dockable);
+//					}
+//				}
+//			});
 
 			centerTabDock.removeDockable(dockable_Analysis_Invisible);
 			centerTabDock.setVisible(true);
 		}
 	}
 
-	private JPanel ExcelToJtable(String node1) {
-		// TODO Auto-generated method stub
-		Vector headers = new Vector();
-		Vector data = new Vector();
-
-		File file = new File(node1);
-		try {
-			Workbook workbook = Workbook.getWorkbook(file);
-			Sheet sheet = workbook.getSheet(0);
-			headers.clear();
-			for (int i = 0; i < sheet.getColumns(); i++) {
-				jxl.Cell cell1 = sheet.getCell(i, 0);
-				headers.add(cell1.getContents());
-			}
-			data.clear();
-			for (int j = 1; j < sheet.getRows(); j++) {
-				Vector d = new Vector();
-				for (int i = 0; i < sheet.getColumns(); i++) {
-					jxl.Cell cell = sheet.getCell(i, j);
-					d.add(cell.getContents());
-				}
-				d.add("\n");
-				data.add(d);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		JTable table = new JTable();
-		DefaultTableModel model = new DefaultTableModel(data, headers);
-		table.setModel(model);
-		table.setAutoCreateRowSorter(true);
-		model = new DefaultTableModel(data, headers);
-		table.setModel(model);
-		JScrollPane scroll = new JScrollPane(table);
-		JFrame f = new JFrame();
-		f.add(scroll);
-		return null;
-	}
 
 	/**
 	 * 동적으로 도킹창 생성을 위한 코드이다.
@@ -613,19 +603,17 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		public static final int TABLE = 1;
 		String[] columnType = { "스크립트명", "계산스크립트 검증" };
 		// Fields.
-
 		private int tableSize = TABLE;
-
+		
 		// Constructors.
-
-		public Table(String node1) {
+		public Table(String PATH) {
 			super(new BorderLayout());
 
 			// TODO Auto-generated method stub
 			Vector headers = new Vector();
 			Vector data = new Vector();
 
-			File file = new File(node1);
+			File file = new File(PATH);
 			try {
 				Workbook workbook = Workbook.getWorkbook(file);
 				Sheet sheet = workbook.getSheet(0);
@@ -807,11 +795,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 
 		public ContactTree() {
 			
-			analy_physicalAddress_Node = new DefaultMutableTreeNode();
-			analy_objconnTag_Node = new DefaultMutableTreeNode();
-			analy_event_Node = new DefaultMutableTreeNode();
-			analy_calcScript_Node = new DefaultMutableTreeNode();
-			analy_objeffectCompatibility_Node = new DefaultMutableTreeNode();				
+
 			
 			rootNode = new DefaultMutableTreeNode(" ");			
 			// Create the tree model.
@@ -844,19 +828,23 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 				  }
 				});
 			
+			analy_nonexistTag_Node = new DefaultMutableTreeNode("존재하지 않는 태그 분석");
+			analy_virtualTag_Node = new DefaultMutableTreeNode("가상태그 종속성 분석");
+			analy_physicalAddress_Node = new DefaultMutableTreeNode("물리주소 종속성 분석");
+			analy_objconnTag_Node = new DefaultMutableTreeNode("객체태그 연결정보 분석");
+			analy_event_Node = new DefaultMutableTreeNode("이벤트 종속성 분석");
+			analy_calcScript_Node = new DefaultMutableTreeNode("계산 스크립트 검증");
+			analy_objeffectCompatibility_Node = new DefaultMutableTreeNode("객체효과 양립성 분석");		
+			
+			
+			
 			if(fileList.length > 0){
-			    for(int i=0; i < fileList.length; i++){
-//			    		System.out.println(fileList[i]);
+				for (int i = 0; i < fileList.length; i++) {
+					node1 = path + "\\" + fileList[0] ;
+					node2 = path + "\\" + fileList[1] ;
 			    }
 			}
-			for (int i = 0; i < fileList.length; i++) {
-				analy_nonexistTag_Node = new DefaultMutableTreeNode(fileList[0]);
-				analy_virtualTag_Node = new DefaultMutableTreeNode(fileList[1]);
-		
-			}
-			//device 경로 찾기
-			node1 = path + "\\" + fileList[0] ;
-//			System.out.println(a);
+
 			
 			rootNode.setUserObject(folderName);
 			treeModel.nodeChanged(rootNode);
@@ -869,11 +857,11 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 			
 			rootNode.add(analy_nonexistTag_Node);
 			rootNode.add(analy_virtualTag_Node);
-//			rootNode.add(analy_physicalAddress_Node);
-//			rootNode.add(analy_objconnTag_Node);
-//			rootNode.add(analy_event_Node);
-//			rootNode.add(analy_calcScript_Node);
-//			rootNode.add(analy_objeffectCompatibility_Node);
+			rootNode.add(analy_physicalAddress_Node);
+			rootNode.add(analy_objconnTag_Node);
+			rootNode.add(analy_event_Node);
+			rootNode.add(analy_calcScript_Node);
+			rootNode.add(analy_objeffectCompatibility_Node);
 		}
 
 		@Override
@@ -892,9 +880,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		public void mousePressed(MouseEvent e) {
 			int selRow = tree.getRowForLocation(e.getX(), e.getY());
 			if (selRow != -1) {
-
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-
 				if (selectedNode == analy_nonexistTag_Node) {
 					analySelector = Analysis_Selector.NonExistTag;
 				} else if (selectedNode == analy_virtualTag_Node) {
@@ -921,45 +907,6 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 				}
 			}
 		}
-
-		public void ExcelToJtable(String node1) {
-			// TODO Auto-generated method stub
-			Vector headers = new Vector();
-			Vector data = new Vector();
-
-			File file = new File(node1);
-			try {
-				Workbook workbook = Workbook.getWorkbook(file);
-				Sheet sheet = workbook.getSheet(0);
-				headers.clear();
-				for (int i = 0; i < sheet.getColumns(); i++) {
-					jxl.Cell cell1 = sheet.getCell(i, 0);
-					headers.add(cell1.getContents());
-				}
-				data.clear();
-				for (int j = 1; j < sheet.getRows(); j++) {
-					Vector d = new Vector();
-					for (int i = 0; i < sheet.getColumns(); i++) {
-						jxl.Cell cell = sheet.getCell(i, j);
-						d.add(cell.getContents());
-					}
-					d.add("\n");
-					data.add(d);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			JTable table = new JTable();
-			DefaultTableModel model = new DefaultTableModel(data, headers);
-			table.setModel(model);
-			table.setAutoCreateRowSorter(true);
-			model = new DefaultTableModel(data, headers);
-			table.setModel(model);
-			JScrollPane scroll = new JScrollPane(table);
-			JFrame f = new JFrame();
-			f.add(scroll);
-		}
-
 		@Override
 		public void mouseReleased(MouseEvent e) {
 		}
