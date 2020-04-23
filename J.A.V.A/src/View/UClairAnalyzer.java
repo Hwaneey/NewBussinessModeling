@@ -249,8 +249,7 @@ public class UClairAnalyzer extends JPanel implements ActionListener {
 		// root 도커와 같은 위치에 추가한다.
 		dockModel.addRootDock("minimizerBorderDock", minimizerBorderDock, frame);
 
-		
-		// 패널에 스플릿 패널 추가
+		// 패널에 스플릿 패널 추가dd
 		add(minimizerBorderDock, BorderLayout.CENTER);
 
 		/*
