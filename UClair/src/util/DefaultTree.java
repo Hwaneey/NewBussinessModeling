@@ -22,9 +22,9 @@ public class DefaultTree extends JTree
 	{
 		super();
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("AFactoryMonitoring");
-		rootNode.add(new DefaultMutableTreeNode("프로젝트 정보 분석"));
-		rootNode.add(new DefaultMutableTreeNode("존재하지 않는 태그 분석"));
-		rootNode.add(new DefaultMutableTreeNode("개별태그 종속성 분석"));
+		rootNode.add(new DefaultMutableTreeNode("프로젝트 정보 "));
+		rootNode.add(new DefaultMutableTreeNode("존재하지 않는 태그 "));
+		rootNode.add(new DefaultMutableTreeNode("개별태그 종속성 "));
 		rootNode.add(new DefaultMutableTreeNode("가상태그 종속성 분석"));
 		rootNode.add(new DefaultMutableTreeNode("물리주소 종속성 분석"));
 		rootNode.add(new DefaultMutableTreeNode("객체태그 연결정보 분석"));
