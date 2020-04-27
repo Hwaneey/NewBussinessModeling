@@ -18,6 +18,7 @@ import analyzer.action.EventDependAnalyzeAction;
 import analyzer.action.IOTestSheetExportAction;
 import analyzer.action.ObjectTagLinkAnalyzeAction;
 import analyzer.action.PhysicalTagDependAction;
+import analyzer.action.ProjectInfoAnalyzeAction;
 import analyzer.action.ProjectLoadAction;
 import analyzer.action.ScriptSyntaxAnalyzeAction;
 import analyzer.action.VirtualTagDependAnalyzeAction;
@@ -246,10 +247,10 @@ public class AnalyzerActionFactory {
 			action = new WindowTestSheetGenerateAction(analyzer);
 			configureAction(action, key);
 			break;		
-//		case PROJECT_INFO:			
-//			action = new ProjectInfoAnalyzeAction(analyzer);
-//			configureAction(action, key);			
-//			break;		
+		case PROJECT_INFO:			
+			action = new ProjectInfoAnalyzeAction(analyzer);
+			configureAction(action, key);			
+			break;		
 		default:
 			// do nothing.
 		}
