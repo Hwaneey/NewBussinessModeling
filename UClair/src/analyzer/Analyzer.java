@@ -253,7 +253,7 @@ public class Analyzer extends DefaultDockableHolder  {
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 뷰 메뉴
-	 * @변경이력 	:
+	 * @변경이력 	: 2020.04.28
 	 *******************************/
 	public static JMenu createViewMenu(final Container container) {
         JMenuItem item;
