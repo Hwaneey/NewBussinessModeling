@@ -10,6 +10,12 @@ import analyzer.Analyzer;
 
 public class ProjectCloseAction  extends AbstractCommonAction implements PropertyChangeListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public ProjectCloseAction(Analyzer alayzer) {
 		super(alayzer);
 		setEnabled(true);
@@ -19,7 +25,9 @@ public class ProjectCloseAction  extends AbstractCommonAction implements Propert
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		System.out.println("ProjectCloseAction 종료시작");
+		getAnalyzer().closeProject();
+		System.out.println("ProjectCloseAction 종료끝");
 	}
 
 
