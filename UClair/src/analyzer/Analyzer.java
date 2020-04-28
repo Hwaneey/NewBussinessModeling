@@ -178,8 +178,8 @@ public class Analyzer extends DefaultDockableHolder  {
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_WEST);
 		frame.getContext().setInitIndex(0);
 		frame.getContentPane().setLayout(new BorderLayout());
+		
 		analysorTree = new DefaultTree();
-
 		frame.add(createScrollPane(analysorTree));
 		analysorTree.setVisible(false);
 		
