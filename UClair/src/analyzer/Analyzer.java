@@ -70,6 +70,7 @@ public class Analyzer extends DefaultDockableHolder  {
 	private static JMenu analyzeMenu;
 	private static JMenu testCaseMenu;
 	private static JMenu helpMenu;
+	private static JMenu viewMenu;
 	
 	public static JMenuItem _redoMenuItem;
 	public static JMenuItem _undoMenuItem;
@@ -99,6 +100,7 @@ public class Analyzer extends DefaultDockableHolder  {
 		_frame = new Analyzer("UClair Analyzer");
 		_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		_frame.getDockingManager().setXmlFormat(true);
+		_frame.setIconImage(new ImageIcon("../UClair/img/magnifying-glass.png").getImage());
 
 		// add a window listener to do clear up when windows closing.
 		_windowListener = new WindowAdapter() {
@@ -197,7 +199,7 @@ public class Analyzer extends DefaultDockableHolder  {
 	 * @변경이력 	:
 	 *******************************/
 	protected static DockableFrame createMessageFrame() {
-		DockableFrame frame = createDockableFrame("메시지", new ImageIcon("../UClair/img/command-line.png"));
+		DockableFrame frame = createDockableFrame("메시지", new ImageIcon("../UClair/img/computer.png"));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_SOUTH);
 
@@ -241,6 +243,7 @@ public class Analyzer extends DefaultDockableHolder  {
 		analyzeMenu = createAnalyzeMenu();
 		testCaseMenu = createTestCaseMenu();
 		helpMenu = createHelpMenu();
+		viewMenu = createViewMenu(_frame);
 		
 		analyzeMenu.setEnabled(false);
 		testCaseMenu.setEnabled(false);
@@ -249,9 +252,78 @@ public class Analyzer extends DefaultDockableHolder  {
 		menu.add(analyzeMenu);
 		menu.add(testCaseMenu);
 		menu.add(helpMenu);
+		menu.add(viewMenu);
 
 		return menu;
 	}
+	
+	/*******************************
+	 * @date	: 2020. 4. 28.
+	 * @설명 		: 뷰 메뉴
+	 * @변경이력 	:
+	 *******************************/
+	public static JMenu createViewMenu(final Container container) {
+        JMenuItem item;
+        JMenu viewMenu = new JideMenu("뷰");
+
+        item = new JMenuItem("다음 뷰");
+        item.setMnemonic('N');
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
+        item.addActionListener(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (container instanceof DockableHolder) {
+                    DockingManager dockingManager = ((DockableHolder) container).getDockingManager();
+                    String frameKey = dockingManager.getNextFrame(dockingManager.getActiveFrameKey());
+                    if (frameKey != null) {
+                        dockingManager.showFrame(frameKey);
+                    }
+                }
+            }
+        });
+        viewMenu.add(item);
+
+        item = new JMenuItem("이전 뷰");
+        item.setMnemonic('P');
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, InputEvent.SHIFT_MASK));
+        item.addActionListener(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (container instanceof DockableHolder) {
+                    DockingManager dockingManager = ((DockableHolder) container).getDockingManager();
+                    String frameKey = dockingManager.getPreviousFrame(dockingManager.getActiveFrameKey());
+                    if (frameKey != null) {
+                        dockingManager.showFrame(frameKey);
+                    }
+                }
+            }
+        });
+        viewMenu.add(item);
+
+        viewMenu.addSeparator();
+
+        item = new JMenuItem("분석기", new ImageIcon("../UClair/img/magnifying-glass.png"));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
+        item.addActionListener(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (container instanceof DockableHolder) {
+                    ((DockableHolder) container).getDockingManager().showFrame("분석기");
+                }
+            }
+        });
+        viewMenu.add(item);
+
+        item = new JMenuItem("메시지", new ImageIcon("../UClair/img/computer.png"));
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+        item.addActionListener(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (container instanceof DockableHolder) {
+                    ((DockableHolder) container).getDockingManager().showFrame("메시지");
+                }
+            }
+        });
+        viewMenu.add(item);
+
+        return viewMenu;
+    }
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 파일 메뉴
@@ -456,6 +528,7 @@ public class Analyzer extends DefaultDockableHolder  {
 		}
 	}
 	public void setProject(final Project newProject) {
+		// 분석메뉴와 테스트 케이스 메뉴 활성화 여부
 		boolean menuEnabled = (newProject != null);
 		analyzeMenu.setEnabled(menuEnabled);
 		testCaseMenu.setEnabled(menuEnabled);
@@ -503,8 +576,11 @@ public class Analyzer extends DefaultDockableHolder  {
 			HMIWorkspace.getInstance().setStartProject(
 					currentProject.getProjectPath());
 			HMIWorkspace.getInstance().save();
+			_frame.setTitle(PROFILE_NAME + " │ "+ currentProject.getProjectPath());
+		} else {
+			_frame.setTitle(PROFILE_NAME);
 		}
-
+		
 		fireProjectChangeEvent(currentProject);
 	}
 	protected void fireProjectChangeEvent(final Project newProject) {
