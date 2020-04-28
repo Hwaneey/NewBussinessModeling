@@ -18,6 +18,7 @@ import analyzer.action.EventDependAnalyzeAction;
 import analyzer.action.IOTestSheetExportAction;
 import analyzer.action.ObjectTagLinkAnalyzeAction;
 import analyzer.action.PhysicalTagDependAction;
+import analyzer.action.ProjectCloseAction;
 import analyzer.action.ProjectInfoAnalyzeAction;
 import analyzer.action.ProjectLoadAction;
 import analyzer.action.ScriptSyntaxAnalyzeAction;
@@ -203,10 +204,10 @@ public class AnalyzerActionFactory {
 			action = new ProjectLoadAction(analyzer);
 			configureAction(action, key);
 			break;
-//		case CLOSE_PROJECT:
-//			action = new ProjectCloseAction(analyzer);
-//			configureAction(action, key);
-//			break;
+		case CLOSE_PROJECT:
+			action = new ProjectCloseAction(analyzer);
+			configureAction(action, key);
+			break;
 		case DANGLING_TAG_ANALYSIS:
 			action = new DanglingTagAnalyzeAction(analyzer);
 			configureAction(action, key);

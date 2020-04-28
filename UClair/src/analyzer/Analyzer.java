@@ -66,10 +66,14 @@ public class Analyzer extends DefaultDockableHolder  {
 	private static boolean _autohideAll = false;
 	private static WindowAdapter _windowListener;
 	
+	private static JMenu fileMenu;
+	private static JMenu analyzeMenu;
+	private static JMenu testCaseMenu;
+	private static JMenu helpMenu;
+	
 	public static JMenuItem _redoMenuItem;
 	public static JMenuItem _undoMenuItem;
 	
-
 	private static JTree analysorTree;
 	private static String projectPath;
 	private static HashMap<String, JTable> dockMap;
@@ -161,8 +165,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 도킹 생성
-	 * @변경이력 :
+	 * @설명 		: 도킹 생성
+	 * @변경이력 	:
 	 *******************************/
 	protected static DockableFrame createDockableFrame(String key, Icon icon) {
 		DockableFrame frame = new DockableFrame(key, icon);
@@ -172,8 +176,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 분석기 패널
-	 * @변경이력 :
+	 * @설명 		: 분석기 패널
+	 * @변경이력 	:
 	 *******************************/
 	protected static DockableFrame createAnalyzerFrame() {
 		DockableFrame frame = createDockableFrame("분석기", new ImageIcon("../UClair/img/magnifying-glass.png"));
@@ -191,8 +195,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 메시지 패널
-	 * @변경이력 :
+	 * @설명 		: 메시지 패널
+	 * @변경이력 	:
 	 *******************************/
 	protected static DockableFrame createMessageFrame() {
 		DockableFrame frame = createDockableFrame("메시지", new ImageIcon("../UClair/img/command-line.png"));
@@ -209,8 +213,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 클릭시 생성되는 테이블 패널 및 스크롤 기능
-	 * @변경이력 :
+	 * @설명 		: 클릭시 생성되는 테이블 패널 및 스크롤 기능
+	 * @변경이력 	:
 	 *******************************/
 	protected static DockableFrame createOutputFrame(String key, String path) {
 		dockMap.put(path, ExcelConnector.readTableFromExcel(path));
@@ -228,17 +232,20 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 메뉴바
-	 * @변경이력 :
+	 * @설명 		: 메뉴바
+	 * @변경이력 	:
 	 *******************************/
 	protected static JMenuBar createMenuBar() {
 
 		JMenuBar menu = new JMenuBar();
 		
-		JMenu fileMenu = createFileMenu();
-		JMenu analyzeMenu = createAnalyzeMenu();
-		JMenu testCaseMenu = createTestCaseMenu();
-		JMenu helpMenu = createHelpMenu();
+		fileMenu = createFileMenu();
+		analyzeMenu = createAnalyzeMenu();
+		testCaseMenu = createTestCaseMenu();
+		helpMenu = createHelpMenu();
+		
+		analyzeMenu.setEnabled(false);
+		testCaseMenu.setEnabled(false);
 
 		menu.add(fileMenu);
 		menu.add(analyzeMenu);
@@ -249,13 +256,13 @@ public class Analyzer extends DefaultDockableHolder  {
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 파일 메뉴
-	 * @변경이력 :
+	 * @설명 		: 파일 메뉴
+	 * @변경이력 	:
 	 *******************************/
 	private static JMenu createFileMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();	
 		
-		JMenu menu = new JMenu("파일");
+		JMenu menu = new JideMenu("파일");
 		menu.setMnemonic(KeyEvent.VK_F);
 		
 		JMenuItem fileMenuItem1 = new JMenuItem("테스트 테이블 열기");
@@ -283,22 +290,7 @@ public class Analyzer extends DefaultDockableHolder  {
 			}
 		});
 		menu.add(fileMenuItem2);
-
-		JMenuItem fileMenuItem3 = new JMenuItem("프로젝트 닫기");
-		fileMenuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK | ActionEvent.ALT_MASK));
-		fileMenuItem3.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				projectPath = "";
-				analysorTree.setModel(DefaultTree.getDefaultTreeModel());
-				for (String key : dockMap.keySet()) {
-					_frame.getDockingManager().removeFrame(key.substring(key.lastIndexOf('\\') + 1));
-				}
-				analysorTree.setVisible(false);
-			}
-		});
-		menu.add(fileMenuItem3);
+		menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT));
 		
 		menu.addSeparator();
 		
@@ -318,8 +310,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 분석 메뉴
-	 * @변경이력 :
+	 * @설명 		: 분석 메뉴
+	 * @변경이력 	:
 	 *******************************/
 	private static JMenu createAnalyzeMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
@@ -339,8 +331,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 테스트 케이스 메뉴
-	 * @변경이력 : 
+	 * @설명 		: 테스트 케이스 메뉴
+	 * @변경이력 	: 
 	 *******************************/
 	private static JMenu createTestCaseMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
@@ -355,8 +347,8 @@ public class Analyzer extends DefaultDockableHolder  {
 	
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 도움말 메뉴
-	 * @변경이력 :
+	 * @설명 		: 도움말 메뉴
+	 * @변경이력 	:
 	 *******************************/
 	private static JMenu createHelpMenu() {
 		JMenu menu = new JideMenu("도움말");
@@ -370,8 +362,8 @@ public class Analyzer extends DefaultDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @설명 : 엑셀 파일 로드 및 패널 생성
-	 * @변경이력 :
+	 * @설명 		: 엑셀 파일 로드 및 패널 생성
+	 * @변경이력 	:
 	 *******************************/
 	private static void openProject() {
 		JFileChooser fc = new JFileChooser();
@@ -445,7 +437,7 @@ public class Analyzer extends DefaultDockableHolder  {
 	/************************************************
 	 * @date	: 2020. 4. 27.
 	 * @설명  	: 기본적인 초기화를 수행하는 부분   
-	 * @변경이력 : 
+	 * @변경이력 	: 
 	 ************************************************/
 	
 	private void initialize() {
@@ -466,6 +458,10 @@ public class Analyzer extends DefaultDockableHolder  {
 		}
 	}
 	public void setProject(final Project newProject) {
+		boolean menuEnabled = (newProject != null);
+		analyzeMenu.setEnabled(menuEnabled);
+		testCaseMenu.setEnabled(menuEnabled);
+		
 		if (null != currentProject) {
 			// singleton 인스턴스의 dipose처리
 			EngineManager.disposeEngines();
