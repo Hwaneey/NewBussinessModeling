@@ -78,7 +78,6 @@ public class Analyzer extends DefaultDockableHolder  {
 	private static String projectPath;
 	private static HashMap<String, JTable> dockMap;
 
-	
 	public Analyzer(String title) throws HeadlessException {
 		super(title);
 	}
