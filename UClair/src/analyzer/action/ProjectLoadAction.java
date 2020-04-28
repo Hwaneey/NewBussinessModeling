@@ -1,5 +1,8 @@
 package analyzer.action;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,13 +11,23 @@ import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 
+import com.jidesoft.docking.DockableFrame;
+import com.jidesoft.swing.JideScrollPane;
 import com.naru.uclair.device.info.DeviceGroupList;
 import com.naru.uclair.exception.ProjectNotLoadedException;
 import com.naru.uclair.project.Project;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
+import org.apache.commons.math3.analysis.function.Add;
+
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
+import util.DefaultTree;
 
 public class ProjectLoadAction extends AbstractCommonAction implements PropertyChangeListener {
 
@@ -24,6 +37,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 	 * folder chooser로 선택된 프로젝트 폴더.
 	 */
 	private File selectedFolder;
+	
 
 	public ProjectLoadAction(Analyzer analyzer) {
 		super(analyzer);
@@ -40,11 +54,14 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			// 선택된 프로젝트 폴더가 있을때.
 			if (selectedFolder.exists()) {
 				folderChooser.setCurrentDirectory(selectedFolder);
+				
+
+//				frame.add(createScrollPane(analysorTree));
+				
 			}
 			// 선택된 프로젝트 폴더가 없을때.
 			else if (selectedFolder.getParentFile().exists()) {
-				folderChooser.setCurrentDirectory(selectedFolder
-						.getParentFile());
+				folderChooser.setCurrentDirectory(selectedFolder.getParentFile());
 			}
 		}
 		
@@ -84,20 +101,38 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 				try {
 					p = new Project(selectedFolder.toURI(),
 							ProjectLoadAction.this);
+					System.out.println("파일 로드 성공");
+					{
+		
+	
+					}
+					
 					
 				} catch (ProjectNotLoadedException e1) {
 					JOptionPane.showMessageDialog(getAnalyzer(), 
 							e1.getMessage(), AnalyzerConstants
 							.getString("ProjectLoadAction.Load.Fail"),
 							JOptionPane.ERROR_MESSAGE);					
+					System.out.println("파일 로드 실패");
+
 				}
 				Analyzer a = getAnalyzer();
 				a.setProject(p);
-				System.out.println("AAA");
+				System.out.println("ProjectLoadAction 마무리");
 			}
 		}
 	}
 
+
+
+
+	public static JScrollPane createScrollPane(Component component) {
+		JScrollPane pane = new JideScrollPane(component);
+		pane.setVerticalScrollBarPolicy(JideScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		return pane;
+	}
+	
+	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
