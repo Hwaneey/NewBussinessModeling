@@ -14,8 +14,10 @@ import com.naru.uclair.workspace.HMIWorkspace;
 
 import analyzer.constants.AnalyzerConstants;
 import analyzer.listener.AnalyzerEventListener;
+
+import analyzer.util.DefaultTree;
+
 import excel.ExcelConnector;
-import util.DefaultTree;
 
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
@@ -253,7 +255,11 @@ public class Analyzer extends DefaultDockableHolder  {
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 뷰 메뉴
+<<<<<<< HEAD
 	 * @변경이력 	: 2020.04.28
+=======
+	 * @변경이력 	:
+>>>>>>> branch 'master' of https://github.com/Hwaneey/NewBussinessModeling.git
 	 *******************************/
 	public static JMenu createViewMenu(final Container container) {
         JMenuItem item;
