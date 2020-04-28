@@ -27,7 +27,7 @@ import org.apache.commons.math3.analysis.function.Add;
 
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
-import util.DefaultTree;
+import analyzer.util.DefaultTree;
 
 public class ProjectCloseAction extends AbstractCommonAction implements PropertyChangeListener {
 

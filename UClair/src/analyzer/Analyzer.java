@@ -19,10 +19,8 @@ import com.naru.uclair.workspace.HMIWorkspace;
 
 import analyzer.constants.AnalyzerConstants;
 import analyzer.listener.AnalyzerEventListener;
-
-
+import analyzer.util.DefaultTree;
 import excel.ExcelConnector;
-import util.DefaultTree;
 
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
