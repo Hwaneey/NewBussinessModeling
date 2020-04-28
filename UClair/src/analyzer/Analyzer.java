@@ -185,10 +185,6 @@ public class Analyzer extends DefaultDockableHolder  {
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_WEST);
 		frame.getContext().setInitIndex(0);
 		frame.getContentPane().setLayout(new BorderLayout());
-		analysorTree = new DefaultTree();
-
-		frame.add(createScrollPane(analysorTree));
-		analysorTree.setVisible(false);
 		
 		return frame;
 	}
@@ -275,7 +271,7 @@ public class Analyzer extends DefaultDockableHolder  {
 		menu.add(fileMenuItem1);
 		
 		//분석기 프로젝트 로드
-		menu.add(actionFactory.getAction(AnalyzerActionFactory.OPEN_PROJECT));
+		menu.add(actionFactory.getAction(AnalyzerActionFactory.OPEN_PROJECT)); //프로젝트 열기
 		
 		
 		JMenuItem fileMenuItem2 = new JMenuItem("프로젝트 저장");
@@ -290,21 +286,22 @@ public class Analyzer extends DefaultDockableHolder  {
 			}
 		});
 		menu.add(fileMenuItem2);
-		menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT));
+		
+		menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT)); //프로젝트 닫기
 		
 		menu.addSeparator();
 		
 		
-		JMenuItem fileMenuItem4 = new JMenuItem("종료");
-		fileMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
-		fileMenuItem4.addActionListener(new ActionListener()
+		JMenuItem fileMenuItem3 = new JMenuItem("종료");
+		fileMenuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+		fileMenuItem3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				System.exit(0);
 			}
 		});
-		menu.add(fileMenuItem4);
+		menu.add(fileMenuItem3);
 
 		return menu;
 	}
@@ -460,7 +457,7 @@ public class Analyzer extends DefaultDockableHolder  {
 	public void setProject(final Project newProject) {
 		boolean menuEnabled = (newProject != null);
 		analyzeMenu.setEnabled(menuEnabled);
-		testCaseMenu.setEnabled(menuEnabled);
+		testCaseMenu.setEnabled(menuEnabled);	
 		
 		if (null != currentProject) {
 			// singleton 인스턴스의 dipose처리
