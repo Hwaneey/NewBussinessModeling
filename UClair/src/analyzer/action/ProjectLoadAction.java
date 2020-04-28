@@ -54,10 +54,6 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			// 선택된 프로젝트 폴더가 있을때.
 			if (selectedFolder.exists()) {
 				folderChooser.setCurrentDirectory(selectedFolder);
-				
-
-//				frame.add(createScrollPane(analysorTree));
-				
 			}
 			// 선택된 프로젝트 폴더가 없을때.
 			else if (selectedFolder.getParentFile().exists()) {
@@ -118,7 +114,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 				}
 				Analyzer a = getAnalyzer();
 				a.setProject(p);
-				System.out.println("ProjectLoadAction 마무리");
+				System.out.println("ProjectLoadAction 오류 없음");
 			}
 		}
 	}
