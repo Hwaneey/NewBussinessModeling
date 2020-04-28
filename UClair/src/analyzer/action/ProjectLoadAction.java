@@ -99,8 +99,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 							ProjectLoadAction.this);
 					System.out.println("파일 로드 성공");
 					{
-		
-	
+						
 					}
 					
 					

@@ -528,10 +528,12 @@ public class Analyzer extends DefaultDockableHolder  {
 		}
 	}
 	public void setProject(final Project newProject) {
-		// 분석메뉴와 테스트 케이스 메뉴 활성화 여부
+		// 분석메뉴와 테스트 케이스 메뉴 활성화
 		boolean menuEnabled = (newProject != null);
 		analyzeMenu.setEnabled(menuEnabled);
 		testCaseMenu.setEnabled(menuEnabled);
+		// 분석패널 트리 활성화
+		analysorTree.setVisible(menuEnabled);
 		
 		if (null != currentProject) {
 			// singleton 인스턴스의 dipose처리
