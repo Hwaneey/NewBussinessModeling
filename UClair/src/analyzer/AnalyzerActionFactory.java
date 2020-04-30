@@ -269,7 +269,6 @@ public class AnalyzerActionFactory {
 		action.putValue(Action.ACCELERATOR_KEY, getAccelerator(key));
 		action.putValue(Action.SHORT_DESCRIPTION, getTooltip(key));
 		action.putValue(Action.LONG_DESCRIPTION,"Context Sensitive Help Test.");
-		
 	}
 	
 	public String getName(String key) {
