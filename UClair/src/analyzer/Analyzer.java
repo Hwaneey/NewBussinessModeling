@@ -508,7 +508,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 테스트 케이스 메뉴
-	 * @변경이력 	: 
+	 * @변경이력 	:  
 	 *******************************/
 	private static JMenu createTestCaseMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
