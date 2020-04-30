@@ -194,6 +194,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		_frame.getLayoutPersistence().loadLayoutData();
 		_frame.toFront();
 
+		
 		return _frame;
 	}
 	
