@@ -481,7 +481,6 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			}
 		});
 		menu.add(fileMenuItem4);
-
 		return menu;
 	}
 	/*******************************
