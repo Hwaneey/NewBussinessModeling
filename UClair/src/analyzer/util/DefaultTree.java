@@ -1,9 +1,5 @@
 package analyzer.util;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -28,15 +24,15 @@ public class DefaultTree extends JTree
 	
 	public static TreeModel getDefaultTreeModel() {
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("AFactoryMonitoring");
-		rootNode.add(new DefaultMutableTreeNode("ÇÁ·ÎÁ§Æ® Á¤º¸ ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("Á¸ÀçÇÏÁö ¾Ê´Â ÅÂ±× ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("°³º°ÅÂ±× Á¾¼Ó¼º ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("°¡»óÅÂ±× Á¾¼Ó¼º ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("¹°¸®ÁÖ¼Ò Á¾¼Ó¼º ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("°´Ã¼ÅÂ±× ¿¬°áÁ¤º¸ ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("ÀÌº¥Æ® Á¾¼Ó¼º ºĞ¼®"));
-		rootNode.add(new DefaultMutableTreeNode("°è»ê½ºÅ©¸³Æ® °ËÁõ"));
-		rootNode.add(new DefaultMutableTreeNode("°´Ã¼È¿°ú ¾ç¸³¼º ºĞ¼®"));
+		rootNode.add(new DefaultMutableTreeNode("í”„ë¡œì íŠ¸ ì •ë³´ ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íƒœê·¸ ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ê°œë³„íƒœê·¸ ì¢…ì†ì„± ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ê°€ìƒíƒœê·¸ ì¢…ì†ì„± ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ë¬¼ë¦¬ì£¼ì†Œ ì¢…ì†ì„± ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ê°ì²´íƒœê·¸ ì—°ê²°ì •ë³´ ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ì´ë²¤íŠ¸ ì¢…ì†ì„± ë¶„ì„"));
+		rootNode.add(new DefaultMutableTreeNode("ê³„ì‚°ìŠ¤í¬ë¦½íŠ¸ ê²€ì¦"));
+		rootNode.add(new DefaultMutableTreeNode("ê°ì²´íš¨ê³¼ ì–‘ë¦½ì„± ë¶„ì„"));
 		
 		TreeModel treeModel = new DefaultTreeModel(rootNode);
 		

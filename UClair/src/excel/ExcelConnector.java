@@ -34,16 +34,16 @@ public class ExcelConnector {
 			FileInputStream inputStream = new FileInputStream(path);
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			
-			//sheet¼ö Ãëµæ
+			//sheetìˆ˜ ì·¨ë“
 			int sheetCn = workbook.getNumberOfSheets();
 			for(int cn = 0; cn < sheetCn; cn++){
-				//0¹øÂ° sheet Á¤º¸ Ãëµæ
+				//0ë²ˆì§¸ sheet ì •ë³´ ì·¨ë“
 				XSSFSheet sheet = workbook.getSheetAt(cn);
 
-				//ÃëµæµÈ sheet¿¡¼­ rows¼ö Ãëµæ
+				//ì·¨ë“ëœ sheetì—ì„œ rowsìˆ˜ ì·¨ë“
 				int rows = sheet.getPhysicalNumberOfRows();
 				
-				//ÃëµæµÈ row¿¡¼­ Ãëµæ´ë»ó cell¼ö Ãëµæ
+				//ì·¨ë“ëœ rowì—ì„œ ì·¨ë“ëŒ€ìƒ cellìˆ˜ ì·¨ë“
 				int cells = sheet.getRow(cn).getPhysicalNumberOfCells(); 
 				String[] header = new String[cells];
 				String[][] content = new String[rows][cells];
@@ -69,7 +69,7 @@ public class ExcelConnector {
 									value = "" + cell.getStringCellValue();
 									break;
 								case XSSFCell.CELL_TYPE_BLANK:
-									value = "°ø¹é";
+									value = "ê³µë°±";
 									break;
 								case XSSFCell.CELL_TYPE_ERROR:
 									value = "" + cell.getErrorCellValue();

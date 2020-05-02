@@ -28,9 +28,9 @@ import analyzer.action.WindowTestSheetGenerateAction;
 
 
 /**
- * AnalyzerActionFactory Å¬·¡½º
+ * AnalyzerActionFactory í´ë˜ìŠ¤
  * 
- * @author ±è±âÅÂ
+ * @author ê¹€ê¸°íƒœ
  * 
  */
 public class AnalyzerActionFactory {
@@ -53,7 +53,7 @@ public class AnalyzerActionFactory {
 	public static final int EVENT_TAG_DEPENDENCY_ANALYSIS = 504; // delegate
 																	// action
 	public static final int OBJECT_EFFECT_COMPATIBILITY_ANALYSIS = 505;
-	// °³º° ÅÂ±× Á¾¼Ó¼º ºĞ¼®
+	// ê°œë³„ íƒœê·¸ ì¢…ì†ì„± ë¶„ì„
 	public static final int EACH_TAG_DEPENDENCY_ANALYSIS = 506;
 
 	public static final int SCRIPT_ANALYSIS = 510;
@@ -74,7 +74,7 @@ public class AnalyzerActionFactory {
 	public static final int SEARCH = 106;
 	public static final int SELECT_ALL = 107;
 
-	// WindowEditor °ü·Ã Action (Reserved)
+	// WindowEditor ê´€ë ¨ Action (Reserved)
 	// 120 ~ 180
 
 	// View Menu Action
@@ -174,7 +174,7 @@ public class AnalyzerActionFactory {
 	}
 	
 	public Action getAction(int actionType) {
-		// ÀÌ¹Ì »ı¼ºµÈ ActionÀº Å×ÀÌºí·Î ºÎÅÍ ¹İÈ¯.
+		// ì´ë¯¸ ìƒì„±ëœ Actionì€ í…Œì´ë¸”ë¡œ ë¶€í„° ë°˜í™˜.
 		if (actionMap.containsKey(actionType)) {
 			return actionMap.get(actionType);
 		}
@@ -185,7 +185,7 @@ public class AnalyzerActionFactory {
 		try {
 			key = resource.getString(Integer.toString(actionType));
 		} catch (MissingResourceException mre) {
-			System.out.println(actionType + "¿¡ ´ëÇÑ resource°¡ Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			System.out.println(actionType + "ì— ëŒ€í•œ resourceê°€ ì •ì˜ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			return null;
 		}
 
@@ -275,7 +275,7 @@ public class AnalyzerActionFactory {
 		try {
 			name = resource.getString(key + NAME_POSTFIX);
 		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Name Resource°¡ ¾ø½À´Ï´Ù.");
+			System.out.println(key + "ì— ëŒ€í•œ Name Resourceê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
 
 		return name;
@@ -286,7 +286,7 @@ public class AnalyzerActionFactory {
 		try {
 			s = resource.getString(key + MNEMONIC_POSTFIX);
 		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Mnemonic Resource°¡ ¾ø½À´Ï´Ù.");
+			System.out.println(key + "ì— ëŒ€í•œ Mnemonic Resourceê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
 
 		return ((null == s) || (s.length() == 0)) ? '\0' : s.charAt(0);
@@ -297,7 +297,7 @@ public class AnalyzerActionFactory {
 		try {
 			s = resource.getString(key + TOOLTIP_POSTFIX);
 		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Tooltip Resource°¡ ¾ø½À´Ï´Ù.");
+			System.out.println(key + "ì— ëŒ€í•œ Tooltip Resourceê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
 
 		return s;
@@ -309,7 +309,7 @@ public class AnalyzerActionFactory {
 			String s = resource.getString(key + ACCELERATOR_POSTFIX);
 			stroke = KeyStroke.getKeyStroke(s);
 		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Accelerator Resource°¡ ¾ø½À´Ï´Ù.");
+			System.out.println(key + "ì— ëŒ€í•œ Accelerator Resourceê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
 
 		return stroke;

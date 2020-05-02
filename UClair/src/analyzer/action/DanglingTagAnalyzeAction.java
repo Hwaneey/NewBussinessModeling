@@ -21,7 +21,7 @@ public class DanglingTagAnalyzeAction extends AbstractCommonAction implements Pr
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("DanglingTagAnalyzeAction Ãâ·Â");
+		System.out.println("DanglingTagAnalyzeAction ì¶œë ¥");
 	}
 
 	@Override

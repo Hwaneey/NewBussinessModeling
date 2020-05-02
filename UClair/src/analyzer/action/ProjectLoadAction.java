@@ -22,7 +22,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * folder chooser·Î ¼±ÅÃµÈ ÇÁ·ÎÁ§Æ® Æú´õ.
+	 * folder chooserë¡œ ì„ íƒëœ í”„ë¡œì íŠ¸ í´ë”.
 	 */
 	private File selectedFolder;
 	
@@ -34,16 +34,16 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("ProjectLoadAction ¼öÇà");
+		System.out.println("ProjectLoadAction ìˆ˜í–‰");
 		JFileChooser folderChooser = new JFileChooser();
 		folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		// ±âÁ¸¿¡ ¼±ÅÃµÈ Æú´õ ¼±ÅÃ
+		// ê¸°ì¡´ì— ì„ íƒëœ í´ë” ì„ íƒ
 		if (null != selectedFolder) {
-			// ¼±ÅÃµÈ ÇÁ·ÎÁ§Æ® Æú´õ°¡ ÀÖÀ»¶§.
+			// ì„ íƒëœ í”„ë¡œì íŠ¸ í´ë”ê°€ ìˆì„ë•Œ.
 			if (selectedFolder.exists()) {
 				folderChooser.setCurrentDirectory(selectedFolder);
 			}
-			// ¼±ÅÃµÈ ÇÁ·ÎÁ§Æ® Æú´õ°¡ ¾øÀ»¶§.
+			// ì„ íƒëœ í”„ë¡œì íŠ¸ í´ë”ê°€ ì—†ì„ë•Œ.
 			else if (selectedFolder.getParentFile().exists()) {
 				folderChooser.setCurrentDirectory(selectedFolder.getParentFile());
 			}
@@ -60,7 +60,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			if (null != getAnalyzer().getProject()) {
 				if (getAnalyzer().getProject().isChanged()) {
 					int close = JOptionPane.showConfirmDialog(getAnalyzer(),
-							"ÇöÀç ÆíÁıÁßÀÎ ÇÁ·ÎÁ§Æ®°¡ º¯°æµÇ¾ú½À´Ï´Ù. ÀúÀåÇÏ½Ã°Ú½À´Ï±î?", "ÇÁ·ÎÁ§Æ® ÀúÀå",
+							"í˜„ì¬ í¸ì§‘ì¤‘ì¸ í”„ë¡œì íŠ¸ê°€ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤. ì €ì¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "í”„ë¡œì íŠ¸ ì €ì¥",
 							JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE);
 
@@ -85,7 +85,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 				try {
 					p = new Project(selectedFolder.toURI(),
 							ProjectLoadAction.this);
-					System.out.println("ÆÄÀÏ ·Îµå ¼º°ø");
+					System.out.println("íŒŒì¼ ë¡œë“œ ì„±ê³µ");
 					{
 						
 					}
@@ -96,12 +96,12 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 							e1.getMessage(), AnalyzerConstants
 							.getString("ProjectLoadAction.Load.Fail"),
 							JOptionPane.ERROR_MESSAGE);					
-					System.out.println("ÆÄÀÏ ·Îµå ½ÇÆĞ");
+					System.out.println("íŒŒì¼ ë¡œë“œ ì‹¤íŒ¨");
 
 				}
 				Analyzer a = getAnalyzer();
 				a.setProject(p);
-				System.out.println("ProjectLoadAction ¿À·ù ¾øÀ½");
+				System.out.println("ProjectLoadAction ì˜¤ë¥˜ ì—†ìŒ");
 			}
 		}
 	}

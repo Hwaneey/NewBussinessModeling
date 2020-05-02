@@ -1,30 +1,6 @@
 package analyzer.panel;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-
-import javax.swing.BorderFactory;
-import javax.swing.DropMode;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
-
-import com.jidesoft.grid.AbstractUndoableTableModel;
-import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
-import com.jidesoft.grid.DefaultUndoableTableModel;
-import com.jidesoft.grid.JideTableTransferHandler;
-import com.jidesoft.grid.SortableTable;
-import com.jidesoft.grid.TableColumnChooserPopupMenuCustomizer;
-import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
-import com.jidesoft.swing.JideTitledBorder;
-import com.jidesoft.swing.PartialEtchedBorder;
-import com.jidesoft.swing.PartialSide;
 
 public class UndoableTablePanel extends JPanel {
 //	private SortableTable _sortableTable;

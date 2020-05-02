@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.Action;
-
 import analyzer.Analyzer;
 
 public class VirtualTagDependAnalyzeAction extends AbstractCommonAction implements PropertyChangeListener {
@@ -24,7 +22,7 @@ public class VirtualTagDependAnalyzeAction extends AbstractCommonAction implemen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("VIRTUAL_TAG_DEPENDENCY_ANALYSIS Ãâ·Â");
+		System.out.println("VIRTUAL_TAG_DEPENDENCY_ANALYSIS ì¶œë ¥");
 
 	}
 

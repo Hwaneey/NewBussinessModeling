@@ -17,9 +17,9 @@ public class ProjectCloseAction extends AbstractCommonAction implements Property
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("ProjectCloseAction 수행");
+		System.out.println("ProjectCloseAction START");
 		getAnalyzer().closeProject();
-		System.out.println("ProjectCloseAction 오류 없음");
+		System.out.println("ProjectCloseAction END");
 	}
 	
 	@Override

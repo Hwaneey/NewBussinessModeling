@@ -19,7 +19,7 @@ public class ProjectInfoAnalyzeAction extends AbstractCommonAction implements Pr
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("ProjectInfoAnalyzeAction Ãâ·Â");
+		System.out.println("ProjectInfoAnalyzeAction ");
 	}
 
 	@Override

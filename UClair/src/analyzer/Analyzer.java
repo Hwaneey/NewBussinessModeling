@@ -95,22 +95,22 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	private static final String TITLE = AnalyzerConstants.getString(AnalyzerConstants.ANALYZER_TITLE);
 	private static final String PROFILE_NAME = "UClair Analyzer";
 
-	private static boolean _autohideAll = false;			// ÀÚµ¿ ¼û±â±â
-	private static WindowAdapter _windowListener;			// Ã¢ Á¾·á½Ã Å¬¸®¾î¸¦ À§ÇÑ ¸®½º³Ê
+	private static boolean _autohideAll = false;			// ìë™ ìˆ¨ê¸°ê¸°
+	private static WindowAdapter _windowListener;			// ì°½ ì¢…ë£Œì‹œ í´ë¦¬ì–´ë¥¼ ìœ„í•œ ë¦¬ìŠ¤ë„ˆ
 	
-	private static DocumentPane _workspacePane;				// ¿öÅ©½ºÆäÀÌ½º ÆĞ³Î
+	private static DocumentPane _workspacePane;				// ì›Œí¬ìŠ¤í˜ì´ìŠ¤ íŒ¨ë„
 	
-	private static JMenu fileMenu;								// ¸Ş´º¹Ù - ÆÄÀÏ 
-	private static JMenu analyzeMenu;						// ¸Ş´º¹Ù - ºĞ¼® 
-	private static JMenu testCaseMenu;						// ¸Ş´º¹Ù - Å×½ºÆ® ÄÉÀÌ½º
-	private static JMenu helpMenu;							// ¸Ş´º¹Ù - µµ¿ò¸»
-	private static JMenu viewMenu;							// ¸Ş´º¹Ù - ºä
+	private static JMenu fileMenu;								// ë©”ë‰´ë°” - íŒŒì¼ 
+	private static JMenu analyzeMenu;						// ë©”ë‰´ë°” - ë¶„ì„ 
+	private static JMenu testCaseMenu;						// ë©”ë‰´ë°” - í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤
+	private static JMenu helpMenu;							// ë©”ë‰´ë°” - ë„ì›€ë§
+	private static JMenu viewMenu;							// ë©”ë‰´ë°” - ë·°
 
 	public static JMenuItem _redoMenuItem;
 	public static JMenuItem _undoMenuItem;
 
-	private static JTree analysorTree;						// ºĞ¼®¸Ş´º Æ®¸®
-	private static byte[] _fullScreenLayout;				// ÀüÃ¼È­¸é ·¹ÀÌ¾Æ¿ô Á¤º¸
+	private static JTree analysorTree;						// ë¶„ì„ë©”ë‰´ íŠ¸ë¦¬
+	private static byte[] _fullScreenLayout;				// ì „ì²´í™”ë©´ ë ˆì´ì•„ì›ƒ ì •ë³´
 
 	public Analyzer(String title) throws HeadlessException {
 		super(title);
@@ -136,7 +136,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		_frame.getDockingManager().setXmlFormat(true);
 
 		// add a window listener to do clear up when windows closing.
-		// Ã¢À» ´İÀ» ¶§ Ã¢À» Å¬¸®¾îÇÏ±â À§ÇÑ ¸®½º³Ê Ãß°¡
+		// ì°½ì„ ë‹«ì„ ë•Œ ì°½ì„ í´ë¦¬ì–´í•˜ê¸° ìœ„í•œ ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
 		_windowListener = new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -150,24 +150,24 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		_frame.addWindowListener(_windowListener);
 
 		// Set the profile key
-		// ÇÁ·ÎÇÊ Å° ¼³Á¤
+		// í”„ë¡œí•„ í‚¤ ì„¤ì •
 		_frame.getDockingManager().setProfileKey(PROFILE_NAME);
 
 		// Uses light-weight outline. There are several options here.
-		// ¾ãÀº ¾Æ¿ô¶óÀÎ »ç¿ë.
+		// ì–‡ì€ ì•„ì›ƒë¼ì¸ ì‚¬ìš©.
 		_frame.getDockingManager().setOutlineMode(DockingManager.FULL_OUTLINE_MODE);
 		
 		// add tool bar
-		// Åø¹Ù Ãß°¡
+		// íˆ´ë°” ì¶”ê°€
 		_frame.getDockableBarManager().setProfileKey(PROFILE_NAME);
 		//_frame.getDockableBarManager().addDockableBar(createToolBar());
 
 		// add menu bar
-		// ¸Ş´º ¹Ù Ãß°¡
+		// ë©”ë‰´ ë°” ì¶”ê°€
 		_frame.setJMenuBar(createMenuBar());
 
 		// Sets the number of steps you allow user to undo.
-		// µÇµ¹¸®±â ±â¾ï È½¼ö ÁöÁ¤
+		// ë˜ëŒë¦¬ê¸° ê¸°ì–µ íšŸìˆ˜ ì§€ì •
 		_frame.getDockingManager().setUndoLimit(10);
 		_frame.getDockingManager().addUndoableEditListener(new UndoableEditListener() {
 			public void undoableEditHappened(UndoableEditEvent e) {
@@ -179,13 +179,13 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		_frame.getDockingManager().setInitSplitPriority(DockingManager.SPLIT_EAST_WEST_SOUTH_NORTH);
         
 		// add all dockable frames
-		// ±âº» µµÅ· ÇÁ·¹ÀÓ Ãß°¡ 
-		// ¸Ş½ÃÁö ÇÁ·¹ÀÓ, ºĞ¼®±â ÇÁ·¹ÀÓ
+		// ê¸°ë³¸ ë„í‚¹ í”„ë ˆì„ ì¶”ê°€ 
+		// ë©”ì‹œì§€ í”„ë ˆì„, ë¶„ì„ê¸° í”„ë ˆì„
 		_frame.getDockingManager().addFrame(createMessageFrame());
 		_frame.getDockingManager().addFrame(createAnalyzerFrame());
 		
 		// add workspace frames
-		// ¿öÅ©½ºÆäÀÌ½º ¹®¼­ÅÇ Ãß°¡, ¼³Á¤
+		// ì›Œí¬ìŠ¤í˜ì´ìŠ¤ ë¬¸ì„œíƒ­ ì¶”ê°€, ì„¤ì •
 		_workspacePane = createDocumentTabs();
 		_workspacePane.setTabbedPaneCustomizer(new DocumentPane.TabbedPaneCustomizer() {
             public void customize(final JideTabbedPane tabbedPane) {
@@ -199,12 +199,12 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		_frame.getDockingManager().getWorkspace().add((Component) _workspacePane, BorderLayout.CENTER);
 		
 		// disallow drop dockable frame to workspace area
-		// ¿öÅ©½ºÆäÀÌ½º ¿µ¿ª¿¡ µµÅ· Çã¿ëÇÏÁö ¾Ê±â
+		// ì›Œí¬ìŠ¤í˜ì´ìŠ¤ ì˜ì—­ì— ë„í‚¹ í—ˆìš©í•˜ì§€ ì•Šê¸°
 		_frame.getDockingManager().getWorkspace().setAcceptDockableFrame(false);
 		_frame.getDockingManager().getWorkspace().setAdjustOpacityOnFly(true);
 
 		// load layout information from previous session. This indicates the end of beginLoadLayoutData() method above.
-		// ÀÌÀü ¼¼¼ÇÀÇ ·¹ÀÌ¾Æ¿ô Á¤º¸ ·Îµå 
+		// ì´ì „ ì„¸ì…˜ì˜ ë ˆì´ì•„ì›ƒ ì •ë³´ ë¡œë“œ 
 		_frame.getLayoutPersistence().loadLayoutData();
 		_frame.toFront();
 
@@ -226,8 +226,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ¿öÅ©½ºÆäÀÌ½º ¹®¼­ÅÇ
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ì›Œí¬ìŠ¤í˜ì´ìŠ¤ ë¬¸ì„œíƒ­
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	private static DocumentPane createDocumentTabs() {	
 		DocumentPane documentPane = new DocumentPane() {
@@ -237,7 +237,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
                 if (group instanceof JideTabbedPane) {
                     ((JideTabbedPane) group).addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e) {		// ¿öÅ©½ºÆäÀÌ½º ¹®¼­ÅÇ ´õºíÅ¬¸¯ ½Ã ÀüÃ¼È­¸é
+                        public void mouseClicked(MouseEvent e) {		// ì›Œí¬ìŠ¤í˜ì´ìŠ¤ ë¬¸ì„œíƒ­ ë”ë¸”í´ë¦­ ì‹œ ì „ì²´í™”ë©´
                             if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
                                 if (!_autohideAll) {
                                     _fullScreenLayout = _frame.getDockingManager().getLayoutRawData();
@@ -267,8 +267,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: µµÅ· ÇÁ·¹ÀÓ »ı¼º
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë„í‚¹ í”„ë ˆì„ ìƒì„±
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static DockableFrame createDockableFrame(String key, Icon icon) {
 		DockableFrame frame = new DockableFrame(key, icon);
@@ -278,14 +278,14 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ºĞ¼®±â ÆĞ³Î
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë¶„ì„ê¸° íŒ¨ë„
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static DockableFrame createAnalyzerFrame() {
 		analysorTree = new DefaultTree();
 		analysorTree.setVisible(false);
 		
-		DockableFrame frame = createDockableFrame("ºĞ¼®±â", new ImageIcon(AnalyzerIconFactory.ANALYZE));
+		DockableFrame frame = createDockableFrame("ë¶„ì„ê¸°", new ImageIcon(AnalyzerIconFactory.ANALYZE));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_WEST);
 		frame.getContext().setInitIndex(0);
@@ -297,17 +297,17 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ¸Ş½ÃÁö ÆĞ³Î
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë©”ì‹œì§€ íŒ¨ë„
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static DockableFrame createMessageFrame() {
-		DockableFrame frame = createDockableFrame("¸Ş½ÃÁö", new ImageIcon(AnalyzerIconFactory.MESSAGE));
+		DockableFrame frame = createDockableFrame("ë©”ì‹œì§€", new ImageIcon(AnalyzerIconFactory.MESSAGE));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_SOUTH);
 
 		JTabbedPane jtab = new JTabbedPane();
-		jtab.addTab("System out", new JTextArea("System out ¿µ¿ª"));
-		jtab.addTab("System err", new JTextArea("System err ¿µ¿ª"));
+		jtab.addTab("System out", new JTextArea("System out ì˜ì—­"));
+		jtab.addTab("System err", new JTextArea("System err ì˜ì—­"));
 
 		frame.add(jtab);
 		return frame;
@@ -315,8 +315,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: Å¬¸¯½Ã »ı¼ºµÇ´Â Å×ÀÌºí ÆĞ³Î ¹× ½ºÅ©·Ñ ±â´É
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: í´ë¦­ì‹œ ìƒì„±ë˜ëŠ” í…Œì´ë¸” íŒ¨ë„ ë° ìŠ¤í¬ë¡¤ ê¸°ëŠ¥
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static DockableFrame createOutputFrame(String key, String path) {
 		//dockMap.put(path, ExcelConnector.readTableFromExcel(path));
@@ -335,8 +335,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: Åø¹Ù
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: íˆ´ë°”
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static CommandBar createToolBar() {
 		CommandBar commandBar = new CommandBar("ToolBar");
@@ -351,8 +351,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ¸Ş´º¹Ù
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë©”ë‰´ë°”
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	protected static JMenuBar createMenuBar() {
 
@@ -378,14 +378,14 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ºä ¸Ş´º
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë·° ë©”ë‰´
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	public static JMenu createViewMenu(final Container container) {
 		JMenuItem item;
-		JMenu viewMenu = new JideMenu("ºä");
+		JMenu viewMenu = new JideMenu("ë·°");
 
-		item = new JMenuItem("´ÙÀ½ ºä");
+		item = new JMenuItem("ë‹¤ìŒ ë·°");
 		item.setMnemonic('N');
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		item.addActionListener(new AbstractAction() {
@@ -401,7 +401,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		});
 		viewMenu.add(item);
 
-		item = new JMenuItem("ÀÌÀü ºä");
+		item = new JMenuItem("ì´ì „ ë·°");
 		item.setMnemonic('P');
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, InputEvent.SHIFT_MASK));
 		item.addActionListener(new AbstractAction() {
@@ -419,23 +419,23 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 		viewMenu.addSeparator();
 
-		item = new JMenuItem("ºĞ¼®±â", new ImageIcon(AnalyzerIconFactory.ANALYZE));
+		item = new JMenuItem("ë¶„ì„ê¸°", new ImageIcon(AnalyzerIconFactory.ANALYZE));
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 		item.addActionListener(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (container instanceof DockableHolder) {
-					((DockableHolder) container).getDockingManager().showFrame("ºĞ¼®±â");
+					((DockableHolder) container).getDockingManager().showFrame("ë¶„ì„ê¸°");
 				}
 			}
 		});
 		viewMenu.add(item);
 
-		item = new JMenuItem("¸Ş½ÃÁö", new ImageIcon(AnalyzerIconFactory.MESSAGE));
+		item = new JMenuItem("ë©”ì‹œì§€", new ImageIcon(AnalyzerIconFactory.MESSAGE));
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		item.addActionListener(new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (container instanceof DockableHolder) {
-					((DockableHolder) container).getDockingManager().showFrame("¸Ş½ÃÁö");
+					((DockableHolder) container).getDockingManager().showFrame("ë©”ì‹œì§€");
 				}
 			}
 		});
@@ -445,16 +445,16 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ÆÄÀÏ ¸Ş´º
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: íŒŒì¼ ë©”ë‰´
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	private static JMenu createFileMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();	
 
-		JMenu menu = new JideMenu("ÆÄÀÏ");
+		JMenu menu = new JideMenu("íŒŒì¼");
 		menu.setMnemonic(KeyEvent.VK_F);
 
-		JMenuItem fileMenuItem1 = new JMenuItem("Å×½ºÆ® Å×ÀÌºí ¿­±â");
+		JMenuItem fileMenuItem1 = new JMenuItem("í…ŒìŠ¤íŠ¸ í…Œì´ë¸” ì—´ê¸°");
 		fileMenuItem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -463,11 +463,11 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		});
 		menu.add(fileMenuItem1);
 
-		//ºĞ¼®±â ¸Ş´º - ÇÁ·ÎÁ§Æ® ¿­±â
+		//ë¶„ì„ê¸° ë©”ë‰´ - í”„ë¡œì íŠ¸ ì—´ê¸°
 		menu.add(actionFactory.getAction(AnalyzerActionFactory.OPEN_PROJECT));
 
-		//ºĞ¼®±â ¸Ş´º - ÇÁ·ÎÁ§Æ® ÀúÀå
-		JMenuItem fileMenuItem2 = new JMenuItem("ÇÁ·ÎÁ§Æ® ÀúÀå");
+		//ë¶„ì„ê¸° ë©”ë‰´ - í”„ë¡œì íŠ¸ ì €ì¥
+		JMenuItem fileMenuItem2 = new JMenuItem("í”„ë¡œì íŠ¸ ì €ì¥");
 		fileMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK | ActionEvent.ALT_MASK));
 		fileMenuItem2.addActionListener(new ActionListener()
 		{
@@ -480,13 +480,13 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		});
 		menu.add(fileMenuItem2);
 		
-		//ºĞ¼®±â ¸Ş´º - ÇÁ·ÎÁ§Æ® ´İ±â
+		//ë¶„ì„ê¸° ë©”ë‰´ - í”„ë¡œì íŠ¸ ë‹«ê¸°
 		menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT));
 
 		menu.addSeparator();
 
-		//ºĞ¼®±â ¸Ş´º - ÇÁ·ÎÁ§Æ® Á¾·á
-		JMenuItem fileMenuItem4 = new JMenuItem("Á¾·á");
+		//ë¶„ì„ê¸° ë©”ë‰´ - í”„ë¡œì íŠ¸ ì¢…ë£Œ
+		JMenuItem fileMenuItem4 = new JMenuItem("ì¢…ë£Œ");
 		fileMenuItem4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		fileMenuItem4.addActionListener(new ActionListener()
 		{
@@ -501,64 +501,64 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ºĞ¼® ¸Ş´º
-	 * @º¯°æÀÌ·Â 	: 
+	 * @ì„¤ëª… 		: ë¶„ì„ ë©”ë‰´
+	 * @ë³€ê²½ì´ë ¥ 	: 
 	 *******************************/
 	private static JMenu createAnalyzeMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
 
-		JMenu menu = new JideMenu("ºĞ¼®");
+		JMenu menu = new JideMenu("ë¶„ì„");
 
-		menu.add(new JMenuItem(actionFactory.getAction(500))); 					//Á¸ÀçÇÏÁö ¾Ê´Â ÅÂ±× ºĞ¼®
-		menu.add(new JMenuItem(actionFactory.getAction(501))); 					//°¡»óÅÂ±× Á¾¼Ó¼º ºĞ¼®
-		menu.add(new JMenuItem(actionFactory.getAction(502)));				 	//¹°¸®ÁÖ¼Ò Á¾¼Ó¼º ºĞ¼®
-		menu.add(new JMenuItem(actionFactory.getAction(503))); 					//°´Ã¼ÅÂ±× ¿¬°áÁ¤º¸ ºĞ¼®
-		menu.add(new JMenuItem(actionFactory.getAction(504))); 					//ÀÌº¥Æ® Á¾¼Ó¼º ºĞ¼®
+		menu.add(new JMenuItem(actionFactory.getAction(500))); 					//ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íƒœê·¸ ë¶„ì„
+		menu.add(new JMenuItem(actionFactory.getAction(501))); 					//ê°€ìƒíƒœê·¸ ì¢…ì†ì„± ë¶„ì„
+		menu.add(new JMenuItem(actionFactory.getAction(502)));				 	//ë¬¼ë¦¬ì£¼ì†Œ ì¢…ì†ì„± ë¶„ì„
+		menu.add(new JMenuItem(actionFactory.getAction(503))); 					//ê°ì²´íƒœê·¸ ì—°ê²°ì •ë³´ ë¶„ì„
+		menu.add(new JMenuItem(actionFactory.getAction(504))); 					//ì´ë²¤íŠ¸ ì¢…ì†ì„± ë¶„ì„
 		menu.addSeparator();
-		menu.add(new JMenuItem(actionFactory.getAction(510))); 					//°è»ê ½ºÅ©¸³Æ® °ËÁõ
-		menu.add(new JMenuItem(actionFactory.getAction(505))); 					//°´Ã¼È¿°ú ¾ç¸³¼º ºĞ¼®
+		menu.add(new JMenuItem(actionFactory.getAction(510))); 					//ê³„ì‚° ìŠ¤í¬ë¦½íŠ¸ ê²€ì¦
+		menu.add(new JMenuItem(actionFactory.getAction(505))); 					//ê°ì²´íš¨ê³¼ ì–‘ë¦½ì„± ë¶„ì„
 
 		return menu;
 	}
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: Å×½ºÆ® ÄÉÀÌ½º ¸Ş´º
-	 * @º¯°æÀÌ·Â 	:  
+	 * @ì„¤ëª… 		: í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ë©”ë‰´
+	 * @ë³€ê²½ì´ë ¥ 	:  
 	 *******************************/
 	private static JMenu createTestCaseMenu() {
 		AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
-		JMenu menu = new JideMenu("Å×½ºÆ® ÄÉÀÌ½º");
+		JMenu menu = new JideMenu("í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤");
 
-		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.IO_TEST_CASE_GENERATOR))); 				//IO Å×½ºÆ® ÄÉÀÌ½º »ı¼º±â
-		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.WINDOW_TEST_CASE_GENERATOR))); 			//È­¸é Å×½ºÆ® ÄÉÀÌ½º »ı¼º±â
+		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.IO_TEST_CASE_GENERATOR))); 				//IO í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ìƒì„±ê¸°
+		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.WINDOW_TEST_CASE_GENERATOR))); 			//í™”ë©´ í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ìƒì„±ê¸°
 		menu.addSeparator();		
-		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.PROJECT_INFO))); 							//ÇÁ·ÎÁ§Æ® Á¤º¸
+		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.PROJECT_INFO))); 							//í”„ë¡œì íŠ¸ ì •ë³´
 		return menu;
 	}
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: µµ¿ò¸» ¸Ş´º
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ë„ì›€ë§ ë©”ë‰´
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	private static JMenu createHelpMenu() {
-		JMenu menu = new JideMenu("µµ¿ò¸»");
+		JMenu menu = new JideMenu("ë„ì›€ë§");
 
-		menu.add(new JMenuItem("µµ¿ò¸» º¸±â(¸ñÂ÷)"));
+		menu.add(new JMenuItem("ë„ì›€ë§ ë³´ê¸°(ëª©ì°¨)"));
 		menu.addSeparator();
-		menu.add(new JMenuItem("Á¤º¸ ÆíÁı±â Á¤º¸"));
-		menu.add(new JMenuItem("½Ã½ºÅÛ ÆíÁı±â Á¤º¸"));
+		menu.add(new JMenuItem("ì •ë³´ í¸ì§‘ê¸° ì •ë³´"));
+		menu.add(new JMenuItem("ì‹œìŠ¤í…œ í¸ì§‘ê¸° ì •ë³´"));
 		return menu;
 	}
 
 	/*******************************
 	 * @date	: 2020. 4. 28.
-	 * @¼³¸í 		: ¿¢¼¿ ÆÄÀÏ ·Îµå ¹× ÆĞ³Î »ı¼º
-	 * @º¯°æÀÌ·Â 	:
+	 * @ì„¤ëª… 		: ì—‘ì…€ íŒŒì¼ ë¡œë“œ ë° íŒ¨ë„ ìƒì„±
+	 * @ë³€ê²½ì´ë ¥ 	:
 	 *******************************/
 	private static void openExcel() {
 		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileNameExtensionFilter("¿¢¼¿ ÅëÇÕ ¹®¼­(*.xlsx)","xlsx"));
+		fc.setFileFilter(new FileNameExtensionFilter("ì—‘ì…€ í†µí•© ë¬¸ì„œ(*.xlsx)","xlsx"));
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setMultiSelectionEnabled(false);
 		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
@@ -566,25 +566,25 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			String name = fc.getSelectedFile().getName();
 			
 			SortableTable table = ExcelConnector.readTableFromExcel(path);
-			if (_workspacePane.getDocument(path) != null) {	// ÀÌ¹Ì ÆÄÀÏÀÌ ¿­·ÁÀÖ´Â °æ¿ì
+			if (_workspacePane.getDocument(path) != null) {	// ì´ë¯¸ íŒŒì¼ì´ ì—´ë ¤ìˆëŠ” ê²½ìš°
 				_workspacePane.setActiveDocument(path);
-			} else {										// »õ·Î ¿©´Â °æ¿ì
+			} else {										// ìƒˆë¡œ ì—¬ëŠ” ê²½ìš°
 				final DocumentComponent document = new DocumentComponent(new JScrollPane(table), path, name, new ImageIcon(AnalyzerIconFactory.EXCEL));
 				document.setDefaultFocusComponent(table);
 				document.addDocumentComponentListener(new DocumentComponentAdapter() {
 					@Override
 					public void documentComponentClosing(DocumentComponentEvent e) {
-						int ret = JOptionPane.showConfirmDialog(_frame, "ÀúÀåÇÏ½Ã°Ú½À´Ï±î?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+						int ret = JOptionPane.showConfirmDialog(_frame, "ì €ì¥í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
 						if (ret == JOptionPane.YES_OPTION) {
-							// ÀúÀå
+							// ì €ì¥
 							document.setAllowClosing(true);
 						}
 						else if (ret == JOptionPane.NO_OPTION) {
-							// ÀúÀå¾ÈÇÔ
+							// ì €ì¥ì•ˆí•¨
 							document.setAllowClosing(true);
 						}
 						else if (ret == JOptionPane.CANCEL_OPTION) {
-							// Ãë¼Ò
+							// ì·¨ì†Œ
 							document.setAllowClosing(false);
 						}
 					}
@@ -595,19 +595,19 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	}
 
 	//========================================================
-	// »õ·Î¿î ÀÛ¾÷ ¿µ¿ª 
+	// ìƒˆë¡œìš´ ì‘ì—… ì˜ì—­ 
 	//========================================================
 	/************************************************
 	 * @date	: 2020. 4. 27.
-	 * @¼³¸í  	: ±âº»ÀûÀÎ ÃÊ±âÈ­¸¦ ¼öÇàÇÏ´Â ºÎºĞ   
-	 * @º¯°æÀÌ·Â 	: 
+	 * @ì„¤ëª…  	: ê¸°ë³¸ì ì¸ ì´ˆê¸°í™”ë¥¼ ìˆ˜í–‰í•˜ëŠ” ë¶€ë¶„   
+	 * @ë³€ê²½ì´ë ¥ 	: 
 	 ************************************************/
 
 	private void initialize() {
 		AnalyzerActionFactory.createInstance(this);		
 	}
 
-	protected Project currentProject;					// »õ·Î¿î ¶óÀÌºê·¯¸® Ãß°¡ ÇÊ¿ä!!
+	protected Project currentProject;					// ìƒˆë¡œìš´ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì¶”ê°€ í•„ìš”!!
 	private List<AnalyzerEventListener> listeners;
 
 	public Project getProject() {		
@@ -621,20 +621,20 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		}
 	}
 	public void setProject(final Project newProject) {
-		// ºĞ¼®¸Ş´º¿Í Å×½ºÆ® ÄÉÀÌ½º ¸Ş´º È°¼ºÈ­
+		// ë¶„ì„ë©”ë‰´ì™€ í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ë©”ë‰´ í™œì„±í™”
 		boolean menuEnabled = (newProject != null);
 		analyzeMenu.setEnabled(menuEnabled);
 		testCaseMenu.setEnabled(menuEnabled);
-		// ºĞ¼®ÆĞ³Î Æ®¸® È°¼ºÈ­
+		// ë¶„ì„íŒ¨ë„ íŠ¸ë¦¬ í™œì„±í™”
 		analysorTree.setVisible(menuEnabled);
 
 		if (null != currentProject) {
-			// singleton ÀÎ½ºÅÏ½ºÀÇ diposeÃ³¸®
+			// singleton ì¸ìŠ¤í„´ìŠ¤ì˜ diposeì²˜ë¦¬
 			EngineManager.disposeEngines();
 			SystemResourceManager.disposeResources();
 
 			// WindowListDialog.setWindowPath(null);
-			// È­¸é ¼±ÅÃÃ¢ º¯°æ.
+			// í™”ë©´ ì„ íƒì°½ ë³€ê²½.
 			WindowSelectDialog.setWindowPath(null);
 			TagListWindowDialog.setCurrentTagDictionary(null);
 		}
@@ -644,26 +644,26 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 		currentProject = newProject;
 		if (null != currentProject) {
-			// ½Ã½ºÅÛ ¸®¼Ò½º °ü¸®ÀÚ ÃÊ±âÈ­
+			// ì‹œìŠ¤í…œ ë¦¬ì†ŒìŠ¤ ê´€ë¦¬ì ì´ˆê¸°í™”
 			final SystemResourceManager resourceManager = SystemResourceManager
 					.createInstance(false);
 			resourceManager.addTopUI(this);
 			resourceManager.setProject(currentProject);
 
-			// ±âº» ¿£Áø(±×·çºñ) »ı¼º
+			// ê¸°ë³¸ ì—”ì§„(ê·¸ë£¨ë¹„) ìƒì„±
 			final EngineManager scriptEngineManager = EngineManager.createInstance(false);
 
-			// Á¤º¸ °£ÀÇ ¸µÅ©µÈ ¼Ó¼ºµéÀ» ÀÏ°ü¼º ÀÖ°Ô À¯Áö½ÃÄÑ ÁÖ±â À§ÇÑ °´Ã¼.
+			// ì •ë³´ ê°„ì˜ ë§í¬ëœ ì†ì„±ë“¤ì„ ì¼ê´€ì„± ìˆê²Œ ìœ ì§€ì‹œì¼œ ì£¼ê¸° ìœ„í•œ ê°ì²´.
 			newProject.enableLinker();
 
-			// TODO: ÀÌ ºÎºĞ È®ÀÎ ÇÊ¿ä
-			// È­¸é ¼±ÅÃ Ã¢ º¯°æ.
+			// TODO: ì´ ë¶€ë¶„ í™•ì¸ í•„ìš”
+			// í™”ë©´ ì„ íƒ ì°½ ë³€ê²½.
 			//WindowSelectDialog.setWindowPath(currentProject
 			//		.getWindowResourcePath());
 			//TagListWindowDialog.setCurrentTagDictionary(currentProject
 			//		.getTagDictionary());
 
-			// Workspace¿¡ ¿­·ÁÁø ÇÁ·ÎÁ§Æ® ³»¿ë ÀúÀå.
+			// Workspaceì— ì—´ë ¤ì§„ í”„ë¡œì íŠ¸ ë‚´ìš© ì €ì¥.
 			final HMIWorkspace workspace = HMIWorkspace.getInstance();
 			if (!workspace.isExist(currentProject)) {
 				workspace.addProject(currentProject);
@@ -671,7 +671,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			HMIWorkspace.getInstance().setStartProject(
 					currentProject.getProjectPath());
 			HMIWorkspace.getInstance().save();
-			_frame.setTitle(TITLE + " ¦¢ "+ currentProject.getProjectPath());
+			_frame.setTitle(TITLE + " â”‚ "+ currentProject.getProjectPath());
 		} else {
 			_frame.setTitle(TITLE);
 		}
@@ -690,7 +690,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	}
 
 	/**
-	 * Analyzer ÀÌº¥Æ® ¸®½º³Ê µî·Ï(ÇÁ·ÎÁ§Æ® º¯°æ ÀÌº¥Æ®)
+	 * Analyzer ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ë“±ë¡(í”„ë¡œì íŠ¸ ë³€ê²½ ì´ë²¤íŠ¸)
 	 * 
 	 * @param l
 	 */
@@ -708,7 +708,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		final int result = JOptionPane.showConfirmDialog(this, exitMessage,
 				exitTitle, JOptionPane.YES_NO_OPTION);
 		if (result == JOptionPane.YES_OPTION) {
-			System.exit(0);	// Á¾·á
+			System.exit(0);	// ì¢…ë£Œ
 		} else {
 			return;
 		}

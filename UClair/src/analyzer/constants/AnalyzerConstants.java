@@ -4,9 +4,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Analyzer Constants Å¬·¡½º
+ * Analyzer Constants í´ë˜ìŠ¤
  * 
- * @author ±è±âÅÂ
+ * @author ê¹€ê¸°íƒœ
  * 
  */
 public class AnalyzerConstants {
