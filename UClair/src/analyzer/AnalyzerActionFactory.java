@@ -157,10 +157,10 @@ public class AnalyzerActionFactory {
 	private Analyzer analyzer;
 	private Map<Integer, Action> actionMap;
 	
-	public static final void createInstance(Analyzer analyzer) {
+	public static final void createInstance(Analyzer initailize) {
 		
 		if (null == actionFactory) {
-			actionFactory = new AnalyzerActionFactory(analyzer);
+			actionFactory = new AnalyzerActionFactory(initailize);
 		}
 	}
 	
@@ -192,6 +192,11 @@ public class AnalyzerActionFactory {
 		switch (actionType) {
 		case EXIT:
 			action = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					analyzer.exitWithConfirm();

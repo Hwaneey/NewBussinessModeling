@@ -11,6 +11,11 @@ import javax.swing.tree.TreeModel;
 public class DefaultTree extends JTree
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Constructs a tree with the contact persons in the different countries.
 	 *
 	 */

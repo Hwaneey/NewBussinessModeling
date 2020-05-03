@@ -1,6 +1,5 @@
 package analyzer.action;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -8,9 +7,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 
-import com.jidesoft.swing.JideScrollPane;
 import com.naru.uclair.exception.ProjectNotLoadedException;
 import com.naru.uclair.project.Project;
 
@@ -105,17 +102,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			}
 		}
 	}
-
-
-
-
-	public static JScrollPane createScrollPane(Component component) {
-		JScrollPane pane = new JideScrollPane(component);
-		pane.setVerticalScrollBarPolicy(JideScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		return pane;
-	}
-	
-	
+		
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
