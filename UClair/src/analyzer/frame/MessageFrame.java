@@ -9,12 +9,14 @@ import com.jidesoft.docking.DockableFrame;
 
 import analyzer.icon.AnalyzerIconFactory;
 
-public class MessageFrame {
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 메시지 패널
 	 * @변경이력 	:
 	 *******************************/
+	
+public class MessageFrame {
+
 	protected static DockableFrame createMessageFrame() {
 		DockableFrame frame = AnalyzerMainFrame.createDockableFrame("메시지", new ImageIcon(AnalyzerIconFactory.MESSAGE));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
