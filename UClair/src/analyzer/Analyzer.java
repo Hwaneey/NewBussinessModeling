@@ -217,4 +217,32 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 		return null;
 	}
 	
+	/************************************************
+					VirtualTag
+	 ************************************************/
+
+
+	public void showWorkspace(final String key) {
+		// TODO Auto-generated method stub
+		if (null != workspacePane) {
+			final int index = workspacePane.indexOfTab(key);
+			if (-1 != index) {
+				
+				if (index != workspacePane.getSelectedIndex()) {
+					workspacePane.setSelectedIndex(index);
+				}
+			} else {
+				
+				final JComponent c = AnalyzerEditorFactory.getFactory()
+						.getEditor(key);
+				if (null != c) {
+					workspacePane.addTab(key, (Component) c);
+					workspacePane.setSelectedComponent((Component) c);
+				}
+			}
+		}
+	}
+	
+	
+	
 }
