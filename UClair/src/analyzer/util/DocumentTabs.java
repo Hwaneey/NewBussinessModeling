@@ -12,11 +12,13 @@ import com.jidesoft.document.IDocumentGroup;
 import com.jidesoft.swing.JideTabbedPane;
 
 import analyzer.frame.AnalyzerMainFrame;
+
 /*******************************
  * @date	: 2020. 4. 28.
- * @설명 		: 워크스페이스 문서탭
+ * @설명 		: 워크스페이스 문서탭 더블클릭시 전체화면
  * @변경이력 	:
  *******************************/
+
 public class DocumentTabs {
 	protected static JFrame _frame =  AnalyzerMainFrame._frame ;
 	protected static boolean  _autohideAll = false;

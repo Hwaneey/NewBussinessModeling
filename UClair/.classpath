@@ -69,5 +69,8 @@
 	<classpathentry kind="lib" path="naru2/UndecoratorBis.jar"/>
 	<classpathentry kind="lib" path="naru2/com.naru.common.jar"/>
 	<classpathentry kind="lib" path="naru2/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/vender/hotdraw/JHotDraw7.jar"/>
+	<classpathentry kind="lib" path="lib/vender/hotdraw/MRJAdapter.jar"/>
+	<classpathentry kind="lib" path="lib/vender/hotdraw/swing-layout.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

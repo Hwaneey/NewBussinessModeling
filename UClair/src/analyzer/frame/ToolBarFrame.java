@@ -13,7 +13,7 @@ public class ToolBarFrame {
 	/*******************************
 	 * @date	: 2020. 4. 28.
 	 * @설명 		: 툴바
-	 * @변경이력 	:
+	 * @변경이력 	: 아직사용 한함
 	 *******************************/
 	protected static CommandBar createToolBar() {
 		CommandBar commandBar = new CommandBar("ToolBar");

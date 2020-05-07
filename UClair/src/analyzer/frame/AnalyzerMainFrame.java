@@ -30,19 +30,19 @@ import analyzer.icon.AnalyzerIconFactory;
 import analyzer.menu.MenuBar;
 
 public class AnalyzerMainFrame {
-	
+
 	public static Analyzer _frame;
 	public static String _lastDirectory = ".";
 	public static final String TITLE = AnalyzerConstants.getString(AnalyzerConstants.ANALYZER_TITLE);
 	private static final String PROFILE_NAME = "UClair Analyzer";
-	private static WindowAdapter _windowListener;			// 창 종료시 클리어를 위한 리스너
-	public static DocumentPane _workspacePane;				// 워크스페이스 패널
-	public static JMenu analyzeMenu;						// 메뉴바 - 분석 
-	public static JMenu testCaseMenu;						// 메뉴바 - 테스트 케이스
+	private static WindowAdapter _windowListener; // 창 종료시 클리어를 위한 리스너
+	public static DocumentPane _workspacePane; // 워크스페이스 패널
+	public static JMenu analyzeMenu; // 메뉴바 - 분석
+	public static JMenu testCaseMenu; // 메뉴바 - 테스트 케이스
 	public static JMenuItem _redoMenuItem;
 	public static JMenuItem _undoMenuItem;
-	public static JTree analysorTree;						// 분석메뉴 트리
-	
+	public static JTree analysorTree; // 분석메뉴 트리
+
 	public static DefaultDockableBarDockableHolder showDemo(final boolean exit) {
 		_frame = new Analyzer(TITLE);
 		_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -60,52 +60,42 @@ public class AnalyzerMainFrame {
 				}
 			}
 		};
-		_frame.addWindowListener(_windowListener);
-		// 프로필 키 설정
-		_frame.getDockingManager().setProfileKey(PROFILE_NAME);
-		// 얇은 아웃라인 사용.
-		_frame.getDockingManager().setOutlineMode(DockingManager.FULL_OUTLINE_MODE);
-		// 툴바 추가
-		_frame.getDockableBarManager().setProfileKey(PROFILE_NAME);
-//		_frame.getDockableBarManager().addDockableBar(createToolBar());
-		// 메뉴 바 추가
-		JMenuBar menuBar = MenuBar.createMenuBar();
-		_frame.setJMenuBar(menuBar);
-		// 되돌리기 기억 횟수 지정
+		_frame.addWindowListener(_windowListener);   // 프로필 키 설정
+		_frame.getDockingManager().setProfileKey(PROFILE_NAME);  // 얇은 아웃라인 사용.
+		_frame.getDockingManager().setOutlineMode(DockingManager.FULL_OUTLINE_MODE);  // 툴바 추가
+		_frame.getDockableBarManager().setProfileKey(PROFILE_NAME);  
+		//_frame.getDockableBarManager().addDockableBar(createToolBar());    // 툴바 추가
+		JMenuBar menuBar = MenuBar.createMenuBar();   // 메뉴 바 추가
+		_frame.setJMenuBar(menuBar);  // 되돌리기 기억 횟수 지정
 		_frame.getDockingManager().setUndoLimit(10);
 		_frame.getDockingManager().addUndoableEditListener(new UndoableEditListener() {
 			public void undoableEditHappened(UndoableEditEvent e) {
-				//refreshUndoRedoMenuItems();
+	    // refreshUndoRedoMenuItems();
 			}
 		});
 		_frame.getDockingManager().beginLoadLayoutData();
-		_frame.getDockingManager().setInitSplitPriority(DockingManager.SPLIT_EAST_WEST_SOUTH_NORTH);
-		// 기본 도킹 프레임 추가 
-		// 메시지 프레임, 분석기 프레임
-		_frame.getDockingManager().addFrame(MessageFrame.createMessageFrame());
-		_frame.getDockingManager().addFrame(AnalyzerFrame.createAnalyzerFrame());
-		// 워크스페이스 문서탭 추가, 설정
+		_frame.getDockingManager().setInitSplitPriority(DockingManager.SPLIT_EAST_WEST_SOUTH_NORTH);  // 기본 도킹 프레임 추가 
+		_frame.getDockingManager().addFrame(MessageFrame.createMessageFrame());   // 메시지 프레임, 분석기 프레임
+		_frame.getDockingManager().addFrame(AnalyzerFrame.createAnalyzerFrame());   // 워크스페이스 문서탭 추가, 설정
 		_workspacePane = analyzer.util.DocumentTabs.createDocumentTabs();
 		_workspacePane.setTabbedPaneCustomizer(new DocumentPane.TabbedPaneCustomizer() {
-            public void customize(final JideTabbedPane tabbedPane) {
-                tabbedPane.setShowCloseButton(true);							
-                tabbedPane.setUseDefaultShowCloseButtonOnTab(false);			 
-                tabbedPane.setShowCloseButtonOnTab(true);
-            }
-        });
-		
+			public void customize(final JideTabbedPane tabbedPane) {
+				tabbedPane.setShowCloseButton(true);
+				tabbedPane.setUseDefaultShowCloseButtonOnTab(false);
+				tabbedPane.setShowCloseButtonOnTab(true);
+			}
+		});
+
 		_frame.getDockingManager().getWorkspace().setLayout(new BorderLayout());
-		_frame.getDockingManager().getWorkspace().add((Component) _workspacePane, BorderLayout.CENTER);
-		// 워크스페이스 영역에 도킹 허용하지 않기
+		_frame.getDockingManager().getWorkspace().add((Component) _workspacePane, BorderLayout.CENTER);  // 워크스페이스 영역에 도킹 허용하지 않기
 		_frame.getDockingManager().getWorkspace().setAcceptDockableFrame(false);
-		_frame.getDockingManager().getWorkspace().setAdjustOpacityOnFly(true);
-		// 이전 세션의 레이아웃 정보 로드 
+		_frame.getDockingManager().getWorkspace().setAdjustOpacityOnFly(true);  // 이전 세션의 레이아웃 정보 로드
 		_frame.getLayoutPersistence().loadLayoutData();
 		_frame.toFront();
-		
+
 		return _frame;
 	}
-	
+
 	private static void clearUp() {
 		_frame.removeWindowListener(_windowListener);
 		_windowListener = null;
@@ -115,30 +105,35 @@ public class AnalyzerMainFrame {
 		_frame.dispose();
 		_frame = null;
 	}
-	
 
 	/*******************************
-	 * @date	: 2020. 4. 28.
-	 * @설명 		: 도킹 프레임 생성
-	 * @변경이력 	:
+	 * @date : 2020. 4. 28.
+	 * @설명 : 도킹 프레임 생성
+	 * @변경이력 :
 	 *******************************/
 	protected static DockableFrame createDockableFrame(String key, Icon icon) {
 		DockableFrame frame = new DockableFrame(key, icon);
-		//frame.setPreferredSize(new Dimension(200, 200));
+		// frame.setPreferredSize(new Dimension(200, 200));
 		return frame;
 	}
 
 	/*******************************
-	 * @date	: 2020. 4. 28.
-	 * @설명 		: 클릭시 생성되는 테이블 패널 및 스크롤 기능
-	 * @변경이력 	:
+	 * @date : 2020. 4. 28.
+	 * @설명 : 클릭시 생성되는 테이블 패널 및 스크롤 기능
+	 * @변경이력 :
 	 *******************************/
-	protected static DockableFrame createOutputFrame(String key, String path) {
-		//dockMap.put(path, ExcelConnector.readTableFromExcel(path));
+	public static DockableFrame createOutputFrame(String key, String path) {
+		// dockMap.put(path, ExcelConnector.readTableFromExcel(path));
 		DockableFrame frame = createDockableFrame(key, new ImageIcon("../UClair/img/excel.png"));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_CENTER);
-		//frame.add(createScrollPane(dockMap.get(path)));
+		// frame.add(createScrollPane(dockMap.get(path)));
+		return frame;
+	}
+	public static DockableFrame createOutputFrame(String key) {
+		DockableFrame frame = createDockableFrame(key, new ImageIcon("../UClair/img/excel.png"));
+		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
+		frame.getContext().setInitSide(DockContext.DOCK_SIDE_CENTER);
 		return frame;
 	}
 
@@ -147,7 +142,5 @@ public class AnalyzerMainFrame {
 		pane.setVerticalScrollBarPolicy(JideScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		return pane;
 	}
-
-
 
 }

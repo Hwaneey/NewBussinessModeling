@@ -17,7 +17,7 @@ public class MenuBar {
 	
 	private static final Container container = AnalyzerMainFrame._frame;
 	private static JMenu fileMenu;								// 메뉴바 - 파일 
-	public static JMenu analyzeMenu;						// 메뉴바 - 분석 
+	public static JMenu analyzeMenu;							// 메뉴바 - 분석 
 	public static JMenu testCaseMenu;						// 메뉴바 - 테스트 케이스
 	private static JMenu helpMenu;							// 메뉴바 - 도움말
 	private static JMenu viewMenu;							// 메뉴바 - 뷰

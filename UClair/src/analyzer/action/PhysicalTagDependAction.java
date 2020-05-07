@@ -1,30 +1,62 @@
 package analyzer.action;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import javax.swing.Action;
+import javax.swing.JOptionPane;
 
 import analyzer.Analyzer;
+import analyzer.AnalyzerEditorFactory;
+import analyzer.analysis.tag.PhysicalDepend;
+import analyzer.constants.AnalyzerConstants;
+import analyzer.ui.physical.PhysicalTagDependAnalyzeResultView;
 
-public class PhysicalTagDependAction extends AbstractCommonAction implements PropertyChangeListener {
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 지이삭
+ * @설명  	: 존재하지않는 객체
+ * @변경이력 	: 
+ ************************************************/
+public class PhysicalTagDependAction extends AbstractProjectRelatedAction {
 
-	public PhysicalTagDependAction(Analyzer alayzer) {
-		super(alayzer);
-		setEnabled(true);
-		// TODO Auto-generated constructor stub
+	private static final long serialVersionUID = 1L;
+
+	// private PhysicalTagDependAnalyzeDialog analyzeDialog;
+
+	public PhysicalTagDependAction(Analyzer analyzer) {
+		super(analyzer);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("PhysicalTagDependAction");
-	}
+		Analyzer analyzer = getAnalyzer();
+		// if(null == analyzeDialog) {
+		// analyzeDialog = new PhysicalTagDependAnalyzeDialog(analyzer);
+		// }
+		// analyzeDialog.setLocationRelativeTo(analyzer);
+		// analyzeDialog.setVisible(true);
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
+		int returnType = JOptionPane.showConfirmDialog(analyzer,
+				AnalyzerConstants
+						.getString("PhysicalTagDependAction.confirm.message"),
+				AnalyzerConstants
+						.getString("PhysicalTagDependAction.confirm.title"),
+				JOptionPane.YES_NO_OPTION);
+		if (returnType == JOptionPane.YES_OPTION) {
+			if (null != getProject()) {
+				PhysicalDepend depend = new PhysicalDepend();
+				depend.analyzer(getProject().getTagDictionary());
+
+				PhysicalTagDependAnalyzeResultView editor = (PhysicalTagDependAnalyzeResultView) AnalyzerEditorFactory
+						.getFactory()
+						.getEditor(
+								AnalyzerEditorFactory.PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
+				if (null != editor) {
+					((PhysicalTagDependAnalyzeResultView) editor)
+							.setPhysicalDepend(depend);
+				}
+			}
+	
+		}
 
 	}
 

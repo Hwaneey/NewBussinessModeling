@@ -7,9 +7,12 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
+import com.naru.common.ui.NormalProgressWindow;
 import com.naru.uclair.exception.ProjectNotLoadedException;
 import com.naru.uclair.project.Project;
+import com.naru.uclair.project.ProjectLoader;
 
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
@@ -18,6 +21,13 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 
 	private static final long serialVersionUID = 1L;
 
+	
+	private NormalProgressWindow progressWindow = null;
+
+	private String FILE_LOAD_MSG = AnalyzerConstants
+			.getString("ProjectLoadAction.Load.File");
+	private String DATABASE_LOAD_MSG = AnalyzerConstants
+			.getString("ProjectLoadAction.Load.DB");
 	/**
 	 * folder chooser로 선택된 프로젝트 폴더.
 	 */
@@ -63,7 +73,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 
 					switch (close) {
 					case JOptionPane.YES_OPTION:
-						//getAnalyzer().saveProject();
+//						getAnalyzer().saveProject();
 						openAccept = true;
 						break;
 					case JOptionPane.NO_OPTION:
@@ -78,26 +88,39 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			
 			if (openAccept) {
 				getAnalyzer().closeProject();
-				Project p = null;
-				try {
-					p = new Project(selectedFolder.toURI(),
-							ProjectLoadAction.this);
-					System.out.println("파일 로드 성공");
-					{
-						
-					}
-					
-					
-				} catch (ProjectNotLoadedException e1) {
-					JOptionPane.showMessageDialog(getAnalyzer(), 
-							e1.getMessage(), AnalyzerConstants
-							.getString("ProjectLoadAction.Load.Fail"),
-							JOptionPane.ERROR_MESSAGE);					
-					System.out.println("파일 로드 실패");
-
+				if (null == progressWindow) {
+					progressWindow = new NormalProgressWindow(getAnalyzer());
+					progressWindow.setModal(true);
+					progressWindow.setText(AnalyzerConstants
+							.getString("ProjectLoadAction.Load.Ready"));
+				} else {
+					progressWindow.setProgress(0);
+					progressWindow.setText(AnalyzerConstants
+							.getString("ProjectLoadAction.Load.Ready"));
 				}
-				Analyzer a = getAnalyzer();
-				a.setProject(p);
+				progressWindow.setLocationRelativeTo(getAnalyzer());
+
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						Project p = null;
+						try {
+							p = new Project(selectedFolder.toURI(),
+									ProjectLoadAction.this);
+						} catch (ProjectNotLoadedException e) {
+							JOptionPane.showMessageDialog(getAnalyzer(), e
+									.getMessage(), AnalyzerConstants
+									.getString("ProjectLoadAction.Load.Fail"),
+									JOptionPane.ERROR_MESSAGE);
+							progressWindow.dispose();
+						}
+						getAnalyzer().setProject(p);
+						return null;
+					}
+				};
+				worker.execute();
+				;
+				progressWindow.setVisible(true);
 				System.out.println("ProjectLoadAction 오류 없음");
 			}
 		}
@@ -106,7 +129,42 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
+		String propertyName = evt.getPropertyName();
 
+		if (ProjectLoader.PROJECT_LOAD_FILE.equals(propertyName)) {
+			String msg = (String) evt.getOldValue();
+			int progress = (((Integer) evt.getNewValue()) * 100)
+					/ ProjectLoader.PROJECT_INFO_COUNT;
+			progressWindow.setText(String.format(FILE_LOAD_MSG, msg, progress)
+					+ "%");
+			progressWindow.setProgress(progress);
+
+			if (ProjectLoader.SAVE_LOAD_COMPLETE.equals(msg)) {
+				progressWindow.setText(AnalyzerConstants
+						.getString("ProjectLoadAction.Load.Complete"));
+				// JOptionPane.showMessageDialog(getAnalyzer(),
+				// ConstantsResource
+				// .getString("ProjectLoadAction.Load.Complete"));
+				progressWindow.dispose();
+			}
+		} else if (ProjectLoader.PROJECT_LOAD_DB.equals(propertyName)) {
+			String msg = (String) evt.getOldValue();
+			int progress = (((Integer) evt.getNewValue()) * 100)
+					/ ProjectLoader.PROJECT_INFO_COUNT;
+			progressWindow.setText(String.format(DATABASE_LOAD_MSG, msg,
+					progress)
+					+ "%");
+			progressWindow.setProgress(progress);
+
+			if (ProjectLoader.SAVE_LOAD_COMPLETE.equals(msg)) {
+				progressWindow.setText(AnalyzerConstants
+						.getString("ProjectLoadAction.Load.Complete"));
+				// JOptionPane.showMessageDialog(getAnalyzer(),
+				// ConstantsResource
+				// .getString("ProjectLoadAction.Load.Complete"));
+				progressWindow.dispose();
+			}
+		}
 	}
 
 }

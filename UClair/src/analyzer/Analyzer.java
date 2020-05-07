@@ -5,17 +5,21 @@ package analyzer;
  * Copyright 2002 - 2003 JIDE Software. All rights reserved.
  */
 
+import java.awt.Component;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.jidesoft.action.DefaultDockableBarDockableHolder;
 import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.swing.JideTabbedPane;
+import analyzer.AnalyzerEditorFactory;
 import com.naru.uclair.common.SystemResourceManager;
 import com.naru.uclair.draw.util.WindowSelectDialog;
 import com.naru.uclair.project.Project;
@@ -35,16 +39,13 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private void Analyzer(JFrame frame, int j) {
+	private JideTabbedPane workspacePane;
 
-	}
 
 	public Analyzer(JFrame frame) {
 		super();
 		listeners = Collections.synchronizedList(new ArrayList<AnalyzerEventListener>());
 		initialize();
-		Analyzer(frame, 1);
 	}
 
 	public enum Analysis_Selector {
@@ -79,6 +80,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	private void initialize() {
 		AnalyzerActionFactory.createInstance(this);		
+		AnalyzerEditorFactory.createInstance(this);
 	}
 
 	protected Project currentProject;					// 새로운 라이브러리 추가 필요!!
@@ -190,4 +192,29 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			return;
 		}
 	}
+	
+	public JComponent getEditor(final String key) {
+		if (null != workspacePane) {
+
+			final int index = workspacePane.indexOfTab(key);
+			if (-1 != index) {
+				if (index != workspacePane.getSelectedIndex()) {
+					final JComponent c = (JComponent) workspacePane
+							.getComponentAt(index);
+					return c;
+				}
+			} else {
+				// editor 占쌩곤옙.
+				final JComponent c = AnalyzerEditorFactory.getFactory()
+						.getEditor(key);
+				if (null != c) {
+					workspacePane.addTab(key, (Component) c);
+					workspacePane.setSelectedComponent((Component) c);
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+	
 }

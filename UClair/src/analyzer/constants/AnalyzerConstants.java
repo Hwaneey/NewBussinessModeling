@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package analyzer.constants;
 
 import java.util.MissingResourceException;
