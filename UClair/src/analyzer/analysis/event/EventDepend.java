@@ -1,7 +1,6 @@
 package analyzer.analysis.event;
 
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +11,16 @@ import com.naru.uclair.event.EventGroupList;
 import com.naru.uclair.project.EventDictionary;
 import com.naru.uclair.tag.Tag;
 
+/** @date	: 2020. 5.07.
+* @책임자 : 지한별
+* @설명  	: 이벤트 종속성 eventdepend 클래스.
+* @변경이력 	: **/
+
 public class EventDepend {
 	/**
-	 * �����ּ� ���Ӽ� ��庰 Map ����
-	 * key:����
-	 * value:�����ּ� ��庰 ����
+	 * 물리주소 종속성 노드별 Map 정보
+	 * key:노드명
+	 * value:물리주소 노드별 정보
 	 */
 	private Map<String, EventGroupDepend> physicalMap;
 	
@@ -25,7 +29,7 @@ public class EventDepend {
 	}
 	
 	/**
-	 * �̺�Ʈ �������� ���ۼ� ���θ� �м��Ѵ�.
+	 * 이벤트 사전에서 종송석 여부를 분석한다.
 	 * @param eventDictionary
 	 */
 	public void analyzer(EventDictionary eventDictionary) {
@@ -40,8 +44,8 @@ public class EventDepend {
 	}
 		
 	/**
-	 * ��ü �̺�Ʈ�� ���� ������ ��ȯ�Ѵ�.
-	 * �̺�Ʈ ���Ӽ� �м��� ���̺� ǥ���� �����̴�.
+	 * 전체 이벤트에 대한 정보를 반환한다.
+	 * 이벤트 종속성 분석의 테이블에 표시할 내용이다.
 	 * @return
 	 */
 	public List<EventTagDepend> getEventTagDepend() {
@@ -104,7 +108,7 @@ public class EventDepend {
 //		List<DataTag> tagList = eventDictionary.getAllNoneSystemDataTags();
 //		for(DataTag tag : tagList) {
 //			if(tag.isHardwareTag()) {
-////				System.out.println("����̽� �±��Դϴ�. - �±�Ű : " + tag.getKey());
+////				System.out.println("디바이스 태그입니다. - 태그키 : " + tag.getKey());
 //				PhysicalTagDepend physicalTagDepend = physicalMap.get(tag.getNode());
 //				if(null == physicalTagDepend) {
 //					physicalTagDepend = new PhysicalTagDepend(tag.getNode(), tag.getDeviceAdapter().getDeviceName());
@@ -113,7 +117,7 @@ public class EventDepend {
 //				physicalTagDepend.analyzer(tag);
 //			}
 ////			else {
-////				System.out.println("���� �±� �Ǵ� �׷��±� �Դϴ�. - �±�Ű : " + tag.getKey());
+////				System.out.println("가상 태그 또는 그룹태그 입니다. - 태그키 : " + tag.getKey());
 ////			}
 //			
 //		}

@@ -51,11 +51,6 @@
 	<classpathentry kind="lib" path="lib/lucene-core-4.10.2.jar"/>
 	<classpathentry kind="lib" path="lib/lucene-queryparser-4.10.2.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-3.7.4-swing.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.17.jar"/>
-	<classpathentry kind="lib" path="lib/poi-4.1.2.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-4.1.2.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-4.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/SparseBitSet-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-dep-1.4.jar"/>
@@ -72,5 +67,8 @@
 	<classpathentry kind="lib" path="lib/vender/hotdraw/JHotDraw7.jar"/>
 	<classpathentry kind="lib" path="lib/vender/hotdraw/MRJAdapter.jar"/>
 	<classpathentry kind="lib" path="lib/vender/hotdraw/swing-layout.jar"/>
+	<classpathentry kind="lib" path="lib/poi-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-4.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-4.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,31 +1,38 @@
 package analyzer.action;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import javax.swing.Action;
+import javax.swing.JOptionPane;
 
 import analyzer.Analyzer;
+import analyzer.analysis.io.excel.IOTest;
+import analyzer.constants.AnalyzerConstants;
 
-public class IOTestSheetExportAction extends AbstractCommonAction implements PropertyChangeListener {
-
-	public IOTestSheetExportAction(Analyzer alayzer) {
-		super(alayzer);
-		setEnabled(true);
-		// TODO Auto-generated constructor stub
+public class IOTestSheetExportAction extends AbstractProjectRelatedAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public IOTestSheetExportAction(Analyzer dev) {
+		super(dev);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("IOTestSheetExportAction");
-	}
+	public void actionPerformed(ActionEvent arg0) {
+		Analyzer analyzer = getAnalyzer();
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
+		int returnType = JOptionPane.showConfirmDialog(analyzer,
+				AnalyzerConstants
+						.getString("IOTestSheetExportAction.confirm.message"),
+				AnalyzerConstants
+						.getString("IOTestSheetExportAction.confirm.title"),
+				JOptionPane.YES_NO_OPTION);
+		if (returnType == JOptionPane.YES_OPTION) {
+			IOTest testSheet = new IOTest();
+			testSheet.analyzer(analyzer.getProject().getTagDictionary());
+			testSheet.exportExcel(analyzer);
+		}
 	}
 
 }

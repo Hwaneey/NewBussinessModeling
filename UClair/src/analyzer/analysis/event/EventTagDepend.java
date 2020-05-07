@@ -11,20 +11,18 @@ import com.naru.uclair.event.TimeDrivenEvent;
 import com.naru.uclair.tag.Tag;
 import com.naru.uclair.util.TagListWindowDialog;
 
-/**
- * 
- * ���:�̺�Ʈ ���Ӽ� ������ ����ִ� Ŭ����
- * ����:
- * @author parksungsoo
- *
- */
+/** @date	: 2020. 5.07.
+* @책임자 : 지한별
+* @설명  	: 이벤트 종속성 정보를 담고있는 클래스
+* @변경이력 	: **/
+
 public class EventTagDepend {
 	/**
-	 * ��� ���̵�
+	 * 노드 아이디
 	 */
 	private String nodeId = null;
 	/**
-	 * ����̽� ���̵�
+	 * 디바이스 아이디
 	 */
 	private String eventName = null;
 	private String conditionTag = null;
@@ -32,9 +30,9 @@ public class EventTagDepend {
 	
 	
 	/**
-	 * �ּ����� ����Ʈ
-	 * key:�ּ�
-	 * value:�±� ����Ʈ
+	 * 주소정보 리스트
+	 * key:주소
+	 * value:태그 리스트
 	 */
 //	private Map<String, List<Tag>> tagListMap = null;
 	private List<Tag> virtualTagList = null;
@@ -42,9 +40,9 @@ public class EventTagDepend {
 	
 	private String tagString = null;
 	/**
-	 * ��� ���̵�� ����̽� ���̵� �⺻ �����Ѵ�.
-	 * @param nodeId ��� ���̵�
-	 * @param deviceId ����̽� ���̵�
+	 * 노드 아이디와 디바이스 아이디를 기본 설정한다.
+	 * @param nodeId 노드 아이디
+	 * @param deviceId 디바이스 아이디
 	 */
 	public EventTagDepend(String nodeId, String eventName) {
 		init();
@@ -54,14 +52,14 @@ public class EventTagDepend {
 	}
 	
 	/**
-	 * �⺻ ������
+	 * 기본 생성자
 	 */
 	public EventTagDepend() {
 		init();
 	}
 	
 	/**
-	 * ������ �ʱ�ȭ �Ѵ�.
+	 * 정보를 초기화 한다.
 	 */
 	private void init() {
 		virtualTagList = new ArrayList<Tag>();
@@ -69,8 +67,8 @@ public class EventTagDepend {
 	}
 	
 	/**
-	 * �����±� ���ۼ� ����� ����, ���� �±� ����Ʈ�� �з��Ͽ����Ƿ�
-	 * �ش� �̺�Ʈ���� ���� �±׸� ��ȯ�� ��쿡�� ����, ���� �±� ����Ʈ�� ���ļ� ��ȯ�Ѵ�.
+	 * 가상태그 종송성 관계로 물리, 가상 태그 리스트로 분류하였으므로
+	 * 해당 이벤트에서 사용된 태그를 반환할 경우에는 가상, 물리 태그 리스트를 합쳐서 반환한다.
 	 * @return
 	 */
 	public List<Tag> getTags() {
@@ -122,7 +120,7 @@ public class EventTagDepend {
 				returnString = returnString.substring(returnString.indexOf("\"") + 1, returnString.length());
 				returnString = returnString.substring(0, returnString.indexOf("\"") );
 				Tag tag = TagListWindowDialog.getTag(returnString);
-				// �����±� ����
+				// 물리태그 여부
 				if(null != tag) {
 					if(tag.isHardwareTag()) {
 						if(!physicalTagList.contains(tag)) {
@@ -155,7 +153,7 @@ public class EventTagDepend {
 	}
 	
 	/**
-	 * �����±� ���Ӽ����� ����ϴ� �±׸� ��ȯ�Ѵ�.
+	 * 가상태그 종속성에서 사용하는 태그를 반환한다.
 	 * @param tagKey
 	 * @return
 	 */
@@ -170,8 +168,8 @@ public class EventTagDepend {
 		}
 		
 		if(!check) {
-			// ��ũ��Ʈ�� ���� �±װ� ���� ���, ���� �±׿� ���� �±׵� �˻��Ͽ� Ȯ���Ѵ�.
-			// check = true �� ��쿡�� Ȯ������ �ʰ�, �����±� ���θ� Ȯ���Ͽ� ���� ����Ʈ�� �߰��Ͽ� ��ȯ�Ѵ�.
+			// 스크립트에 사용된 태그가 없을 경우, 조건 태그와 보류 태그도 검사하여 확인한다.
+			// check = true 일 경우에는 확인하지 않고, 물리태그 여부를 확인하여 리턴 리스트에 추가하여 반환한다.
 			if(StringUtils.equals(tagKey, inhibitTagName)) {
 				check = true;
 			}
@@ -190,7 +188,7 @@ public class EventTagDepend {
 	}
 	
 	/**
-	 * �Ķ���ͷ� �־��� �±װ� �����±��� ��� �Ķ���ͷ� �־��� ����Ʈ�� �±׸� �߰��ϴ� �޼ҵ�
+	 * 파라미터로 주어진 태그가 물리태그일 경우 파라미터로 주어진 리스트에 태그를 추가하는 메소드
 	 * @param tagKey
 	 * @param returnList
 	 */
@@ -236,7 +234,7 @@ public class EventTagDepend {
 	}
 
 	/**
-	 * �̺�Ʈ���� ���� ��� �±׸� ���ڿ� ���·� ��ȯ�Ѵ�.
+	 * 이벤트에서 사용된 모든 태그를 문자열 형태로 반환한다.
 	 */
 	public void analyzerToString() {
 		for(Tag tag : virtualTagList) {

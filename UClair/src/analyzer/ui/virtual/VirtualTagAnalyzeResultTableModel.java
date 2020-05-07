@@ -12,30 +12,21 @@ import com.naru.uclair.tag.ITagConstants;
 import com.naru.uclair.tag.ItemDeviceAdapter;
 import com.naru.uclair.tag.MapDeviceAdapter;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.virtual.VirtualTagAnalyzeResultTableModel.java
- * DESC   : °¡»óÅÂ±× Á¾¼Ó¼º ºĞ¼® °á°ú Ç¥½Ã TableModel Å¬·¡½º.
- *
- * references : ¼³°è¼­ NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @ì±…ì„ì : ë°•ë³´ë¯¸
+ * @ì„¤ëª…  	:  ê°€ìƒíƒœê·¸ ì¢…ì†ì„± ë¶„ì„ ê²°ê³¼ í‘œì‹œ TableModel í´ë˜ìŠ¤.
+ * @ë³€ê²½ì´ë ¥ 	: 
+ ************************************************/
+
 public class VirtualTagAnalyzeResultTableModel extends AbstractTableModel {
 
 	/**
-	 * 0: ÅÂ±×¸í
-	 * 1: ³ëµå¸í
-	 * 2: µ¥ÀÌÅÍ Çü½Ä
-	 * 3: Àåºñ¸í
-	 * 4: ¿µ¿ª
+	 * 0: íƒœê·¸ëª…
+	 * 1: ë…¸ë“œëª…
+	 * 2: ë°ì´í„° í˜•ì‹
+	 * 3: ì¥ë¹„ëª…
+	 * 4: ì˜ì—­
 	 */
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames = {AnalyzerConstants.getString("VirtualTagAnalyzeResultTableModel.ColumnName.Event"),

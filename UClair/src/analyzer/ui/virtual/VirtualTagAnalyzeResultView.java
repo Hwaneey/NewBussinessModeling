@@ -23,7 +23,7 @@ import analyzer.analysis.virtual.VirtualDepend;
 /************************************************
  * @date	: 2020. 5.07.
  * @책임자 : 박보미
- * @설명  	: Virtual 태그 종속성 분석 결과 창 클래스
+ * @설명  	: 가상태그 종속성 분석 결과 표시 View.
  * @변경이력 	: 
  ************************************************/
 
@@ -45,7 +45,7 @@ public class VirtualTagAnalyzeResultView extends JPanel {
 	public VirtualTagAnalyzeResultView() {
 		
 		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "�������� �ʴ� �±� �м�");
+		final DocumentComponent document = new DocumentComponent(initializeUi(), "가상태그 종속성 분석");
         _workspacePane.openDocument(document);
 		
 	}

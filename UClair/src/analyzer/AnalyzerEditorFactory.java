@@ -12,6 +12,8 @@ import analyzer.constants.AnalyzerConstants;
 import analyzer.ui.dangling.DanglingTagAnalyzeResultView;
 //import analyzer.ui.dangling.DanglingTagAnalyzeResultView;
 import analyzer.ui.each.EachTagDependAnalyzeResultView;
+import analyzer.ui.effect.EffectCompatibilityAnalyzeResultView;
+import analyzer.ui.event.EventDependAnalyzeResultView;
 import analyzer.ui.linked.ObjectTagLinkAnalyzeResultView;
 import analyzer.views.projectinfo.ProjectInfoView;
 
@@ -19,6 +21,7 @@ import analyzer.views.projectinfo.ProjectInfoView;
 //import com.naru.uclair.analyzer.ui.event.EventDependAnalyzeResultView;
 import analyzer.ui.linked.ObjectTagLinkAnalyzeResultView;
 import analyzer.ui.physical.PhysicalTagDependAnalyzeResultView;
+import analyzer.ui.virtual.VirtualTagAnalyzeResultView;
 //import com.naru.uclair.analyzer.ui.script.ScriptSyntaxAnalyzeResultView;
 //import com.naru.uclair.analyzer.ui.virtual.VirtualTagAnalyzeResultView;
 import analyzer.views.projectinfo.ProjectInfoView;
@@ -110,24 +113,24 @@ public class AnalyzerEditorFactory {
 		else if(EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
 			resultView = new EachTagDependAnalyzeResultView();
 		}
-//		else if(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
-//			resultView = new VirtualTagAnalyzeResultView();
-//		}
+		else if(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			resultView = new VirtualTagAnalyzeResultView();
+		}
 		else if(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
 			resultView = new PhysicalTagDependAnalyzeResultView();
 		}
 		else if(OBJECT_TAG_LINK_RESULT_VIEW_KEY.equals(key)) {
 			resultView = new ObjectTagLinkAnalyzeResultView();
 		}
-//		else if(EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
-//			resultView = new EventDependAnalyzeResultView();
-//		}
+		else if(EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			resultView = new EventDependAnalyzeResultView();
+		}
 //		else if(SCRIPT_SYNTAX_RESULT_VIEW_KEY.equals(key)) {
 //			resultView = new ScriptSyntaxAnalyzeResultView();
 //		}
-//		else if(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY.equals(key)) {
-//			resultView = new EffectCompatibilityAnalyzeResultView();
-//		}
+		else if(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY.equals(key)) {
+			resultView = new EffectCompatibilityAnalyzeResultView();
+		}
 		else {
 			if (HmiVMOptions.isDebug()) {
 				System.out.println(key + " is not exist in editor factory"); //$NON-NLS-1$

@@ -1,7 +1,6 @@
 package analyzer.analysis.event;
 
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,29 +12,34 @@ import com.naru.uclair.event.EventGroupList;
 import com.naru.uclair.event.IHMIEvent;
 import com.naru.uclair.tag.Tag;
 
+/** @date	: 2020. 5.07.
+* @책임자 : 지한별
+* @설명  	: 이벤트 종속성 eventdepend 클래스.
+* @변경이력 	: **/
+
 public class EventGroupDepend {
 	/**
-	 * ��� ���̵�
+	 * 노드 아이디
 	 */
 	private String nodeId = null;
 	
 	/**
-	 * �ּ����� ����Ʈ
-	 * key:�ּ�
-	 * value:�±� ����Ʈ
+	 * 주소정보 리스트
+	 * key:주소
+	 * value:태그 리스트
 	 */
 	private Map<String, EventTagDepend> eventListMap = null;
 	
 	
 	/**
-	 * �⺻ ������
+	 * 기본 생성자
 	 */
 	public EventGroupDepend() {
 		init();
 	}
 	
 	/**
-	 * ������ �ʱ�ȭ �Ѵ�.
+	 * 정보를 초기화 한다.
 	 */
 	private void init() {
 		eventListMap = new TreeMap<String, EventTagDepend>();
