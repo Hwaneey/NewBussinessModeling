@@ -1,6 +1,10 @@
+/**
+ * 
+ */
 package analyzer;
 
 import java.awt.event.ActionEvent;
+import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -9,11 +13,15 @@ import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.KeyStroke;
 
+import com.jidesoft.action.CommandBar;
+import com.naru.common.NaruAssert;
 import analyzer.action.DanglingTagAnalyzeAction;
 import analyzer.action.EachTagDependAnalyzeAction;
 import analyzer.action.EffectCompatibilityAnalyzeActioin;
+import analyzer.action.EmptyAction;
 import analyzer.action.EventDependAnalyzeAction;
 import analyzer.action.IOTestSheetExportAction;
 import analyzer.action.ObjectTagLinkAnalyzeAction;
@@ -25,12 +33,8 @@ import analyzer.action.ScriptSyntaxAnalyzeAction;
 import analyzer.action.VirtualTagDependAnalyzeAction;
 import analyzer.action.WindowTestSheetGenerateAction;
 
-
-
 /**
- * AnalyzerActionFactory Å¬·¡½º
- * 
- * @author ±è±âÅÂ
+ * @author ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
  */
 public class AnalyzerActionFactory {
@@ -53,7 +57,7 @@ public class AnalyzerActionFactory {
 	public static final int EVENT_TAG_DEPENDENCY_ANALYSIS = 504; // delegate
 																	// action
 	public static final int OBJECT_EFFECT_COMPATIBILITY_ANALYSIS = 505;
-	// °³º° ÅÂ±× Á¾¼Ó¼º ºÐ¼®
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Â±ï¿½ ï¿½ï¿½ï¿½Ó¼ï¿½ ï¿½Ð¼ï¿½
 	public static final int EACH_TAG_DEPENDENCY_ANALYSIS = 506;
 
 	public static final int SCRIPT_ANALYSIS = 510;
@@ -74,7 +78,7 @@ public class AnalyzerActionFactory {
 	public static final int SEARCH = 106;
 	public static final int SELECT_ALL = 107;
 
-	// WindowEditor °ü·Ã Action (Reserved)
+	// WindowEditor ï¿½ï¿½ï¿½ï¿½ Action (Reserved)
 	// 120 ~ 180
 
 	// View Menu Action
@@ -151,42 +155,108 @@ public class AnalyzerActionFactory {
 	private static ResourceBundle resource;
 
 	static {
-		// Resource Å×ÀÌºíÀ» ±¸ÃàÇÑ´Ù.
-		resource = ResourceBundle.getBundle("resources.analyzer_action", Locale.getDefault());
+		// Resource ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		resource = ResourceBundle.getBundle("resources.analyzer_action", Locale
+				.getDefault());
 	}
-	
-	private Analyzer analyzer;
-	private Map<Integer, Action> actionMap;
-	
+
 	public static final void createInstance(Analyzer analyzer) {
-		
+		NaruAssert.isNotNull(analyzer);
 		if (null == actionFactory) {
 			actionFactory = new AnalyzerActionFactory(analyzer);
 		}
 	}
-	
-	private AnalyzerActionFactory(Analyzer analyzer) {
-		this.analyzer = analyzer;
-		actionMap = new TreeMap<Integer, Action>();		
-	}
-	
+
 	public static AnalyzerActionFactory getFactory() {
 		return actionFactory;
 	}
-	
+
+	private Analyzer analyzer;
+	private Map<Integer, Action> actionMap;
+
+	/**
+	 * È°ï¿½ï¿½È­ï¿½ï¿½ Editorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Actionï¿½ï¿½ï¿½. È°ï¿½ï¿½È­ Editorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÎµÈ´ï¿½.
+	 */
+	// private Map<String, DelegateAction> delegateActionMap;
+	private Hashtable<String, CommandBar> commandBarTable;
+
+	private AnalyzerActionFactory(Analyzer analyzer) {
+		this.analyzer = analyzer;
+		actionMap = new TreeMap<Integer, Action>();
+		// delegateActionMap = new TreeMap<String, DelegateAction> ();
+	}
+
+	public String getName(String key) {
+		String name = key;
+		try {
+			name = resource.getString(key + NAME_POSTFIX);
+		} catch (MissingResourceException mre) {
+			System.out.println(key + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Name Resourceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		}
+
+		return name;
+	}
+
+	public int getMnemonic(String key) {
+		String s = null;
+		try {
+			s = resource.getString(key + MNEMONIC_POSTFIX);
+		} catch (MissingResourceException mre) {
+			System.out.println(key + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Mnemonic Resourceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		}
+
+		return ((null == s) || (s.length() == 0)) ? '\0' : s.charAt(0);
+	}
+
+	public String getTooltip(String key) {
+		String s = null;
+		try {
+			s = resource.getString(key + TOOLTIP_POSTFIX);
+		} catch (MissingResourceException mre) {
+			System.out.println(key + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Tooltip Resourceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		}
+
+		return s;
+	}
+
+	public KeyStroke getAccelerator(String key) {
+		KeyStroke stroke = null;
+		try {
+			String s = resource.getString(key + ACCELERATOR_POSTFIX);
+			stroke = KeyStroke.getKeyStroke(s);
+		} catch (MissingResourceException mre) {
+			System.out.println(key + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Accelerator Resourceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		}
+
+		return stroke;
+	}
+
+	private void configureAction(Action action, String key) {
+		action.putValue(Action.NAME, getName(key));
+		action.putValue(Action.MNEMONIC_KEY, getMnemonic(key));
+		action.putValue(Action.ACCELERATOR_KEY, getAccelerator(key));
+		action.putValue(Action.SHORT_DESCRIPTION, getTooltip(key));
+		action
+				.putValue(Action.LONG_DESCRIPTION,
+						"Context Sensitive Help Test.");
+		// ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		// action.putValue(Action.SMALL_ICON, getIcon(key));
+		// action.putValue(Action.LARGE_ICON_KEY, getLargeIcon(key));
+	}
+
 	public Action getAction(int actionType) {
-		// ÀÌ¹Ì »ý¼ºµÈ ActionÀº Å×ÀÌºí·Î ºÎÅÍ ¹ÝÈ¯.
+		// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Actionï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯.
 		if (actionMap.containsKey(actionType)) {
 			return actionMap.get(actionType);
 		}
 
 		Action action = null;
+
 		String key = null;
-		
 		try {
 			key = resource.getString(Integer.toString(actionType));
 		} catch (MissingResourceException mre) {
-			System.out.println(actionType + "¿¡ ´ëÇÑ resource°¡ Á¤ÀÇµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+			System.out.println(actionType + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ resourceï¿½ï¿½ ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.");
 			return null;
 		}
 
@@ -200,7 +270,7 @@ public class AnalyzerActionFactory {
 			};
 			configureAction(action, key);
 			break;
-		case OPEN_PROJECT:			
+		case OPEN_PROJECT:
 			action = new ProjectLoadAction(analyzer);
 			configureAction(action, key);
 			break;
@@ -213,106 +283,453 @@ public class AnalyzerActionFactory {
 			configureAction(action, key);
 			break;
 		case VIRTUAL_TAG_DEPENDENCY_ANALYSIS:
-			action = new VirtualTagDependAnalyzeAction(analyzer);
-			configureAction(action, key);
+			//action = new VirtualTagDependAnalyzeAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case PHYSICAL_ADRESS_DEPENDENCY_ANALYSIS:
-			action = new PhysicalTagDependAction(analyzer);
-			configureAction(action, key);
+			//action = new PhysicalTagDependAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case OBJECT_TAG_LINK_INFO_ANALYSIS:
-			action = new ObjectTagLinkAnalyzeAction(analyzer);
-			configureAction(action, key);
+			//action = new ObjectTagLinkAnalyzeAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case EVENT_TAG_DEPENDENCY_ANALYSIS:
-			action = new EventDependAnalyzeAction(analyzer);
-			configureAction(action, key);
+			//action = new EventDependAnalyzeAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case OBJECT_EFFECT_COMPATIBILITY_ANALYSIS:
-			action = new EffectCompatibilityAnalyzeActioin(analyzer);
-			configureAction(action, key);
+			//action = new EffectCompatibilityAnalyzeActioin(analyzer);
+			//configureAction(action, key);
 			break;
 		case EACH_TAG_DEPENDENCY_ANALYSIS:
-			action = new EachTagDependAnalyzeAction(analyzer);
-			configureAction(action, key);
+			//action = new EachTagDependAnalyzeAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case SCRIPT_ANALYSIS:
-			action = new ScriptSyntaxAnalyzeAction(analyzer);
-			configureAction(action, key);
+			//action = new ScriptSyntaxAnalyzeAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case IO_TEST_CASE_GENERATOR:
-			action = new IOTestSheetExportAction(analyzer);
-			configureAction(action, key);
+			//action = new IOTestSheetExportAction(analyzer);
+			//configureAction(action, key);
 			break;
 		case WINDOW_TEST_CASE_GENERATOR:
-			action = new WindowTestSheetGenerateAction(analyzer);
-			configureAction(action, key);
-			break;		
-		case PROJECT_INFO:			
-			action = new ProjectInfoAnalyzeAction(analyzer);
-			configureAction(action, key);			
-			break;		
+			//action = new WindowTestSheetGenerateAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case PAGE_SETUP:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.File.PAGE_SETUP));
+			break;
+		case PRINT_PREVIEW:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.File.PRINT_PREVIEW));
+			break;
+		case PRINT:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.File.PRINT));
+			break;
+
+		case SEARCH:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Edit.SEARCH));
+			break;
+		case SELECT_ALL:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_MENUBAR:
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_FILE_TOOLBAR:
+			// action = new ShowToolBarAction(developer,
+			// DeveloperCommandBarFactory.FILE_TOOL_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_EDIT_TOOLBAR:
+			// action = new ShowToolBarAction(developer,
+			// DeveloperCommandBarFactory.EDIT_TOOL_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_PROJECT_TOOLBAR:
+			// action = new ShowToolBarAction(developer,
+			// DeveloperCommandBarFactory.PROJECT_TOOL_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_TOOL_TOOLBAR:
+			// action = new ShowToolBarAction(developer,
+			// DeveloperCommandBarFactory.UTILITY_TOOL_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case SHOW_PROJECT_VIEW:
+			// action = new ShowDockableViewAction(developer,
+			// DeveloperDockableViewFactory.PROJECT_VIEW_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(
+			// AnalyzerIconFactory.System.PROJECT));
+			break;
+		case SHOW_TAG_VIEW:
+			// action = new ShowDockableViewAction(developer,
+			// DeveloperDockableViewFactory.TAG_VIEW_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(
+			// AnalyzerIconFactory.System.TAG_DIC));
+			break;
+		case SHOW_OUTLINE_VIEW:
+			// action = new ShowDockableViewAction(developer,
+			// DeveloperDockableViewFactory.OUTLINE_VIEW_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(
+			// AnalyzerIconFactory.Window.OUTLINE_VIEW));
+			break;
+		case SHOW_PROPERTY_VIEW:
+			// action = new ShowDockableViewAction(developer,
+			// DeveloperDockableViewFactory.PROPERTY_VIEW_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(
+			// AnalyzerIconFactory.Window.PROPERTY_VIEW));
+			break;
+		case SHOW_MESSAGE_VIEW:
+			// action = new ShowDockableViewAction(developer,
+			// DeveloperDockableViewFactory.MESSAGE_VIEW_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(
+			// AnalyzerIconFactory.Window.MESSAGE_VIEW));
+			break;
+		case PROJECT_INFO:
+			// action = new ProjectInformationEditAction(developer);
+			//action = new ShowProjectInfoEditorAction(analyzer, AnalyzerEditorFactory.PROJECT_INFO_EDITOR_KEY);
+			//action = new ProjectInfoAnalyzeAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.PROJECT));
+			break;
+		// case NETWORK_CONFIG:
+		// action = new EmptyAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory
+		// .System.NETWORK));
+		// break;
+		case NEW_NODE:
+			// action = new NodeCreateAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.NODE));
+			break;
+		case EDIT_NODE:
+			// action = new NodeEditAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case DELETE_NODE:
+			// action = new NodeDeleteAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Edit.DELETE));
+			break;
+		case TAG_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.TAG_EDITOR_KEY);
+//			action = new ShowEditorAction(analyzer, AnalyzerEditorFactory.TAG_INFO_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.TAG_DIC));
+			break;
+		// case NEW_TAG:
+		// action = new TagCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory
+		// .System.TAG_DIC));
+		// break;
+		// case EDIT_TAG:
+		// action = new TagEditAction(developer);
+		// configureAction(action, key);
+		// break;
+		// case DELETE_TAG:
+		// action = new TagDeleteAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Edit.DELETE));
+		// break;
+		case DEVICE_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.DEVICE_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.DEVICE_CFG));
+			break;
+		// case NEW_DEVICE:
+		// action = new DeviceCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.System.DEVICE));
+		// break;
+		// case EDIT_DEVICE:
+		// action = new DeviceEditAction(developer);
+		// configureAction(action, key);
+		// break;
+		// case DELETE_DEVICE:
+		// action = new DeviceDeleteAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Edit.DELETE));
+		// break;
+		case DATA_COLLECT_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.DATA_COLLECT_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.DATA_COLLECT_CFG));
+			break;
+		// case NEW_DATACOLLECT:
+		// action = new CollectionCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.File.NEW));
+		// break;
+		// case EDIT_DATACOLLECT:
+		// action = new CollectionEditAction(developer);
+		// configureAction(action, key);
+		// break;
+		// case DELETE_DATACOLLECT:
+		// action = new CollectionDeleteAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Edit.DELETE));
+		// break;
+		case EVENT_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.EVENT_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.EVENT_DIC));
+			break;
+		// case NEW_EVENT:
+		// action = new EventCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory
+		// .System.EVENT_DIC));
+		// break;
+		// case EDIT_EVENT:
+		// action = new EventEditAction(developer);
+		// configureAction(action, key);
+		// break;
+		// case DELETE_EVENT:
+		// action = new EventDeleteAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Edit.DELETE));
+		// break;
+		// case DATABASE_CONFIG:
+		// action = new EmptyAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory
+		// .System.DATABASE_CFG));
+		// break;
+		case NEW_DATABASE:
+			// action = new DatabaseCreateAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.File.NEW));
+			break;
+		case EDIT_DATABASE:
+			// action = new DatabaseEditAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case DELETE_DATABASE:
+			// action = new DatabaseDeleteAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Edit.DELETE));
+			break;
+		case USER_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.USER_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.SECURITY_CFG));
+			break;
+		// case NEW_USER:
+		// action = new UserCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.System.USER));
+		// break;
+		// case EDIT_USER:
+		// action = new UserEditAction(developer);
+		// configureAction(action, key);
+		// break;
+		// case DELETE_USER:
+		// action = new UserDeleteAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Edit.DELETE));
+		// break;
+		case SCRIPT_CONFIG:
+			// action = new ShowEditorAction(developer,
+			// DeveloperEditorFactory.SCRIPT_EDITOR_KEY);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.SCRIPT_DIC));
+			break;
+		// case NEW_SCRIPT:
+		// action = new ScriptCreateAction(developer);
+		// configureAction(action, key);
+		// action.putValue(Action.SMALL_ICON,
+		// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory
+		// .System.SCRIPT_DIC));
+		// break;
+		// case EDIT_SCRIPT:
+		// // TODO
+		// break;
+		// case DELETE_SCRIPT:
+		// // TODO
+		// break;
+		case ALARM_GROUP_CONFIG:
+			// action = new ShowAlarmManagerAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.System.ALARM));
+			break;
+		case ALARM_UMS_CONFIG:
+			// action = new ShowUMSOperationAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			break;
+		case NEW_ALARMGROUP:
+			break;
+		case EDIT_ALARMGROUP:
+			break;
+		case DELETE_ALARMGROUP:
+			break;
+		case VALIDATE:
+			// action = new DelegateAction();
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Util.WINDOW_CHECK));
+			break;
+		case DEPLOY:
+			// action = new DeployAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Util.DEPLOY));
+			break;
+		case HELP_CONTENTS:
+			// action = new HelpContentsAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon(AnalyzerIconFactory.Help.HELP));
+			break;
+		case HELP_ABOUT_EDITOR:
+			// action = new DelegateAction();
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Help.HELP_EDITOR));
+			break;
+		case HELP_ABOUT:
+			// action = new AboutDeveloperAction(developer);
+			//action = new EmptyAction(analyzer);
+			//configureAction(action, key);
+			// action.putValue(Action.SMALL_ICON,
+			// AnalyzerIconFactory.getImageIcon
+			// (AnalyzerIconFactory.Help.HELP_ABOUT));
+			break;
 		default:
 			// do nothing.
 		}
 
 		if (null != action) {
-			actionMap.put(actionType, action);	
+			actionMap.put(actionType, action);
+			// if (action instanceof DelegateAction) {
+			// delegateActionMap.put(Integer.toString(actionType),
+			// (DelegateAction) action);
+			// }
 		}
 
 		return action;
 	}
-	
-	private void configureAction(Action action, String key) {
-		action.putValue(Action.NAME, getName(key));
-		action.putValue(Action.MNEMONIC_KEY, getMnemonic(key));
-		action.putValue(Action.ACCELERATOR_KEY, getAccelerator(key));
-		action.putValue(Action.SHORT_DESCRIPTION, getTooltip(key));
-		action.putValue(Action.LONG_DESCRIPTION,"Context Sensitive Help Test.");
-	}
-	
-	public String getName(String key) {
-		String name = key;
-		try {
-			name = resource.getString(key + NAME_POSTFIX);
-		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Name Resource°¡ ¾ø½À´Ï´Ù.");
+
+	public void mappingDelegator(ActionMap map) {
+		if (null != map.allKeys()) {
+			// for (Object key : delegateActionMap.keySet()) {
+			// DelegateAction action = delegateActionMap.get(key);
+			// if (map.get(key) != null) {
+			// action.setDelegateAction(map.get(key));
+			// }
+			// else {
+			// action.setDelegateAction(null);
+			// }
+			// }
 		}
 
-		return name;
-	}
-	
-	public int getMnemonic(String key) {
-		String s = null;
-		try {
-			s = resource.getString(key + MNEMONIC_POSTFIX);
-		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Mnemonic Resource°¡ ¾ø½À´Ï´Ù.");
-		}
-
-		return ((null == s) || (s.length() == 0)) ? '\0' : s.charAt(0);
+		// PageSetupActionï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ Editorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		//PageSetupAction.getAction().setEditor(getDeveloper().getActiveEditor()
+		// );
 	}
 
-	public String getTooltip(String key) {
-		String s = null;
-		try {
-			s = resource.getString(key + TOOLTIP_POSTFIX);
-		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Tooltip Resource°¡ ¾ø½À´Ï´Ù.");
-		}
-
-		return s;
-	}
-
-	public KeyStroke getAccelerator(String key) {
-		KeyStroke stroke = null;
-		try {
-			String s = resource.getString(key + ACCELERATOR_POSTFIX);
-			stroke = KeyStroke.getKeyStroke(s);
-		} catch (MissingResourceException mre) {
-			System.out.println(key + "¿¡ ´ëÇÑ Accelerator Resource°¡ ¾ø½À´Ï´Ù.");
-		}
-
-		return stroke;
+	public Analyzer getDeveloper() {
+		return analyzer;
 	}
 }

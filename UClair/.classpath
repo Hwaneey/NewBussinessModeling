@@ -69,5 +69,6 @@
 	<classpathentry kind="lib" path="naru2/UndecoratorBis.jar"/>
 	<classpathentry kind="lib" path="naru2/com.naru.common.jar"/>
 	<classpathentry kind="lib" path="naru2/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/JHotDraw7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
