@@ -3,10 +3,13 @@ package analyzer.views.projectinfo;
 import java.awt.BorderLayout;
 import java.util.Iterator;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.jidesoft.document.DocumentComponent;
+import com.jidesoft.document.DocumentPane;
 import com.naru.uclair.alarm.AlarmGroup;
 import com.naru.uclair.collection.AlarmDataCollection;
 import com.naru.uclair.collection.ChangeDataCollection;
@@ -41,22 +44,27 @@ import com.naru.uclair.tag.GroupTag;
 import com.naru.uclair.tag.StringTag;
 import com.naru.uclair.tag.Tag;
 
+import analyzer.frame.AnalyzerMainFrame;
+
 public class ProjectInfoView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
 	private JTextArea systemOutTextArea;
 
-	private void initialize() {
+	private JComponent initialize() {
 		this.setLayout(new BorderLayout());
 		systemOutTextArea = new JTextArea();
 		systemOutTextArea.setEditable(false);
 
-		this.add(new JScrollPane(systemOutTextArea), BorderLayout.CENTER);
+		return new JScrollPane(systemOutTextArea);
 	}
 
 	public ProjectInfoView(String key) {
 		initialize();
+
+		final DocumentComponent document = new DocumentComponent(initialize(), "프로젝트 정보분석");
+		_workspacePane.openDocument(document);
 	}
 
 	public void appendText(String message) {
