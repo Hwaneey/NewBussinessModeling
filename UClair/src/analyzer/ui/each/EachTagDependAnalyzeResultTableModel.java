@@ -7,23 +7,13 @@ import javax.swing.table.AbstractTableModel;
 import analyzer.analysis.each.EachTagDependResult;
 import analyzer.constants.AnalyzerConstants;
 import com.naru.uclair.tag.ITagConstants;
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 개별 태그 종속성 분석 결과 표시 TableModel 클래스.
+ * @변경이력 	: 
+ ************************************************/
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.each.EachTagDependAnalyzeResultTableModel.java
- * DESC   : 개별 태그 종속성 분석 결과 표시 TableModel 클래스.
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
 public class EachTagDependAnalyzeResultTableModel extends AbstractTableModel {
 
 	/**

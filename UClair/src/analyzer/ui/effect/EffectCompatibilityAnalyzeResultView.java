@@ -17,22 +17,14 @@ import com.jidesoft.document.DocumentPane;
 import analyzer.analysis.effect.EffectCompatibilityResult;
 import analyzer.frame.AnalyzerMainFrame;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.effect.EffectCompatibilityAnalyzeResultView.java
- * DESC   : 객체 효과 양립성 분석 결과 표시 View.
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 객체 효과 양립성 분석 결과 표시 View.
+ * @변경이력 	: 
+ ************************************************/
+
 public class EffectCompatibilityAnalyzeResultView extends JPanel {
 
 	/**

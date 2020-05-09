@@ -29,9 +29,7 @@ import analyzer.analysis.virtual.VirtualDepend;
 
 public class VirtualTagAnalyzeResultView extends JPanel {
 
-	/**
-	 * ��ü ����ȭ ���� ���̵�.
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTable resultTable;
 	private VirtualTagAnalyzeResultTableModel tableModel;

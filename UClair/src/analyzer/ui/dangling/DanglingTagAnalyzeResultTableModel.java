@@ -7,26 +7,17 @@ import javax.swing.table.AbstractTableModel;
 import analyzer.analysis.dangling.DanglingTagResult;
 import analyzer.constants.AnalyzerConstants;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.dangling.DanglingTagAnalyzeResultTableModel.java
- * DESC   : �������� �ʴ� �±� �м� ��� ǥ�� TableModel Ŭ����.
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 장성현
+ * @설명  	:  존재하지 않는 태그 분석 결과 표시 TableModel 클래스
+ * @변경이력 	: 
+ ************************************************/
+
 public class DanglingTagAnalyzeResultTableModel extends AbstractTableModel {
 
 	/**
-	 * ��ü ����ȭ ���� ���̵�.
+	 * 객체 직렬화 버전 아이디.
 	 */
 	private static final long serialVersionUID = 1L;
 	

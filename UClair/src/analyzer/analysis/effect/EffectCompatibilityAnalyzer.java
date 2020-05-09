@@ -25,22 +25,13 @@ import com.naru.uclair.draw.figure.HMIGroupFigure;
 import com.naru.uclair.project.Project;
 import com.naru.uclair.util.HmiVMOptions;
 
-/**
- *
- * <pre>
- * NAME   : 
- * DESC   : 
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 28.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 효과 양립성 분석 
+ * @변경이력 	: 
+ ************************************************/
+
 public class EffectCompatibilityAnalyzer {
 	
 	private Project targetProject;
@@ -52,7 +43,7 @@ public class EffectCompatibilityAnalyzer {
 	public static final String PROPERTY_NAME = "efffect.compatibility.anlyzer";
 	
 	/**
-	 * singleton �� ���� ������.
+	 * singleton 을 위한 생성자.
 	 */
 	private EffectCompatibilityAnalyzer() {
 		eventSupport = new PropertyChangeSupport(this);
@@ -60,11 +51,11 @@ public class EffectCompatibilityAnalyzer {
 	
 	/**
 	 * 
-	 * ObjectTagLinkAnalyzer �ν��Ͻ� ������.<br/>
-	 * - �м��� ������ �����Ѵ�.<br/>
-	 * - ���� ������ �ִ� ��� ��� �Ұ��Ѵ�.
+	 * ObjectTagLinkAnalyzer 인스턴스 생성자.<br/>
+	 * - 분석기 정보를 생성한다.<br/>
+	 * - 이전 정보가 있는 경우 모두 소거한다.
 	 * 
-	 * @param project �м� ��� ������Ʈ ����.
+	 * @param project 분석 대상 프로젝트 정보.
 	 * @return
 	 */
 	public static EffectCompatibilityAnalyzer getInstance(Project project) {
@@ -80,9 +71,9 @@ public class EffectCompatibilityAnalyzer {
 	
 	/**
 	 * 
-	 * �м� ��� ������Ʈ ������ �����Ѵ�.<br/>
+	 * 분석 대상 프로젝트 정보를 설정한다.<br/>
 	 * 
-	 * @param project ������Ʈ ����.
+	 * @param project 프로젝트 정보.
 	 */
 	private void setProject(Project project) {
 		targetProject = project;
@@ -103,21 +94,21 @@ public class EffectCompatibilityAnalyzer {
 		eventSupport.firePropertyChange(PROPERTY_NAME, "Analyze start", 0);
 		ArrayList<EffectCompatibilityResult> totalResultList = new ArrayList<EffectCompatibilityResult>();
 		if(null == targetProject) {
-			// TODO �м� ������Ʈ ���� �α�.
+			// TODO 분석 프로젝트 없음 로깅.
 			eventSupport.firePropertyChange(PROPERTY_NAME, "Analyze complete", 100);
 			return null;
 		}
 		
-		// 1. ȭ�� �ε�.
+		// 1. 화면 로딩.
 		eventSupport.firePropertyChange(PROPERTY_NAME, "Window resource loading..", 20);
 		Map<String, HMIDrawing> windowMap = loadFileWindow(targetProject.getWindowResourcePath());
 		if(windowMap.isEmpty()) {
-			// TODO �м� ȭ�� ���� �α�.
+			// TODO 분석 화면 없음 로깅.
 			eventSupport.firePropertyChange(PROPERTY_NAME, 0, 100);
 			return null;
 		}
 		
-		// 2. ȭ�麰 ��ü ����Ʈ Ȯ��
+		// 2. 화면별 객체 리스트 확인
 		Set<String> windowNameSet = windowMap.keySet();
 		int totalSize = windowNameSet.size();
 		int tempProgress = 20;
@@ -138,22 +129,22 @@ public class EffectCompatibilityAnalyzer {
 	
 	private List<EffectCompatibilityResult> effectAnalyze(String windowName, HMIDrawing drawing) {
 		if(null == drawing) {
-			// TODO ȭ�� ���� ���� �α�.
+			// TODO 화면 정보 없음 로깅.
 			return null;
 		}
 		
-		// 1. ��ü ���̵� ����Ʈ ����.
+		// 1. 객체 아이디 리스트 생성.
 		List<String> figureIdList = figureIdGenerate(drawing);
 		
 		if(figureIdList.isEmpty()) {
-			// TODO ��ü ���� �α�.
+			// TODO 객체 없음 로깅.
 			return null;
 		}
 		
-		// ��� ����Ʈ.
+		// 결과 리스트.
 		LinkedList<EffectCompatibilityResult> compatibilityAnalyzeList = new LinkedList<EffectCompatibilityResult>();
 		
-		// 2. ��ü�� ���� Effect Ȯ��.
+		// 2. 객체에 대한 Effect 확인.
 		HMIDrawingEffects drawingEffects = drawing.getDrawingEffects();
 		for(String figureId : figureIdList) {
 			Effect effect = drawingEffects.get(figureId);
@@ -173,10 +164,10 @@ public class EffectCompatibilityAnalyzer {
 	
 	private List<EffectCompatibilityResult> compatibilityValidator(EffectList effectList, 
 			String windowName, String figureId) {
-		// ��� ����Ʈ.
+		// 결과 리스트.
 		LinkedList<EffectCompatibilityResult> compatibilityList = new LinkedList<EffectCompatibilityResult>();
 		
-		// 1. effectList�� count�� ����.
+		// 1. effectList의 count를 샌다.
 		int count = 0;
 		boolean useTouchEffect = false;
 		Effect[] effects = effectList.getEffects();
@@ -188,9 +179,9 @@ public class EffectCompatibilityAnalyzer {
 				useTouchEffect = (effect instanceof TouchEffect);
 			}
 		}
-		// 2. count �� 2�� �̻��̸� ȿ���� �縳�� �˻�.
+		// 2. count 가 2개 이상이면 효과별 양립성 검사.
 		if(count >= 2) {
-			// �縳�� �˻�.
+			// 양립성 검사.
 			boolean useEmerge = (null != effectList.getEffect(Effect.EMERGE_IDX));
 			boolean useBlink = (null != effectList.getEffect(Effect.BLINK_IDX));
 			boolean useMove = (null != effectList.getEffect(Effect.MOVE_IDX));
@@ -200,7 +191,7 @@ public class EffectCompatibilityAnalyzer {
 			boolean useTagDisplay = (null != effectList.getEffect(Effect.TAGDISPLAY_IDX));
 			boolean useTouch = (null != effectList.getEffect(Effect.TOUCH_IDX));
 			
-			// ��� warning.
+			// 출몰 warning.
 			if(useEmerge && (useBlink 
 					|| useMove 
 					|| useDrag 
@@ -217,7 +208,7 @@ public class EffectCompatibilityAnalyzer {
 				compatibilityList.add(compatibilityResult);
 			}
 			
-			// �̵� + ���� error.
+			// 이동 + 끌기 error.
 			if(useMove && useDrag) {
 				FigureEffectCompatibilityResult compatibilityResult = new FigureEffectCompatibilityResult();
 				compatibilityResult.setWindowName(windowName);
@@ -228,7 +219,7 @@ public class EffectCompatibilityAnalyzer {
 				compatibilityList.add(compatibilityResult);
 			}
 			
-			// ���� + ��ġ error.
+			// 끌기 + 터치 error.
 			if(useDrag && useTouch) {
 				FigureEffectCompatibilityResult compatibilityResult = new FigureEffectCompatibilityResult();
 				compatibilityResult.setWindowName(windowName);
@@ -240,9 +231,9 @@ public class EffectCompatibilityAnalyzer {
 			}
 		}
 		
-		// 3. ��ġ ȿ���� ���� ȿ�� �縳�� �˻�.
+		// 3. 터치 효과의 서브 효과 양립성 검사.
 		if(useTouchEffect) {
-			// ��ġ ���� ȿ�� �縳�� �˻�.
+			// 터치 서브 효과 양립성 검사.
 			TouchEffect effect = (TouchEffect) effectList.getEffect(Effect.TOUCH_IDX);
 			
 			boolean useOpenScreen = (TouchEffect.SCREEN_OPEN & effect.getType()) > 0;
@@ -300,7 +291,7 @@ public class EffectCompatibilityAnalyzer {
 			
 			int figureType = hmiFigure.getFigureType();
 			if(HMIFigure.TYPE_BEANS == figureType) {
-				// ������Ʈ�� ó������ �ʴ´�.
+				// 컴포넌트를 처리하지 않는다.
 				continue;
 			}
 			else if(HMIFigure.TYPE_GROUP == figureType
@@ -316,10 +307,10 @@ public class EffectCompatibilityAnalyzer {
 	}
 	
 	/**
-	 * �м� ��� ������Ʈ�� ȭ�� ���ҽ� ������ ��� ȭ���� �ε��Ͽ� ��ȯ�Ѵ�.<br/>
-	 * - ȭ�� �ε� ���н� ���� �α׸� ����� ��� �ε��Ѵ�.<br/>
+	 * 분석 대상 프로젝트의 화면 리소스 폴더의 모든 화면을 로드하여 반환한다.<br/>
+	 * - 화면 로드 실패시 실패 로그를 남기고 계속 로드한다.<br/>
 	 * 
-	 * @return drawingMap �ε��� ȭ�� ��.
+	 * @return drawingMap 로딩된 화면 맵.
 	 */
 	private Map<String, HMIDrawing> loadFileWindow(URI windowResourcePath) {
 		Map<String, HMIDrawing> drawingMap = new HashMap<String, HMIDrawing>();

@@ -19,27 +19,17 @@ import com.jidesoft.document.DocumentPane;
 import analyzer.analysis.dangling.DanglingTagResult;
 import analyzer.frame.AnalyzerMainFrame;
 
-
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.dangling.DanglingTagAnalyzeResultView.java
- * DESC   : �������� �ʴ� �±� �м� ��� ǥ�� View.
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 장성현
+ * @설명  	:   존재하지 않는 태그 분석 결과 표시 View.
+ * @변경이력 	: 
+ ************************************************/
+ 
 public class DanglingTagAnalyzeResultView extends JPanel {
 
 	/**
-	 * ��ü ����ȭ ���� ���̵�.
+	 * 객체 직렬화 버전 아이디.
 	 */
 	private static final long serialVersionUID = 1L;
 	private DanglingTagAnalyzeResultTableModel tableModel;
@@ -98,13 +88,13 @@ public class DanglingTagAnalyzeResultView extends JPanel {
 		
 		return scrollPane;
 	}
-	
+
 	/**
 	 * 
-	 * �м� ����� ȭ�鿡 ǥ���ϱ� ���� ������ �����Ѵ�.<br/>
-	 * - �޼ҵ��� ó�� ���� ���.
+	 * 분석 결과를 화면에 표시하기 윈한 정보를 설정한다.<br/>
+	 * - 메소드의 처리 절차 기술.
 	 * 
-	 * @param resultList �м� ���.
+	 * @param resultList 분석 결과.
 	 */
 	public void setAnalyzeResult(List<DanglingTagResult> resultList) {
 		tableModel.setAnalyzeResult(resultList);

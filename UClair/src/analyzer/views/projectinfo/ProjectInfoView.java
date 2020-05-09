@@ -45,7 +45,12 @@ import com.naru.uclair.tag.StringTag;
 import com.naru.uclair.tag.Tag;
 
 import analyzer.frame.AnalyzerMainFrame;
-
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 :  지한별
+ * @설명  	:   IO 테스트 
+ * @변경이력 	: 
+ ************************************************/
 public class ProjectInfoView extends JPanel {
 
 	private static final long serialVersionUID = 1L;

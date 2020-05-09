@@ -7,22 +7,13 @@ import javax.swing.table.AbstractTableModel;
 import analyzer.analysis.effect.EffectCompatibilityResult;
 import analyzer.constants.AnalyzerConstants;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.effect.EffectCompatibilityAnalyzeResultTableModel.java
- * DESC   : 객체효과 양립성 분석 결과 표시 TableModel 클래스.
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 객체효과 양립성 분석 결과 표시 TableModel 클래스.
+ * @변경이력 	: 
+ ************************************************/
+
 public class EffectCompatibilityAnalyzeResultTableModel extends
 		AbstractTableModel {
 

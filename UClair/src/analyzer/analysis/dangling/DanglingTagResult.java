@@ -3,7 +3,7 @@ package  analyzer.analysis.dangling;
 import analyzer.constants.AnalyzerConstants;
 /************************************************
  * @date	: 2020. 5.07.
- * @책임자 : 지이삭
+ * @책임자 : 장성현
  * @설명  	: Broken 태그 정보 결과 인터페이스.
  * @변경이력 	: 
  ************************************************/

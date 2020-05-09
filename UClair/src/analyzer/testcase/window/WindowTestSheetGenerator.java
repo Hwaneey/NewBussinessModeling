@@ -1,7 +1,6 @@
 package analyzer.testcase.window;
 
 import java.beans.PropertyChangeListener;
-
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,12 +26,10 @@ import com.naru.uclair.draw.effect.TouchEffect;
 import com.naru.uclair.draw.figure.HMIFigure;
 import com.naru.uclair.draw.figure.HMIGroupFigure;
 import com.naru.uclair.project.Project;
-
-
 /************************************************
  * @date	: 2020. 5.07.
  * @책임자 : 박보미
- * @설명  	: 화면 테스트 시트 생성기(화면 테스트 케이스) 클래스
+ * @설명  	: 화면 테스트 시트 생성기(화면 테스트 케이스) 
  * @변경이력 	: 
  ************************************************/
 
@@ -66,9 +63,9 @@ public class WindowTestSheetGenerator {
 	
 	/**
 	 * 
-	 * �м� ��� ������Ʈ ������ �����Ѵ�.<br/>
+	 * 분석 대상 프로젝트 정보를 설정한다.<br/>
 	 * 
-	 * @param project ������Ʈ ����.
+	 * @param project 프로젝트 정보.
 	 */
 	private void setProject(Project project) {
 		targetProject = project;
@@ -86,15 +83,15 @@ public class WindowTestSheetGenerator {
 	}
 	
 	public void generate(String windowName, File saveDir) throws Exception {
-		// 1. �ش� ȭ�� ������ �����´�.
-		// ������ �м��Ѵ�.
+		// 1. 해당 화면 파일을 가져온다.
+		// 정보를 분석한다.
 		if(null == targetProject) {
-			// TODO ��� ������Ʈ ����. �м� ��� ���� �޽��� �α�.
+			// TODO 대상 프로젝트 없음. 분석 대상 없음 메시지 로깅.
 			eventSupport.firePropertyChange(PROPERTY_NAME, "generate complete", 100); //$NON-NLS-1$
 			throw new Exception(AnalyzerConstants.getString("WindowTestSheetGenerate.Exception.ProjectNull")); //$NON-NLS-1$
 		}
 		
-		// 2. ȭ�� ������ �ε��Ѵ�.
+		// 2. 화면 파일을 로드한다.
 		File windowFile = new File(targetProject.getWindowResourcePath());
 		windowFile = new File(windowFile, windowName);
 		
@@ -102,23 +99,23 @@ public class WindowTestSheetGenerator {
 		List<String> figureIdList = figureIdGenerate(hmiDrawing);
 		eventSupport.firePropertyChange(PROPERTY_NAME, "Window resource analyze...", 10); //$NON-NLS-1$
 		if(figureIdList.isEmpty()) {
-			// TODO ��ü ���� �α�.
+			// TODO 객체 없음 로깅.
 			eventSupport.firePropertyChange(PROPERTY_NAME, "generate complete", 100); //$NON-NLS-1$
 			throw new Exception(AnalyzerConstants.getString("WindowTestSheetGenerate.Exception.FigureEmpty")); //$NON-NLS-1$
 		}
 		
-		// Tag Ȯ���� ���� effect ����.
+		// Tag 확인을 위한 effect 정보.
 		HMIDrawingEffects drawingEffects = hmiDrawing.getDrawingEffects();
 		if(null == drawingEffects) {
-			// TODO ����Ʈ �� �α�.
+			// TODO 이펙트 널 로깅.
 			eventSupport.firePropertyChange(PROPERTY_NAME, "generate complete", 100); //$NON-NLS-1$
 			throw new Exception(AnalyzerConstants.getString("WindowTestSheetGenerate.Exception.EffectEmpty")); //$NON-NLS-1$
 		}
 		
-		// ��ü ���� ��� ����Ʈ.
+		// 전체 생성 결과 리스트.
 		LinkedList<WindowTestSheetGenerateResult> generateResultList = new LinkedList<WindowTestSheetGenerateResult>();
 		
-		// 3. ȭ�� ��ü�� ȿ���� �м��Ѵ�.
+		// 3. 화면 객체의 효과를 분석한다.
 		eventSupport.firePropertyChange(PROPERTY_NAME, "Figure analyze...", 20); //$NON-NLS-1$
 		List<WindowTestSheetGenerateResult> analyzeResultList = null;
 		Effect effect;
@@ -147,7 +144,7 @@ public class WindowTestSheetGenerator {
 			throw new Exception(AnalyzerConstants.getString("WindowTestSheetGenerate.Exception.GenerateResultEmpty")); //$NON-NLS-1$
 		}
 		
-		// 4. ������ ������ excel ������ ���� �����Ѵ�.
+		// 4. 생성된 정보로 excel 파일을 생성 저장한다.
 		try {
 			saveTestSheet(saveDir, windowName, generateResultList);
 			eventSupport.firePropertyChange(PROPERTY_NAME, "generate complete", 100); //$NON-NLS-1$
@@ -159,11 +156,11 @@ public class WindowTestSheetGenerator {
 	}
 	
 	private void saveTestSheet(File saveDir, String windowName, List<WindowTestSheetGenerateResult> resultList) throws Exception {
-		// 1. template ���� ��������.
+		// 1. template 파일 가져오기.
 		HSSFWorkbook workbook = new HSSFWorkbook(getClass().getResourceAsStream(TEMPLATE_FILE_PATH));
 		HSSFSheet workSheet = workbook.getSheetAt(0);
 		
-		// 2. ������ �Է�.
+		// 2. 데이터 입력.
 		HSSFRow hssfRow = null;
 		for(int index = 0; index < resultList.size(); index++) {
 			hssfRow = workSheet.getRow(CELL_START_INDEX + index);
@@ -185,7 +182,7 @@ public class WindowTestSheetGenerator {
 			setCellValue(hssfRow, 11, resultList.get(index).isTouchEffect() ? "Y" : ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		// 3. ���� ����.
+		// 3. 파일 저장.
 		FileOutputStream fileOutputStream = new FileOutputStream(new File(saveDir, String.format(SAVE_FILE_NAME, windowName)));
 		workbook.write(fileOutputStream);
 		fileOutputStream.close();
@@ -218,7 +215,7 @@ public class WindowTestSheetGenerator {
 			Set<String> linkTags = effect.getLinkTags();
 			if(null != linkTags) {
 				for(String tagId : linkTags) {
-					// ��� ��ü ���� �� �߰�.
+					// 결과 객체 생성 및 추가.
 					WindowTestSheetGenerateResult generateResult = new WindowTestSheetGenerateResult();
 					generateResult.setTagId(tagId);
 					generateResult.setWindowName(windowName);
@@ -229,7 +226,7 @@ public class WindowTestSheetGenerator {
 				}
 			}
 			
-			// Touch ȿ���� ��� ��ũ��Ʈ�� ���� �߰��� ó���Ѵ�.
+			// Touch 효과인 경우 스크립트에 대해 추가로 처리한다.
 			if(Effect.TOUCH_IDX == effect.getType()
 					&& effect instanceof TouchEffect) {
 				TouchEffect touchEffect = (TouchEffect) effect;
@@ -240,7 +237,7 @@ public class WindowTestSheetGenerator {
 				if(null == scriptTags) continue; 
 					
 				for(String tagId : scriptTags) {
-					// ��� ��ü ���� �� �߰�.
+					// 결과 객체 생성 및 추가.
 					WindowTestSheetGenerateResult generateResult = new WindowTestSheetGenerateResult();
 					generateResult.setTagId(tagId);
 					generateResult.setWindowName(windowName);
@@ -265,7 +262,7 @@ public class WindowTestSheetGenerator {
 			
 			int figureType = hmiFigure.getFigureType();
 			if(HMIFigure.TYPE_BEANS == figureType) {
-				// ������Ʈ�� ó������ �ʴ´�.
+				// 컴포넌트를 처리하지 않는다.
 				continue;
 			}
 			else if(HMIFigure.TYPE_GROUP == figureType

@@ -15,22 +15,13 @@ import com.jidesoft.document.DocumentPane;
 import analyzer.analysis.script.ScriptSyntaxAnalysisResult;
 import analyzer.frame.AnalyzerMainFrame;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.script.ScriptSyntaxAnalyzeResultView.java
- * DESC   : 스크립트 검증 결과 표시 View.
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 장성현
+ * @설명  	:  스크립트 검증 결과 표시 View.
+ * @변경이력 	: 
+ ************************************************/
+
 public class ScriptSyntaxAnalyzeResultView extends JPanel {
 
 	/**

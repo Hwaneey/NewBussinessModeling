@@ -1,28 +1,19 @@
 package analyzer.analysis.effect;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.analysis.effect.EffectCompatibilityResult.java
- * DESC   : ȿ�� �縳�� �м� ��� �������̽�.
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 29.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 효과 양립성 분석 결과 인터페이스.
+ * @변경이력 	: 
+ ************************************************/
+
 public interface EffectCompatibilityResult {
 	/**
-	 * �縳�� ���� ���.
+	 * 양립성 오류 등급.
 	 */
 	public static final int PRIORITY_ERROR = 0;
 	/**
-	 * �縳�� ���� ���.
+	 * 양립성 주의 등급.
 	 */
 	public static final int PRIORITY_WARNING = 1;
 	public static final String[] PRIORITY_NAMES = {"ERROR", "WARNING"};
@@ -38,101 +29,101 @@ public interface EffectCompatibilityResult {
 	
 	/**
 	 * 
-	 * ȭ����� ��ȯ�Ѵ�.<br/>
+	 * 화면명을 반환한다.<br/>
 	 * 
-	 * @return ȭ���.
+	 * @return 화면명.
 	 */
 	public String getWindowName();
 	/**
 	 * 
-	 * ȭ����� �����Ѵ�.<br/>
+	 * 화면명을 설정한다.<br/>
 	 * 
-	 * @param windowName ȭ���.
+	 * @param windowName 화면명.
 	 */
 	public void setWindowName(String windowName);
 	/**
 	 * 
-	 * ȭ�� ��ü ���̵� ��ȯ�Ѵ�.<br/>
+	 * 화면 객체 아이디를 반환한다.<br/>
 	 * 
-	 * @return ȭ�� ��ü ���̵�.
+	 * @return 화면 객체 아이디.
 	 */
 	public String getFigureId();
 	/**
 	 * 
-	 * ȭ�� ��ü ���̵� �����Ѵ�.<br/>
+	 * 화면 객체 아이디를 설정한다.<br/>
 	 * 
-	 * @param id ȭ�� ��ü ���̵�.
+	 * @param id 화면 객체 아이디.
 	 */
 	public void setFigureId(String id);
 	/**
 	 * 
-	 * �縳�� ����� ��ȯ�Ѵ�.<br/>
+	 * 양립성 등급을 반환한다.<br/>
 	 * 
-	 * @return �縳�� ���.(EffectCompatibilityResult.PRIORITY_XXXX)
+	 * @return 양립성 등급.(EffectCompatibilityResult.PRIORITY_XXXX)
 	 */
 	public int getPriority();
 	/**
 	 * 
-	 * �縳�� ����� �����Ѵ�.<br/>
+	 * 양립성 등급을 설정한다.<br/>
 	 * 
-	 * @param priorty �縳�� ���.(EffectCompatibilityResult.PRIORITY_XXXX)
+	 * @param priorty 양립성 등급.(EffectCompatibilityResult.PRIORITY_XXXX)
 	 */
 	public void setPriority(int priorty);
 	/**
 	 * 
-	 * ȿ�� �縳 ������ ��ȯ�Ѵ�.<br/>
+	 * 효과 양립 유형을 반환한다.<br/>
 	 * 
-	 * @return ȿ�� �縳 ����.
+	 * @return 효과 양립 유형.
 	 */
 	public int getCompatibilityType();
 	/**
 	 * 
-	 * ȿ�� �縳 ������ �����Ѵ�.<br/>
+	 * 효과 양립 유형을 설정한다.<br/>
 	 * 
-	 * @param type ȿ�� �縳 ����.
+	 * @param type 효과 양립 유형.
 	 */
 	public void setCompatibilityType(int type);
 	
 	/**
 	 * 
-	 * ��� ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 출몰 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useEmerge();
 	/**
 	 * 
-	 * ������ ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 깜박임 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useBlink();
 	/**
 	 * 
-	 * �̵� ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 이동 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useMove();
 	/**
 	 * 
-	 * ���� ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 끌기 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useDrag();
 	/**
 	 * 
-	 * �±� ǥ�� ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 태그 표시 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useTagDisplay();
 	/**
 	 * 
-	 * ��ġ ��� ���θ� ��ȯ�Ѵ�.<br/>
+	 * 터치 사용 여부를 반환한다.<br/>
 	 * 
-	 * @return ��� ����.
+	 * @return 사용 여부.
 	 */
 	public boolean useTouch();
 }

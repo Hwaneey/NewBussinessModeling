@@ -12,22 +12,13 @@ import com.naru.uclair.tag.ItemDeviceAdapter;
 import com.naru.uclair.tag.MapDeviceAdapter;
 import com.naru.uclair.tag.Tag;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.physical.PhysicalTagDependAnalyzeResultTableModel.java
- * DESC   : 물리주소 종속성 분석 결과 표시 TableModel 클래스.
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 지이삭
+ * @설명  	: 물리주소 종속성 분석 결과 표시 TableModel 클래스.
+ * @변경이력 	: 
+ ************************************************/
+
 public class PhysicalTagDependAnalyzeResultTableModel extends AbstractTableModel {
 
 	/**

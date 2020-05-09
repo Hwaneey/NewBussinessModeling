@@ -14,28 +14,16 @@ import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.tag.PhysicalDepend;
 import analyzer.frame.AnalyzerMainFrame;
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 지이삭
+ * @설명  	: 물리주소 종속성 분석 결과 표시 
+ * @변경이력 	: 
+ ************************************************/
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.ui.physical.PhysicalTagDependAnalyzeResultView.java
- * DESC   : ���� �ּ� ���Ӽ� �м� ��� ǥ�� View.
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 6. 21.
- * @version 1.0
- *
- */
 public class PhysicalTagDependAnalyzeResultView extends JPanel {
 
-	/**
-	 * ��ü ����ȭ ���� ���̵�.
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTable resultTable;
 	PhysicalTagDependAnalyzeResultTableModel tableModel = null;

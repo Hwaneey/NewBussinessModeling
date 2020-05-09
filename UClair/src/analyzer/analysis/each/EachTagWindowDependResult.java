@@ -20,22 +20,13 @@
  ***************************************************************/
 package analyzer.analysis.each;
 
-/**
- *
- * <pre>
- * NAME   : 
- * DESC   : 
- *
- * references : 설계서 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 7. 4.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: EachTagScriptDependResult
+ * @변경이력 	: 
+ ************************************************/
+
 public class EachTagWindowDependResult {
 	
 	private String tagId;

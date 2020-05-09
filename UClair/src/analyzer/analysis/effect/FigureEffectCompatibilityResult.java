@@ -3,44 +3,35 @@ package analyzer.analysis.effect;
 import com.naru.uclair.draw.effect.Effect;
 import com.naru.uclair.draw.effect.EffectList;
 
-/**
- *
- * <pre>
- * NAME   : com.naru.uclair.analyzer.analysis.effect.FigureEffectCompatibilityResult.java
- * DESC   : ȭ�� ��ü ȿ�� �縳�� �м� ��� Ŭ����.
- *
- * references : ���輭 NARU-XXX-XXX-XXX
- *
- * Copyright 2012 NARU Technology All rights reserved
- * <pre>
- *
- * @author US Laboratory naruteclab4
- * @since 2012. 7. 2.
- * @version 1.0
- *
- */
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 : 이승환
+ * @설명  	: 화면 객체 효과 양립석 분석 결과 클래스.
+ * @변경이력 	: 
+ ************************************************/
+
 public class FigureEffectCompatibilityResult implements
 		EffectCompatibilityResult {
 
 	/**
-	 * �縳�� �м��� Effect ����.
+	 * 양립성 분석용 Effect 정보.
 	 */
 	private EffectList effectList;
 	/**
-	 * ȭ���.
+	 * 화면명.
 	 */
 	private String windowName;
 	/**
-	 * ��ü ���̵�.
+	 * 객체 아이디.
 	 */
 	private String figureId;
 	
 	/**
-	 * �縳�� �м� ���.
+	 * 양립성 분석 등급.
 	 */
 	private int priority;
 	/**
-	 * �縳�� ����.
+	 * 양립성 유형.
 	 */
 	private int type;
 
@@ -164,9 +155,9 @@ public class FigureEffectCompatibilityResult implements
 	
 	/**
 	 * 
-	 * ȿ�� ����Ʈ�� �����Ѵ�.<br/>
+	 * 효과 리스트를 설정한다.<br/>
 	 * 
-	 * @param effectList ȿ�� ����Ʈ.
+	 * @param effectList 효과 리스트.
 	 */
 	public void setEffectList(EffectList effectList) {
 		this.effectList = effectList;

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.naru.uclair.tag.Tag;
-
+/************************************************
+ * @date	: 2020. 5.07.
+ * @책임자 :  지이삭
+ * @설명  	:   IO 테스트 
+ * @변경이력 	: 
+ ************************************************/
 public class IOTestDevice {
 	private String nodeName;
 	private String deviceName;
