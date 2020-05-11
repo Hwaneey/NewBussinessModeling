@@ -13,6 +13,7 @@ import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.tag.PhysicalDepend;
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 /************************************************
  * @date	: 2020. 5.07.
@@ -28,15 +29,20 @@ public class PhysicalTagDependAnalyzeResultView extends JPanel {
 	private JTable resultTable;
 	PhysicalTagDependAnalyzeResultTableModel tableModel = null;
 	private TableRowSorter<PhysicalTagDependAnalyzeResultTableModel> sorter;
-	
+	public static final String PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.PysicalAddress.Key"); //$NON-NLS-1$
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 	/**
 	 * Create the panel.
 	 */
 	public PhysicalTagDependAnalyzeResultView() {
-		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "물리주소 종속성 분석");
-        _workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(new JScrollPane(initializeUi()), PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);		
+        if (_workspacePane.getDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
+			_workspacePane.setActiveDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
+		} else {	
+	        _workspacePane.openDocument(document);
+	        _workspacePane.setActiveDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
+		}
 	}
 
 	private JComponent initializeUi() {

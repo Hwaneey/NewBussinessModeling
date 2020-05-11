@@ -15,6 +15,7 @@ import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.linked.ObjectTagLinkResult;
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 import analyzer.ui.physical.PhysicalTagDependAnalyzeResultTableModel;
 
@@ -32,7 +33,8 @@ public class ObjectTagLinkAnalyzeResultView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable resultTable;
-
+	public static final String OBJECT_TAG_LINK_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.ObjectTagLink.Key"); //$NON-NLS-1$
 	ObjectTagLinkAnalyzeResultTableModel tableModel = null;
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
 
@@ -41,8 +43,13 @@ public class ObjectTagLinkAnalyzeResultView extends JPanel {
 	 */
 	public ObjectTagLinkAnalyzeResultView() {
 //		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "객체태그 연결정보 분석");
-		_workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initializeUi(), OBJECT_TAG_LINK_RESULT_VIEW_KEY);
+	      if (_workspacePane.getDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY) != null) {	
+				_workspacePane.setActiveDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY);
+			} else {	
+		        _workspacePane.openDocument(document);
+		        _workspacePane.setActiveDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY);
+			}
 	}
 	
 	private JComponent initializeUi() {

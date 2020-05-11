@@ -44,6 +44,7 @@ import com.naru.uclair.tag.GroupTag;
 import com.naru.uclair.tag.StringTag;
 import com.naru.uclair.tag.Tag;
 
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 /************************************************
  * @date	: 2020. 5.07.
@@ -56,7 +57,8 @@ public class ProjectInfoView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
 	private JTextArea systemOutTextArea;
-
+	public static final String PROJECT_INFO_EDITOR_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.project.key"); //$NON-NLS-1$
 	private JComponent initialize() {
 		this.setLayout(new BorderLayout());
 		systemOutTextArea = new JTextArea();
@@ -66,10 +68,13 @@ public class ProjectInfoView extends JPanel {
 	}
 
 	public ProjectInfoView(String key) {
-		initialize();
-
-		final DocumentComponent document = new DocumentComponent(initialize(), "프로젝트 정보분석");
-		_workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initialize(),PROJECT_INFO_EDITOR_KEY);
+        if (_workspacePane.getDocument(PROJECT_INFO_EDITOR_KEY) != null) {	
+			_workspacePane.setActiveDocument(PROJECT_INFO_EDITOR_KEY);
+		} else {	
+	        _workspacePane.openDocument(document);
+	        _workspacePane.setActiveDocument(PROJECT_INFO_EDITOR_KEY);
+		}
 	}
 
 	public void appendText(String message) {

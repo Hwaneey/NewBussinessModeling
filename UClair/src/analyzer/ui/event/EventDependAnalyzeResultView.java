@@ -11,6 +11,7 @@ import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.event.EventDepend;
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 
 /** @date	: 2020. 5.07.
@@ -27,12 +28,20 @@ public class EventDependAnalyzeResultView extends JPanel {
 	private JTable resultTable;
 	private EventDependAnalyzeResultTableModel tableModel;
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
+	public static final String EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.EventTag.Key"); //$NON-NLS-1$
 	/**
 	 * Create the panel.
 	 */
 	public EventDependAnalyzeResultView() {
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "이벤트 종속성 태그 분석");
-		_workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initializeUi(), EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+        if (_workspacePane.getDocument(EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
+			_workspacePane.setActiveDocument(EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+		} else {	
+	        _workspacePane.openDocument(document);
+	        _workspacePane.setActiveDocument(EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+		}
+		
 	}
 
 	private JComponent initializeUi() {

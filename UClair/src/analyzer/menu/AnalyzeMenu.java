@@ -19,7 +19,6 @@ public class AnalyzeMenu {
 		JMenu menu = new JideMenu("분석");
 
 		menu.add(new JMenuItem(actionFactory.getAction(500))); 					//존재하지 않는 태그 분석
-		menu.add(new JMenuItem(actionFactory.getAction(506))); 					//개별태그
 		menu.add(new JMenuItem(actionFactory.getAction(501))); 					//가상태그 종속성 분석
 		menu.add(new JMenuItem(actionFactory.getAction(502)));				 	//물리주소 종속성 분석
 		menu.add(new JMenuItem(actionFactory.getAction(503))); 					//객체태그 연결정보 분석

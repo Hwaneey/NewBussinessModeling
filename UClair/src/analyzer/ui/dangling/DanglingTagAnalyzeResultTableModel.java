@@ -15,18 +15,14 @@ import analyzer.constants.AnalyzerConstants;
  ************************************************/
 
 public class DanglingTagAnalyzeResultTableModel extends AbstractTableModel {
-
 	/**
 	 * 객체 직렬화 버전 아이디.
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private List<DanglingTagResult> resultList;
-	
 	private String[] columnNames = {AnalyzerConstants.getString("DanglingTagAnalyzeResultTableModel.ColumnName.Tag"),  //$NON-NLS-1$
 			AnalyzerConstants.getString("DanglingTagAnalyzeResultTableModel.ColumnName.Type"),  //$NON-NLS-1$
 			AnalyzerConstants.getString("DanglingTagAnalyzeResultTableModel.ColumnName.Message")}; //$NON-NLS-1$
-	
 	@Override
 	public int getRowCount() {
 		if(null == resultList) {
@@ -34,18 +30,15 @@ public class DanglingTagAnalyzeResultTableModel extends AbstractTableModel {
 		}
 		return resultList.size();
 	}
-	
 	@Override
 	public Object getValueAt(int row, int column) {
 		if(null == resultList) {
 			return null;
 		}
-		
 		DanglingTagResult danglingTagResult = resultList.get(row);
 		if(null == danglingTagResult) {
 			return null;
 		}
-		
 		switch(column) {
 		case 0:
 			return danglingTagResult.getDanglingTagName();
@@ -57,7 +50,6 @@ public class DanglingTagAnalyzeResultTableModel extends AbstractTableModel {
 			return null;
 		}
 	}
-	
 	@Override
 	public int getColumnCount() {
 		return columnNames.length;

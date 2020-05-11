@@ -22,7 +22,7 @@ import analyzer.icon.AnalyzerIconFactory;
  * @변경이력 	:
  *******************************/
 
-public class ExcelLoad {
+public class dangling {
 	protected static JFrame _frame =  AnalyzerMainFrame._frame ;
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
 	

@@ -19,7 +19,6 @@ import javax.swing.SwingUtilities;
 import com.jidesoft.action.DefaultDockableBarDockableHolder;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideTabbedPane;
-import analyzer.AnalyzerEditorFactory;
 import com.naru.uclair.common.SystemResourceManager;
 import com.naru.uclair.draw.util.WindowSelectDialog;
 import com.naru.uclair.project.Project;
@@ -59,7 +58,16 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				//dockMap = new HashMap<String, JTable>();
+				/**
+				 * 다크테마
+				 * **/
+//				FlatLightLaf.install();
+//				try {
+//				    UIManager.setLookAndFeel( new FlatDarkLaf() );
+//				} catch( Exception ex ) {
+//				    System.err.println( "Failed to initialize LaF" );
+//				}
+				
 				LookAndFeelFactory.installDefaultLookAndFeelAndExtension();
 				LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_XERTO);
 				new Analyzer(new JFrame());

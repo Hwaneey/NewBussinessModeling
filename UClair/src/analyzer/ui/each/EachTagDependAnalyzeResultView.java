@@ -15,6 +15,7 @@ import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.each.EachTagDependResult;
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 import analyzer.icon.AnalyzerIconFactory;
 
@@ -33,14 +34,21 @@ public class EachTagDependAnalyzeResultView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private EachTagDependAnalyzeResultTableModel tableModel;
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
-
+	public static final String EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.EachTag.Key"); //$NON-NLS-1$
 	/**
 	 * Create the panel.
 	 */
 	public EachTagDependAnalyzeResultView() {
 //		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "개별태그 종속성 분석");
-		_workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initializeUi(), EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+
+        if (_workspacePane.getDocument(EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
+			_workspacePane.setActiveDocument(EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+		} else {	
+	        _workspacePane.openDocument(document);
+	        _workspacePane.setActiveDocument(EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+		}
 	}
 	
 	private JComponent initializeUi() {

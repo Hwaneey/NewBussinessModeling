@@ -15,6 +15,7 @@ import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
 import analyzer.analysis.effect.EffectCompatibilityResult;
+import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
 
 
@@ -32,13 +33,20 @@ public class EffectCompatibilityAnalyzeResultView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private EffectCompatibilityAnalyzeResultTableModel tableModel;
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
+	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
+	public static final String EFFECT_COMPATIBILITY_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.EffectCompatibility.Key"); //$NON-NLS-1$
 	/**
 	 * Create the panel.
 	 */
 	public EffectCompatibilityAnalyzeResultView() {
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "객체효과 양립성 분석 결과 표시");
-		_workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initializeUi(), EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
+		if (_workspacePane.getDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY) != null) {	
+			_workspacePane.setActiveDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
+		} else {	
+	        _workspacePane.openDocument(document);
+	        _workspacePane.setActiveDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
+		}
 	}
 
 	private JComponent initializeUi() {

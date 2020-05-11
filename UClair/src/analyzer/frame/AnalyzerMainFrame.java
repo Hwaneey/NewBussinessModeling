@@ -2,6 +2,8 @@ package analyzer.frame;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -48,6 +50,8 @@ public class AnalyzerMainFrame {
 		_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		_frame.setIconImage(new ImageIcon(AnalyzerIconFactory.ANALYZE).getImage());
 		_frame.getDockingManager().setXmlFormat(true);
+//		_frame.setUndecorated(true);
+		
 
 		// 창을 닫을 때 창을 클리어하기 위한 리스너 추가
 		_windowListener = new WindowAdapter() {
@@ -64,7 +68,7 @@ public class AnalyzerMainFrame {
 		_frame.getDockingManager().setProfileKey(PROFILE_NAME);  // 얇은 아웃라인 사용.
 		_frame.getDockingManager().setOutlineMode(DockingManager.FULL_OUTLINE_MODE);  // 툴바 추가
 		_frame.getDockableBarManager().setProfileKey(PROFILE_NAME);  
-		//_frame.getDockableBarManager().addDockableBar(createToolBar());    // 툴바 추가
+//		_frame.getDockableBarManager().addDockableBar(ToolBarFrame.createToolBar());    // 툴바 추가
 		JMenuBar menuBar = MenuBar.createMenuBar();   // 메뉴 바 추가
 		_frame.setJMenuBar(menuBar);  // 되돌리기 기억 횟수 지정
 		_frame.getDockingManager().setUndoLimit(10);

@@ -34,7 +34,8 @@ public class VirtualTagAnalyzeResultView extends JPanel {
 	private JTable resultTable;
 	private VirtualTagAnalyzeResultTableModel tableModel;
 	private JLabel tagNameLabel;
-	
+	public static final String VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
+			.getString("AnalyzerEditorFactory.VirtualTag.Key"); //$NON-NLS-1$
 	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 
 	/**
@@ -43,8 +44,13 @@ public class VirtualTagAnalyzeResultView extends JPanel {
 	public VirtualTagAnalyzeResultView() {
 		
 		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), "가상태그 종속성 분석");
-        _workspacePane.openDocument(document);
+		final DocumentComponent document = new DocumentComponent(initializeUi(), VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+	       if (_workspacePane.getDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
+				_workspacePane.setActiveDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+			} else {	
+		        _workspacePane.openDocument(document);
+		        _workspacePane.setActiveDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
+			}
 		
 	}
 	
