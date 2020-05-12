@@ -72,5 +72,26 @@
 	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-4.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/flatlaf/flatlaf-0.34-sources.jar"/>
 	<classpathentry kind="lib" path="lib/flatlaf/flatlaf-0.34.jar"/>
+	<classpathentry kind="lib" path="lib/batik-swing.jar/batik-swing.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-swing.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-anim.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-bridge.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-codec.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-css.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-dom.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-ext.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-extension.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-gui-util.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-gvt.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-parser.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-script.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-svg-dom.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-transcoder.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-util.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/batik-xml.jar"/>
+	<classpathentry kind="lib" path="lib/vender/batik/xml-apis-ext.jar"/>
+	<classpathentry kind="lib" path="lib/vender/javolution/javolution.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
