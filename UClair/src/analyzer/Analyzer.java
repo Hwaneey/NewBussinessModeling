@@ -1,9 +1,4 @@
 package analyzer;
-/*
- * @(#)DockingFrameworkDemo.java
- *
- * Copyright 2002 - 2003 JIDE Software. All rights reserved.
- */
 
 import java.awt.Component;
 import java.awt.HeadlessException;

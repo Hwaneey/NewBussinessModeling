@@ -3,14 +3,23 @@ package analyzer.ui.physical;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.DropMode;
+import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.table.TableRowSorter;
 
 import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
+import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
+import com.jidesoft.grid.DefaultUndoableTableModel;
+import com.jidesoft.grid.JideTableTransferHandler;
+import com.jidesoft.grid.SortableTable;
+import com.jidesoft.grid.TableColumnChooserPopupMenuCustomizer;
+import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
 
 import analyzer.analysis.tag.PhysicalDepend;
 import analyzer.constants.AnalyzerConstants;
@@ -46,6 +55,9 @@ public class PhysicalTagDependAnalyzeResultView extends JPanel {
 	}
 
 	private JComponent initializeUi() {
+		SortableTable _sortableTable = null;
+	    DefaultUndoableTableModel _defaultModel;
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0};
@@ -66,6 +78,28 @@ public class PhysicalTagDependAnalyzeResultView extends JPanel {
 		resultTable = new JTable(tableModel);
 		resultTable.setRowSorter(sorter);
 		resultTableScrollPane.setViewportView(resultTable);
+		
+		
+		
+		_defaultModel = (DefaultUndoableTableModel) new DefaultUndoableTableModel();
+		_sortableTable = new SortableTable(_defaultModel);
+		InputMap map = _sortableTable.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        map.put(KeyStroke.getKeyStroke("control Z"), "undo");
+        map.put(KeyStroke.getKeyStroke("control Y"), "redo");
+
+        ((JideTableTransferHandler) _sortableTable.getTransferHandler()).setAcceptImport(true);
+        _sortableTable.setNonContiguousCellSelection(false);		        
+        _sortableTable.setDragEnabled(true);		        
+        _sortableTable.setDropMode(DropMode.INSERT);
+        
+        
+         _sortableTable.setClickCountToStart(2);		
+        TableHeaderPopupMenuInstaller installer = new TableHeaderPopupMenuInstaller(_sortableTable);
+        installer.addTableHeaderPopupMenuCustomizer(new AutoResizePopupMenuCustomizer());
+        installer.addTableHeaderPopupMenuCustomizer(new TableColumnChooserPopupMenuCustomizer());
+		
+        
+        
 		return resultTableScrollPane;
 	}
 

@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
 import com.naru.uclair.project.TagDictionary;
-import com.naru.uclair.script.functions.object.ExcelObject;
 import com.naru.uclair.tag.DataTag;
 import com.naru.uclair.tag.ITagConstants;
 import com.naru.uclair.tag.ItemDeviceAdapter;
