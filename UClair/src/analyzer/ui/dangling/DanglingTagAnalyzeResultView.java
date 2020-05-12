@@ -45,6 +45,7 @@ public class DanglingTagAnalyzeResultView extends JPanel {
 	
 	public DanglingTagAnalyzeResultView() {
 		final DocumentComponent document = new DocumentComponent(initializeUi(), DANGLING_TAG_RESULT_VIEW_KEY);
+		
         if (_workspacePane.getDocument(DANGLING_TAG_RESULT_VIEW_KEY) != null) {	
 			_workspacePane.setActiveDocument(DANGLING_TAG_RESULT_VIEW_KEY);
 		} else {	
@@ -74,7 +75,7 @@ public class DanglingTagAnalyzeResultView extends JPanel {
 		JTable resultTable = new JTable(tableModel);
 		TableRowSorter<DanglingTagAnalyzeResultTableModel> tableRowSorter = new TableRowSorter<DanglingTagAnalyzeResultTableModel>(tableModel);
 		resultTable.setRowSorter(tableRowSorter);
-		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		TableColumn column = resultTable.getColumnModel().getColumn(0);
 		column.setPreferredWidth(250);
@@ -86,7 +87,7 @@ public class DanglingTagAnalyzeResultView extends JPanel {
 		column.setPreferredWidth(800);
 		
 		scrollPane.setViewportView(resultTable);
-		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 		JLabel statusLabel = new JLabel("전체태그 : XX개, 실 태그 : XX개, 가상태그 : XX개, 아날로그 태그 : XX개, 문자열 태그 : XX개");
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
 		gbc_statusLabel.anchor = GridBagConstraints.WEST;

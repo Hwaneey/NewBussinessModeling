@@ -90,11 +90,8 @@ public class ExcelConnector {
 		        map.put(KeyStroke.getKeyStroke("control Y"), "redo");
 
 		        ((JideTableTransferHandler) _sortableTable.getTransferHandler()).setAcceptImport(true);
-		        
-		        _sortableTable.setNonContiguousCellSelection(false);
-		        
-		        _sortableTable.setDragEnabled(true);
-		        
+		        _sortableTable.setNonContiguousCellSelection(false);		        
+		        _sortableTable.setDragEnabled(true);		        
 		        _sortableTable.setDropMode(DropMode.INSERT);
 		        
 		        

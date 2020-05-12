@@ -1,12 +1,16 @@
 package analyzer.views.projectinfo;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultCaret;
+
+import org.apache.commons.collections4.SetValuedMap;
 
 import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
@@ -59,12 +63,20 @@ public class ProjectInfoView extends JPanel {
 	private JTextArea systemOutTextArea;
 	public static final String PROJECT_INFO_EDITOR_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.project.key"); //$NON-NLS-1$
+	
 	private JComponent initialize() {
+		
 		this.setLayout(new BorderLayout());
-		systemOutTextArea = new JTextArea();
+		systemOutTextArea = new JTextArea();		
 		systemOutTextArea.setEditable(false);
-
-		return new JScrollPane(systemOutTextArea);
+		
+		DefaultCaret caret = (DefaultCaret) systemOutTextArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
+		
+		JScrollPane resultTableScrollPane = new JScrollPane();
+		resultTableScrollPane.setViewportView(systemOutTextArea);
+		
+		return resultTableScrollPane;
 	}
 
 	public ProjectInfoView(String key) {
