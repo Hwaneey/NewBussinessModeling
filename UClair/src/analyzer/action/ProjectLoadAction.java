@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
+import com.jidesoft.document.DocumentPane;
 import com.naru.common.ui.NormalProgressWindow;
 import com.naru.uclair.exception.ProjectNotLoadedException;
 import com.naru.uclair.project.Project;
@@ -16,6 +17,7 @@ import com.naru.uclair.project.ProjectLoader;
 
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
+import analyzer.frame.AnalyzerMainFrame;
 
 public class ProjectLoadAction extends AbstractCommonAction implements PropertyChangeListener {
 
@@ -23,7 +25,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 
 	
 	private NormalProgressWindow progressWindow = null;
-
+	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 	private String FILE_LOAD_MSG = AnalyzerConstants
 			.getString("ProjectLoadAction.Load.File");
 	private String DATABASE_LOAD_MSG = AnalyzerConstants
@@ -119,8 +121,8 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 					}
 				};
 				worker.execute();
-				;
 				progressWindow.setVisible(true);
+	
 				System.out.println("ProjectLoadAction 오류 없음");
 			}
 		}

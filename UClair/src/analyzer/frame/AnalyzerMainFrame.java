@@ -100,7 +100,7 @@ public class AnalyzerMainFrame {
 		return _frame;
 	}
 
-	private static void clearUp() {
+	public static void clearUp() {
 		_frame.removeWindowListener(_windowListener);
 		_windowListener = null;
 		if (_frame.getDockingManager() != null) {

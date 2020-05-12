@@ -71,7 +71,7 @@ public class EachTagDependAnalyzeResultView extends JPanel {
 		TableRowSorter<EachTagDependAnalyzeResultTableModel> tableRowSorter = 
 			new TableRowSorter<EachTagDependAnalyzeResultTableModel>(tableModel);
 		resultTable.setRowSorter(tableRowSorter);
-		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		resultTableScrollPane.setViewportView(resultTable);
 		

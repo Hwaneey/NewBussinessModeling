@@ -29,7 +29,7 @@ public class DanglingTagAnalyzeAction extends AbstractProjectRelatedAction imple
 
 	private static final long serialVersionUID = 1L;
 	private NormalProgressWindow progressWindow;
-//	private DanglingTagAnalzeDialog analzeDialog;
+
 
 	public DanglingTagAnalyzeAction(Analyzer analyzer) {
 		super(analyzer);
@@ -78,8 +78,6 @@ public class DanglingTagAnalyzeAction extends AbstractProjectRelatedAction imple
 		};
 		worker.execute();
 		progressWindow.setVisible(true);
-		
-		//analyzer.showWorkspace(AnalyzerEditorFactory.DANGLING_TAG_RESULT_VIEW_KEY);
 	}
 
 	@Override

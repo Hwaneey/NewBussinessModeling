@@ -69,7 +69,7 @@ public class EffectCompatibilityAnalyzeResultView extends JPanel {
 		TableRowSorter<EffectCompatibilityAnalyzeResultTableModel> tableRowSorter = 
 			new TableRowSorter<EffectCompatibilityAnalyzeResultTableModel>(tableModel);
 		resultTable.setRowSorter(tableRowSorter);
-		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		TableColumn column = resultTable.getColumnModel().getColumn(0);
 		column.setPreferredWidth(150);
