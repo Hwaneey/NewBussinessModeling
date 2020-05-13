@@ -1,7 +1,6 @@
 package analyzer.views.projectinfo;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
@@ -10,10 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
 
-import org.apache.commons.collections4.SetValuedMap;
-
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
 import com.naru.uclair.alarm.AlarmGroup;
 import com.naru.uclair.collection.AlarmDataCollection;
 import com.naru.uclair.collection.ChangeDataCollection;
@@ -22,7 +17,6 @@ import com.naru.uclair.collection.OperationDataCollection;
 import com.naru.uclair.collection.TrendDataCollection;
 import com.naru.uclair.database.Database;
 import com.naru.uclair.device.info.DeviceGroupList;
-import com.naru.uclair.device.info.DeviceInfo;
 import com.naru.uclair.event.EventGroup;
 import com.naru.uclair.event.EventGroupList;
 import com.naru.uclair.event.IHMIEvent;
@@ -32,14 +26,12 @@ import com.naru.uclair.project.DataCollectionConfiguration;
 import com.naru.uclair.project.DatabaseConfiguration;
 import com.naru.uclair.project.DeviceConfiguration;
 import com.naru.uclair.project.EventDictionary;
-import com.naru.uclair.project.IProjectConstants;
 import com.naru.uclair.project.NetworkConfiguration;
 import com.naru.uclair.project.Project;
 import com.naru.uclair.project.ProjectConfiguration;
 import com.naru.uclair.project.ScriptDictionary;
 import com.naru.uclair.project.SecurityConfiguration;
 import com.naru.uclair.project.TagDictionary;
-import com.naru.uclair.script.Script;
 import com.naru.uclair.security.UserGroup;
 import com.naru.uclair.tag.AnalogTag;
 import com.naru.uclair.tag.DataTag;
@@ -49,7 +41,7 @@ import com.naru.uclair.tag.StringTag;
 import com.naru.uclair.tag.Tag;
 
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
+import analyzer.util.OpenView;
 /************************************************
  * @date	: 2020. 5.07.
  * @책임자 :  지한별
@@ -59,7 +51,6 @@ import analyzer.frame.AnalyzerMainFrame;
 public class ProjectInfoView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
 	private JTextArea systemOutTextArea;
 	public static final String PROJECT_INFO_EDITOR_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.project.key"); //$NON-NLS-1$
@@ -80,13 +71,8 @@ public class ProjectInfoView extends JPanel {
 	}
 
 	public ProjectInfoView(String key) {
-		final DocumentComponent document = new DocumentComponent(initialize(),PROJECT_INFO_EDITOR_KEY);
-        if (_workspacePane.getDocument(PROJECT_INFO_EDITOR_KEY) != null) {	
-			_workspacePane.setActiveDocument(PROJECT_INFO_EDITOR_KEY);
-		} else {	
-	        _workspacePane.openDocument(document);
-	        _workspacePane.setActiveDocument(PROJECT_INFO_EDITOR_KEY);
-		}
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initialize(), PROJECT_INFO_EDITOR_KEY);
 	}
 
 	public void appendText(String message) {

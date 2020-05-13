@@ -1,23 +1,18 @@
 package analyzer.ui.virtual;
 
 import java.awt.GridBagConstraints;
-
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
-
-import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
 import analyzer.analysis.virtual.VirtualDepend;
+import analyzer.constants.AnalyzerConstants;
+import analyzer.util.OpenView;
 
 
 /************************************************
@@ -36,22 +31,12 @@ public class VirtualTagAnalyzeResultView extends JPanel {
 	private JLabel tagNameLabel;
 	public static final String VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.VirtualTag.Key"); //$NON-NLS-1$
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
-
 	/**
 	 * Create the panel.
 	 */
 	public VirtualTagAnalyzeResultView() {
-		
-		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
-	       if (_workspacePane.getDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
-				_workspacePane.setActiveDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
-			} else {	
-		        _workspacePane.openDocument(document);
-		        _workspacePane.setActiveDocument(VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
-			}
-		
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY);
 	}
 	
 	private JTable initializeUi() {

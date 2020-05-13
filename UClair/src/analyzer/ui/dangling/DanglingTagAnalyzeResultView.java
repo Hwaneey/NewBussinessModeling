@@ -13,14 +13,9 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentComponentAdapter;
-import com.jidesoft.document.DocumentComponentEvent;
-import com.jidesoft.document.DocumentPane;
-
 import analyzer.analysis.dangling.DanglingTagResult;
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
+import analyzer.util.OpenView;
 
 /************************************************
  * @date	: 2020. 5.07.
@@ -38,21 +33,13 @@ public class DanglingTagAnalyzeResultView extends JPanel {
 	private DanglingTagAnalyzeResultTableModel tableModel;
 	public static final String DANGLING_TAG_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.DanglingTag.key"); //$NON-NLS-1$
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 	/**
 	 * Create the panel.
 	 */
 	
 	public DanglingTagAnalyzeResultView() {
-		final DocumentComponent document = new DocumentComponent(initializeUi(), DANGLING_TAG_RESULT_VIEW_KEY);
-		
-        if (_workspacePane.getDocument(DANGLING_TAG_RESULT_VIEW_KEY) != null) {	
-			_workspacePane.setActiveDocument(DANGLING_TAG_RESULT_VIEW_KEY);
-		} else {	
-	        _workspacePane.openDocument(document);
-	        _workspacePane.setActiveDocument(DANGLING_TAG_RESULT_VIEW_KEY);
-		}
-		
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), DANGLING_TAG_RESULT_VIEW_KEY);
 	}
 	
 	private JComponent initializeUi() {

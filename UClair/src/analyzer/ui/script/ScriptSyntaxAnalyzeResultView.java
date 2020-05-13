@@ -9,12 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
-
 import analyzer.analysis.script.ScriptSyntaxAnalysisResult;
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
+import analyzer.util.OpenView;
 
 /************************************************
  * @date	: 2020. 5.07.
@@ -33,20 +30,12 @@ public class ScriptSyntaxAnalyzeResultView extends JPanel {
 	private ScriptSyntaxAnalyzeResultTableModel tableModel;
 	public static final String SCRIPT_SYNTAX_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.ScriptSyntax.Key"); //$NON-NLS-1$
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
-	
 	/**
 	 * Create the panel.
 	 */
 	public ScriptSyntaxAnalyzeResultView() {
-		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(),SCRIPT_SYNTAX_RESULT_VIEW_KEY );
-        if (_workspacePane.getDocument(SCRIPT_SYNTAX_RESULT_VIEW_KEY) != null) {	
-			_workspacePane.setActiveDocument(SCRIPT_SYNTAX_RESULT_VIEW_KEY);
-		} else {	
-	        _workspacePane.openDocument(document);
-	        _workspacePane.setActiveDocument(SCRIPT_SYNTAX_RESULT_VIEW_KEY);
-		}
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), SCRIPT_SYNTAX_RESULT_VIEW_KEY);
 	}
 
 	private JComponent initializeUi() {

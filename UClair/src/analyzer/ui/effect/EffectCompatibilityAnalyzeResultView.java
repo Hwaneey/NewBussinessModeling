@@ -1,22 +1,19 @@
 package analyzer.ui.effect;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
-
 import analyzer.analysis.effect.EffectCompatibilityResult;
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
+import analyzer.util.OpenView;
 
 
 /************************************************
@@ -33,20 +30,14 @@ public class EffectCompatibilityAnalyzeResultView extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private EffectCompatibilityAnalyzeResultTableModel tableModel;
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 	public static final String EFFECT_COMPATIBILITY_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.EffectCompatibility.Key"); //$NON-NLS-1$
 	/**
 	 * Create the panel.
 	 */
 	public EffectCompatibilityAnalyzeResultView() {
-		final DocumentComponent document = new DocumentComponent(initializeUi(), EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
-		if (_workspacePane.getDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY) != null) {	
-			_workspacePane.setActiveDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
-		} else {	
-	        _workspacePane.openDocument(document);
-	        _workspacePane.setActiveDocument(EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
-		}
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), EFFECT_COMPATIBILITY_RESULT_VIEW_KEY);
 	}
 
 	private JComponent initializeUi() {

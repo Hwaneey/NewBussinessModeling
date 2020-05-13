@@ -1,23 +1,19 @@
 package analyzer.ui.linked;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JScrollPane;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
-
 import analyzer.analysis.linked.ObjectTagLinkResult;
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
-import analyzer.ui.physical.PhysicalTagDependAnalyzeResultTableModel;
+import analyzer.util.OpenView;
 
 /************************************************
  * @date	: 2020. 5.07.
@@ -36,20 +32,12 @@ public class ObjectTagLinkAnalyzeResultView extends JPanel {
 	public static final String OBJECT_TAG_LINK_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.ObjectTagLink.Key"); //$NON-NLS-1$
 	ObjectTagLinkAnalyzeResultTableModel tableModel = null;
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;		
-
 	/**
 	 * Create the panel.
 	 */
 	public ObjectTagLinkAnalyzeResultView() {
-//		initializeUi();
-		final DocumentComponent document = new DocumentComponent(initializeUi(), OBJECT_TAG_LINK_RESULT_VIEW_KEY);
-	      if (_workspacePane.getDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY) != null) {	
-				_workspacePane.setActiveDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY);
-			} else {	
-		        _workspacePane.openDocument(document);
-		        _workspacePane.setActiveDocument(OBJECT_TAG_LINK_RESULT_VIEW_KEY);
-			}
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), OBJECT_TAG_LINK_RESULT_VIEW_KEY);
 	}
 	
 	private JComponent initializeUi() {

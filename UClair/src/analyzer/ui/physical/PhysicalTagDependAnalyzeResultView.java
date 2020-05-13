@@ -12,8 +12,6 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.TableRowSorter;
 
-import com.jidesoft.document.DocumentComponent;
-import com.jidesoft.document.DocumentPane;
 import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
 import com.jidesoft.grid.DefaultUndoableTableModel;
 import com.jidesoft.grid.JideTableTransferHandler;
@@ -23,7 +21,7 @@ import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
 
 import analyzer.analysis.tag.PhysicalDepend;
 import analyzer.constants.AnalyzerConstants;
-import analyzer.frame.AnalyzerMainFrame;
+import analyzer.util.OpenView;
 /************************************************
  * @date	: 2020. 5.07.
  * @책임자 : 지이삭
@@ -40,18 +38,12 @@ public class PhysicalTagDependAnalyzeResultView extends JPanel {
 	private TableRowSorter<PhysicalTagDependAnalyzeResultTableModel> sorter;
 	public static final String PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.PysicalAddress.Key"); //$NON-NLS-1$
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
 	/**
 	 * Create the panel.
 	 */
 	public PhysicalTagDependAnalyzeResultView() {
-		final DocumentComponent document = new DocumentComponent(new JScrollPane(initializeUi()), PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);		
-        if (_workspacePane.getDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY) != null) {	
-			_workspacePane.setActiveDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
-		} else {	
-	        _workspacePane.openDocument(document);
-	        _workspacePane.setActiveDocument(PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
-		}
+		OpenView resultview = new OpenView();
+		resultview.ResultView(initializeUi(), PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY);
 	}
 
 	private JComponent initializeUi() {
