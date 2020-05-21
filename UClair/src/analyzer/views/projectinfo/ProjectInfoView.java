@@ -1,6 +1,7 @@
 package analyzer.views.projectinfo;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.util.Iterator;
 
 import javax.swing.JComponent;
@@ -61,7 +62,10 @@ public class ProjectInfoView extends JPanel {
 		systemOutTextArea = new JTextArea();		
 		systemOutTextArea.setEditable(false);
 		
-		DefaultCaret caret = (DefaultCaret) systemOutTextArea.getCaret();
+		systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, 17));
+		
+		DefaultCaret caret = (DefaultCaret)
+				systemOutTextArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 		
 		JScrollPane resultTableScrollPane = new JScrollPane();
@@ -175,6 +179,7 @@ public class ProjectInfoView extends JPanel {
 		}
 		
 		this.appendText("#####<태그사전 정보>#####\n");
+		this.appendText("\n");
 		this.appendText("총 태그 수 : " + totalCount);
 		this.appendText(", 가상 태그 수 : " + virtualCount);
 		this.appendText(", 물리 태그 수 : " + physicalCount);
@@ -189,6 +194,7 @@ public class ProjectInfoView extends JPanel {
 	private void initDatabase(Project p) {
 		DatabaseConfiguration configuration = p.getDatabaseConfiguration();
 		this.appendText("####<데이터베이스 정보>####\n");
+		this.appendText("\n");
 		this.appendText("마스터 저장 데이터베이스 : " + ((null == configuration.getMasterDatabase()) ? "없음" : configuration.getMasterDatabase()));
 		this.appendText("\n");
 		Iterator<Database> dbIt = configuration.getAllDatabases();
@@ -226,6 +232,7 @@ public class ProjectInfoView extends JPanel {
 	private void initAlarmGroup(Project p) {
 		AlarmConfiguration configuration = p.getAlarmConfiguration();
 		this.appendText("#####<경보그룹 정보>#####\n");
+		this.appendText("\n");
 		Iterator<AlarmGroup> alarmGroupIt = configuration.getAllAlarmGroups().iterator();
 		while(alarmGroupIt.hasNext()) {
 			AlarmGroup alarmGroup = alarmGroupIt.next();
