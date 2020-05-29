@@ -2,14 +2,18 @@ package analyzer;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.jidesoft.action.DefaultDockableBarDockableHolder;
 import com.jidesoft.plaf.LookAndFeelFactory;
@@ -23,9 +27,9 @@ import com.naru.uclair.workspace.HMIWorkspace;
 
 import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
+import analyzer.icon.AnalyzerIconFactory;
 import analyzer.listener.AnalyzerEventListener;
 import analyzer.menu.MenuBar;
-
 
 public class Analyzer extends DefaultDockableBarDockableHolder  {
 
@@ -62,7 +66,6 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 //				} catch( Exception ex ) {
 //				    System.err.println( "Failed to initialize LaF" );
 //				}
-				
 				LookAndFeelFactory.installDefaultLookAndFeelAndExtension();
 				LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_XERTO);
 				new Analyzer(new JFrame());
@@ -152,7 +155,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			HMIWorkspace.getInstance().setStartProject(
 					currentProject.getProjectPath());
 			HMIWorkspace.getInstance().save();
-			AnalyzerMainFrame._frame.setTitle(AnalyzerMainFrame.TITLE + " | " + currentProject.getProjectPath());
+			AnalyzerMainFrame._frame.setTitle(AnalyzerMainFrame.TITLE + " | " 
+						+ currentProject.getProjectPath().getPath().substring(1));
 			
 		} else {
 			AnalyzerMainFrame._frame.setTitle(AnalyzerMainFrame.TITLE);
@@ -198,7 +202,6 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	
 	public JComponent getEditor(final String key) {
 		if (null != workspacePane) {
-
 			final int index = workspacePane.indexOfTab(key);
 			if (-1 != index) {
 				if (index != workspacePane.getSelectedIndex()) {
@@ -226,18 +229,14 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 
 	public void showWorkspace(final String key) {
-		// TODO Auto-generated method stub
 		if (null != workspacePane) {
 			final int index = workspacePane.indexOfTab(key);
 			if (-1 != index) {
-				
 				if (index != workspacePane.getSelectedIndex()) {
 					workspacePane.setSelectedIndex(index);
 				}
 			} else {
-				
-				final JComponent c = AnalyzerEditorFactory.getFactory()
-						.getEditor(key);
+				final JComponent c = AnalyzerEditorFactory.getFactory().getEditor(key);
 				if (null != c) {
 					workspacePane.addTab(key, (Component) c);
 					workspacePane.setSelectedComponent((Component) c);

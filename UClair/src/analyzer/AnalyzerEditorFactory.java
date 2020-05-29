@@ -5,6 +5,7 @@ package analyzer;
 
 import java.util.Hashtable;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import com.jidesoft.document.DocumentComponent;
@@ -12,6 +13,7 @@ import com.jidesoft.document.DocumentPane;
 import com.naru.common.NaruAssert;
 import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
+import analyzer.icon.AnalyzerIconFactory;
 import analyzer.ui.dangling.DanglingTagAnalyzeResultView;
 import analyzer.ui.dangling.DanglingTagAnalyzeResultView;
 import analyzer.ui.each.EachTagDependAnalyzeResultView;
@@ -38,7 +40,7 @@ import com.naru.uclair.util.HmiVMOptions;
 public class AnalyzerEditorFactory {
 
 	public static final String PROJECT_INFO_EDITOR_KEY = AnalyzerConstants
-			.getString("AnalyzerEditorFactory.project.key"); //$NON-NLS-1$
+			.getString("AnalyzerEditorFactory.ProjectInfo.key"); //$NON-NLS-1$
 	public static final String DATABASE_INFO_EDITOR_KEY = AnalyzerConstants
 			.getString("AnalyzerEditorFactory.database.key"); //$NON-NLS-1$
 	public static final String NETWORK_INFO_EDITOR_KEY = AnalyzerConstants
@@ -146,6 +148,32 @@ public class AnalyzerEditorFactory {
 			resultView = null;
 		}
 		return resultView;
+	}
+	
+	public Icon getIcon(String key) {
+		Icon icon = null;
+		if (PROJECT_INFO_EDITOR_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.PROJECT_INFO_ANALYSIS);
+		} else if (DANGLING_TAG_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.DANGLING_TAG_ANALYSIS);
+		} else if (EACH_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.EACH_TAG_DEPENDENCY_ANALYSIS);
+		} else if (VIRTUAL_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.VIRTUAL_TAG_DEPENDENCY_ANALYSIS);
+		} else if (PHYSICAL_ADRESS_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.PHYSICAL_ADRESS_DEPENDENCY_ANALYSIS);
+		} else if (OBJECT_TAG_LINK_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.OBJECT_TAG_LINK_INFO_ANALYSIS);
+		} else if (EVENT_TAG_DEPENDENCY_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.EVENT_TAG_DEPENDENCY_ANALYSIS);
+		} else if (SCRIPT_SYNTAX_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.SCRIPT_ANALYSIS);
+		} else if (EFFECT_COMPATIBILITY_RESULT_VIEW_KEY.equals(key)) {
+			icon = AnalyzerIconFactory.getIcon(AnalyzerActionFactory.OBJECT_EFFECT_COMPATIBILITY_ANALYSIS);
+		} else {	
+			
+		}
+		return icon;
 	}
 
 	private JComponent createProjectInfoEditor() {

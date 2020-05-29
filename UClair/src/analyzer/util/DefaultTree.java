@@ -5,6 +5,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 
+import analyzer.constants.AnalyzerConstants;
+import analyzer.frame.AnalyzerFrame;
+
 /**
  *  DefaultTree
  */
@@ -23,24 +26,30 @@ public class DefaultTree extends JTree
 	{
 		super();
 		TreeModel treeModel = getDefaultTreeModel();
-		
+		this.setCellRenderer(new AnalyTreeCellRenderer());
 		this.setModel(treeModel);
 	}
 	
 	public static TreeModel getDefaultTreeModel() {
+		
+		final String[] tools = { 	
+									AnalyzerFrame.ANALYZE_PROJECT,
+									AnalyzerFrame.ANALYZE_DANGLING_TAG, 
+		        					AnalyzerFrame.ANALYZE_EACH_TAG_DEPENDENCY,
+		        					AnalyzerFrame.ANALYZE_VIRTUAL_TAG_DEPENDENCY, 
+		        					AnalyzerFrame.ANALYZE_PHYSICAL_TAG,
+		        					AnalyzerFrame.ANALYZE_LINKED_TAG,
+		        					AnalyzerFrame.ANALYZE_EVENT_DEPENDENCY, 
+		        					AnalyzerFrame.ANALYZE_SCRIPT_SYNTAX,
+		        					AnalyzerFrame.ANALYZE_EFFECT_COMPATIBILITY
+		        				};
+		
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("AFactoryMonitoring");
-		rootNode.add(new DefaultMutableTreeNode("프로젝트 정보 분석"));
-		rootNode.add(new DefaultMutableTreeNode("존재하지 않는 태그 분석"));
-		rootNode.add(new DefaultMutableTreeNode("개별태그 종속성 분석"));
-		rootNode.add(new DefaultMutableTreeNode("가상태그 종속성 분석"));
-		rootNode.add(new DefaultMutableTreeNode("물리주소 종속성 분석"));
-		rootNode.add(new DefaultMutableTreeNode("객체태그 연결정보 분석"));
-		rootNode.add(new DefaultMutableTreeNode("이벤트 종속성 분석"));
-		rootNode.add(new DefaultMutableTreeNode("계산스크립트 검증"));
-		rootNode.add(new DefaultMutableTreeNode("객체효과 양립성 분석"));
+		
+		for(int i = 0; i < tools.length; i++)
+			rootNode.add(new DefaultMutableTreeNode(tools[i]));
 		
 		TreeModel treeModel = new DefaultTreeModel(rootNode);
-		
 		return treeModel;
 	}
 	

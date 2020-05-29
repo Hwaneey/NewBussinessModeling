@@ -45,6 +45,7 @@ public class AnalyzerActionFactory {
 	public static final int OPEN_PROJECT = 2;
 	public static final int CLOSE_PROJECT = 3;
 
+	public static final int PROJECT_INFO_ANALYSIS = 499;
 	public static final int DANGLING_TAG_ANALYSIS = 500;
 	public static final int VIRTUAL_TAG_DEPENDENCY_ANALYSIS = 501;
 	public static final int PHYSICAL_ADRESS_DEPENDENCY_ANALYSIS = 502;

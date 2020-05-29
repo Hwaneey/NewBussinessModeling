@@ -36,57 +36,42 @@ public class AnalyzerFrame {
 		AnalyzerMainFrame.analysorTree = new DefaultTree();
 		AnalyzerMainFrame.analysorTree.setVisible(false);
 		AnalyzerMainFrame.analysorTree.addMouseListener(new MouseListener() {
-			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
+
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mousePressed(MouseEvent e) {}
+
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseExited(MouseEvent e) {}
+
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseEntered(MouseEvent e) {}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if(!(e.getSource() instanceof JTree)) {
 					return;
 				}
-				
+
 				if(e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() == 2) {
 					JTree viewTree = (JTree) e.getSource();
-					
+
 					Object obj = viewTree.getLastSelectedPathComponent();
-					
+
 					if(obj instanceof DefaultMutableTreeNode) {
 						performedTreeNodeClick((DefaultMutableTreeNode) obj);
 					}
 				}
-
 			}
 
-						
 			private void performedTreeNodeClick(DefaultMutableTreeNode treeNode) {
 				if(null != treeNode) {
 					Action action = null;
 					AnalyzerActionFactory actionFactory = AnalyzerActionFactory.getFactory();
-					
+
 					if(ANALYZE_PROJECT.equals(treeNode.getUserObject())) {
 						action = actionFactory.getAction(AnalyzerActionFactory.PROJECT_INFO);
 					}
@@ -114,14 +99,14 @@ public class AnalyzerFrame {
 					else if(ANALYZE_EFFECT_COMPATIBILITY.equals(treeNode.getUserObject())) {
 						action = actionFactory.getAction(AnalyzerActionFactory.OBJECT_EFFECT_COMPATIBILITY_ANALYSIS);
 					}
-					
+
 					if(null != action) {
 						action.actionPerformed(null);
 					}
 				}
 			}
 		});
-		
+
 		DockableFrame frame = AnalyzerMainFrame.createDockableFrame("분석기", new ImageIcon(AnalyzerIconFactory.ANALYZE));
 		frame.getContext().setInitMode(DockContext.STATE_FRAMEDOCKED);
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_WEST);

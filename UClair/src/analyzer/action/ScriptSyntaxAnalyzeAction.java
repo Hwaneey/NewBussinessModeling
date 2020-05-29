@@ -48,6 +48,7 @@ public class ScriptSyntaxAnalyzeAction extends AbstractProjectRelatedAction {
 		
 		// TODO 분석/취소 확인 후 표시
 		analyzer.showWorkspace(AnalyzerEditorFactory.SCRIPT_SYNTAX_RESULT_VIEW_KEY);
+		
 	}
 
 }

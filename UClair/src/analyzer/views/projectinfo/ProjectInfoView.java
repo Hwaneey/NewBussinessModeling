@@ -54,7 +54,7 @@ public class ProjectInfoView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextArea systemOutTextArea;
 	public static final String PROJECT_INFO_EDITOR_KEY = AnalyzerConstants
-			.getString("AnalyzerEditorFactory.project.key"); //$NON-NLS-1$
+			.getString("AnalyzerEditorFactory.ProjectInfo.key"); //$NON-NLS-1$
 	
 	private JComponent initialize() {
 		
@@ -93,12 +93,12 @@ public class ProjectInfoView extends JPanel {
 	 */
 	public void setProject(Project p) {
 		ProjectConfiguration config = p.getProjectConfiguration();
-		this.appendText("\n<< 프로젝트 정보 >>\n");
+		this.appendText("<< 프로젝트 정보 >>\n");
 		this.appendText("\n프로젝트 명 : ");
 		this.appendText(p.getProjectConfiguration().getName());
 		this.appendText("\n");
 		this.appendText("프로젝트 경로 : ");
-		this.appendText(p.getProjectPath().toString());
+		this.appendText(p.getProjectPath().getPath().substring(1));
 		this.appendText("\n");
 		this.appendText("화면 기본 해상도  너비 : " + config.getResolution().getWidth() + " 높이 : " + config.getResolution().getHeight());
 		this.appendText("\n");
