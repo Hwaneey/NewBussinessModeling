@@ -18,6 +18,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.jidesoft.action.DefaultDockableBarDockableHolder;
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideTabbedPane;
+import com.naru.common.JideLicenseInstaller;
 import com.naru.uclair.common.SystemResourceManager;
 import com.naru.uclair.draw.util.WindowSelectDialog;
 import com.naru.uclair.project.Project;
@@ -55,6 +56,7 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	}
 
 	public static void main(String[] args) {
+		JideLicenseInstaller.install();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				/**
