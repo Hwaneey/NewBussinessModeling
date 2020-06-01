@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
 import analyzer.action.DanglingTagAnalyzeAction;
@@ -24,6 +25,7 @@ import analyzer.action.ProjectLoadAction;
 import analyzer.action.ScriptSyntaxAnalyzeAction;
 import analyzer.action.VirtualTagDependAnalyzeAction;
 import analyzer.action.WindowTestSheetGenerateAction;
+import analyzer.icon.AnalyzerIconFactory;
 
 
 
@@ -174,6 +176,17 @@ public class AnalyzerActionFactory {
 		return actionFactory;
 	}
 	
+	public String getKey(int actionType) {
+		String key = null;
+		try {
+			key = resource.getString(Integer.toString(actionType));
+		} catch (MissingResourceException mre) {
+			System.out.println(actionType + "에 대한 resource가 정의되지 않았습니다.");
+			return null;
+		}
+		return key;
+	}
+	
 	public Action getAction(int actionType) {
 		// 이미 생성된 Action은 테이블로 부터 반환.
 		if (actionMap.containsKey(actionType)) {
@@ -255,7 +268,7 @@ public class AnalyzerActionFactory {
 			break;		
 		case PROJECT_INFO:			
 			action = new ProjectInfoAnalyzeAction(analyzer);
-			configureAction(action, key);			
+			configureAction(action, key);		
 			break;		
 		default:
 			// do nothing.
@@ -273,7 +286,8 @@ public class AnalyzerActionFactory {
 		action.putValue(Action.MNEMONIC_KEY, getMnemonic(key));
 		action.putValue(Action.ACCELERATOR_KEY, getAccelerator(key));
 		action.putValue(Action.SHORT_DESCRIPTION, getTooltip(key));
-		action.putValue(Action.LONG_DESCRIPTION,"Context Sensitive Help Test.");
+		action.putValue(Action.LONG_DESCRIPTION, "Context Sensitive Help Test.");
+		action.putValue(Action.SMALL_ICON, AnalyzerIconFactory.getSmallIcon(key));
 	}
 	
 	public String getName(String key) {

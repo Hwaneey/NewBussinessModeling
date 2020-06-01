@@ -28,6 +28,7 @@ import com.naru.uclair.workspace.HMIWorkspace;
 
 import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
+import analyzer.frame.ToolBarFrame;
 import analyzer.icon.AnalyzerIconFactory;
 import analyzer.listener.AnalyzerEventListener;
 import analyzer.menu.MenuBar;
@@ -53,6 +54,8 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 
 	public Analyzer(String title) throws HeadlessException {
 		super(title);
+		listeners = Collections.synchronizedList(new ArrayList<AnalyzerEventListener>());
+		initialize();
 	}
 
 	public static void main(String[] args) {
@@ -68,10 +71,12 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 //				} catch( Exception ex ) {
 //				    System.err.println( "Failed to initialize LaF" );
 //				}
+				
+//				new Analyzer(new JFrame());
+				
 				LookAndFeelFactory.installDefaultLookAndFeelAndExtension();
 				LookAndFeelFactory.installJideExtension(LookAndFeelFactory.EXTENSION_STYLE_XERTO);
-				new Analyzer(new JFrame());
-				analyzer.frame.AnalyzerMainFrame.showDemo(true);
+				AnalyzerMainFrame.show(true);
 			}
 		});
 	}
@@ -228,8 +233,6 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 	/************************************************
 					VirtualTag
 	 ************************************************/
-
-
 	public void showWorkspace(final String key) {
 		if (null != workspacePane) {
 			final int index = workspacePane.indexOfTab(key);
@@ -246,7 +249,5 @@ public class Analyzer extends DefaultDockableBarDockableHolder  {
 			}
 		}
 	}
-	
-	
-	
+
 }

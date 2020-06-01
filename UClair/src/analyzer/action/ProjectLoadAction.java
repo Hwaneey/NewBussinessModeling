@@ -25,7 +25,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 
 	
 	private NormalProgressWindow progressWindow = null;
-	private static DocumentPane _workspacePane =  AnalyzerMainFrame._workspacePane;
+	private static DocumentPane _workspacePane = AnalyzerMainFrame._workspacePane;
 	private String FILE_LOAD_MSG = AnalyzerConstants
 			.getString("ProjectLoadAction.Load.File");
 	private String DATABASE_LOAD_MSG = AnalyzerConstants

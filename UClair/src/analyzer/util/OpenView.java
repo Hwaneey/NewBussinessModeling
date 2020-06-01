@@ -20,9 +20,8 @@ public class OpenView {
 	String viewkey;
 
 	public void ResultView(JComponent initializeUi, String viewkey) {
-		final DocumentComponent document = new DocumentComponent(initializeUi, viewkey);
 		final Icon icon = AnalyzerEditorFactory.getFactory().getIcon(viewkey);
-		document.setIcon(icon);
+		final DocumentComponent document = new DocumentComponent(initializeUi, viewkey, viewkey, icon);
 
 		if (_workspacePane.getDocument(viewkey) != null) {
 			_workspacePane.setActiveDocument(viewkey);
@@ -30,6 +29,5 @@ public class OpenView {
 			_workspacePane.openDocument(document);
 			_workspacePane.setActiveDocument(viewkey);
 		}
-
 	}
 }

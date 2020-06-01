@@ -8,6 +8,7 @@ import com.jidesoft.docking.DockContext;
 import com.jidesoft.docking.DockableFrame;
 
 import analyzer.icon.AnalyzerIconFactory;
+import analyzer.icon.Office2003IconsFactory;
 
 	/*******************************
 	 * @date	: 2020. 4. 28.

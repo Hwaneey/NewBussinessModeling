@@ -1,13 +1,20 @@
 package analyzer.views.projectinfo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.Iterator;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import com.naru.uclair.alarm.AlarmGroup;
@@ -44,9 +51,9 @@ import com.naru.uclair.tag.Tag;
 import analyzer.constants.AnalyzerConstants;
 import analyzer.util.OpenView;
 /************************************************
- * @date	: 2020. 5.07.
- * @책임자 :  지한별
- * @설명  	:   IO 테스트 
+ * @date	: 	2020. 05. 30
+ * @책임자 	:  	
+ * @설명  	:   프로젝트 정보 분석
  * @변경이력 	: 
  ************************************************/
 public class ProjectInfoView extends JPanel {
@@ -57,12 +64,10 @@ public class ProjectInfoView extends JPanel {
 			.getString("AnalyzerEditorFactory.ProjectInfo.key"); //$NON-NLS-1$
 	
 	private JComponent initialize() {
-		
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0, 0));
 		systemOutTextArea = new JTextArea();		
 		systemOutTextArea.setEditable(false);
-		
-		systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, 17));
+		//systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, 17));
 		
 		DefaultCaret caret = (DefaultCaret)
 				systemOutTextArea.getCaret();
@@ -70,8 +75,9 @@ public class ProjectInfoView extends JPanel {
 		
 		JScrollPane resultTableScrollPane = new JScrollPane();
 		resultTableScrollPane.setViewportView(systemOutTextArea);
+		this.add(resultTableScrollPane, BorderLayout.CENTER);
 		
-		return resultTableScrollPane;
+		return this;
 	}
 
 	public ProjectInfoView(String key) {
