@@ -26,13 +26,12 @@ public class ViewMenu {
 		JMenuItem item;
 		JMenu viewMenu = new JideMenu("뷰");
 
+		/* TODO disabled
 		item = new JMenuItem("다음 뷰");
 		item.setMnemonic('N');
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
 		item.addActionListener(new AbstractAction() {
-			/**
-			 * 
-			 */
+			
 			private static final long serialVersionUID = 2936426823778581714L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -51,9 +50,7 @@ public class ViewMenu {
 		item.setMnemonic('P');
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, InputEvent.SHIFT_MASK));
 		item.addActionListener(new AbstractAction() {
-			/**
-			 * 
-			 */
+			
 			private static final long serialVersionUID = 832843222791401941L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -68,7 +65,7 @@ public class ViewMenu {
 		});
 		viewMenu.add(item);
 
-		viewMenu.addSeparator();
+		viewMenu.addSeparator();*/
 
 		item = new JMenuItem("분석기", new ImageIcon(AnalyzerIconFactory.ANALYZE));
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));

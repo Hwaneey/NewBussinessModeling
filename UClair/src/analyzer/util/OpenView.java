@@ -12,6 +12,7 @@ import com.jidesoft.document.DocumentPane;
 import analyzer.AnalyzerActionFactory;
 import analyzer.AnalyzerEditorFactory;
 import analyzer.frame.AnalyzerMainFrame;
+import analyzer.frame.MessageFrame;
 import analyzer.icon.AnalyzerIconFactory;
 
 public class OpenView {
@@ -28,6 +29,7 @@ public class OpenView {
 		} else {
 			_workspacePane.openDocument(document);
 			_workspacePane.setActiveDocument(viewkey);
+			MessageFrame.appendMessage(viewkey + " open");
 		}
 	}
 }

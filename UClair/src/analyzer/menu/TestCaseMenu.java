@@ -19,7 +19,7 @@ public class TestCaseMenu {
 		JMenu menu = new JideMenu("테스트 케이스");
 
 		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.IO_TEST_CASE_GENERATOR))); 				//IO 테스트 케이스 생성기
-		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.WINDOW_TEST_CASE_GENERATOR))); 			//화면 테스트 케이스 생성기
+		//menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.WINDOW_TEST_CASE_GENERATOR))); 			//화면 테스트 케이스 생성기
 		menu.addSeparator();		
 		menu.add(new JMenuItem(actionFactory.getAction(AnalyzerActionFactory.PROJECT_INFO))); 							//프로젝트 정보
 		return menu;

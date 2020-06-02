@@ -25,6 +25,7 @@ import analyzer.action.ProjectLoadAction;
 import analyzer.action.ScriptSyntaxAnalyzeAction;
 import analyzer.action.VirtualTagDependAnalyzeAction;
 import analyzer.action.WindowTestSheetGenerateAction;
+import analyzer.frame.MessageFrame;
 import analyzer.icon.AnalyzerIconFactory;
 
 
@@ -273,6 +274,7 @@ public class AnalyzerActionFactory {
 		default:
 			// do nothing.
 		}
+		
 
 		if (null != action) {
 			actionMap.put(actionType, action);	

@@ -39,7 +39,7 @@ public class MenuBar {
 		menu.add(fileMenu);
 		menu.add(analyzeMenu);
 		menu.add(testCaseMenu);
-		menu.add(helpMenu);
+		//menu.add(helpMenu);
 		menu.add(viewMenu);
 
 		return menu;

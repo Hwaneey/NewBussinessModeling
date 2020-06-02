@@ -4,9 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,6 +19,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 
@@ -23,6 +29,7 @@ import com.jidesoft.docking.DockContext;
 import com.jidesoft.docking.DockableFrame;
 import com.jidesoft.docking.DockingManager;
 import com.jidesoft.document.DocumentPane;
+import com.jidesoft.document.TdiGroup;
 import com.jidesoft.swing.JideScrollPane;
 import com.jidesoft.swing.JideTabbedPane;
 
@@ -67,9 +74,9 @@ public class AnalyzerMainFrame {
 		_frame.getDockingManager().setOutlineMode(DockingManager.FULL_OUTLINE_MODE);  	
 		_frame.getDockableBarManager().setProfileKey(PROFILE_NAME);  
 
-		
-		ToolBarFrame toolBar = new ToolBarFrame(_frame);
-		_frame.getDockableBarManager().addDockableBar(toolBar.createToolBar());    						// 툴바 추가
+		// TODO disabled
+		//ToolBarFrame toolBar = new ToolBarFrame(_frame);
+		//_frame.getDockableBarManager().addDockableBar(toolBar.createToolBar());    						// 툴바 추가
 		JMenuBar menuBar = MenuBar.createMenuBar();   													// 메뉴 바 추가
 		_frame.setJMenuBar(menuBar);  	
 		
@@ -89,6 +96,52 @@ public class AnalyzerMainFrame {
 				tabbedPane.setShowCloseButton(true);
 				tabbedPane.setShowCloseButtonOnTab(true);
 				tabbedPane.setUseDefaultShowCloseButtonOnTab(false);
+				
+				tabbedPane.setCloseAction(new Action() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						MessageFrame.appendMessage(_workspacePane.getActiveDocumentName()+" closed");
+						_workspacePane.closeDocument(_workspacePane.getActiveDocumentName());
+					}
+					
+					@Override
+					public void setEnabled(boolean b) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void removePropertyChangeListener(PropertyChangeListener listener) {
+						// TODO Auto-generated method stub
+
+					}
+					
+					@Override
+					public void putValue(String key, Object value) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public boolean isEnabled() {
+						// TODO Auto-generated method stub
+						return true;
+					}
+					
+					@Override
+					public Object getValue(String key) {
+						// TODO Auto-generated method stub
+						return null;
+					}
+					
+					@Override
+					public void addPropertyChangeListener(PropertyChangeListener listener) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 

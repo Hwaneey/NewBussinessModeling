@@ -15,6 +15,7 @@ import analyzer.analysis.dangling.DanglingTagResult;
 import analyzer.Analyzer;
 import analyzer.AnalyzerEditorFactory;
 import analyzer.constants.AnalyzerConstants;
+import analyzer.frame.MessageFrame;
 import analyzer.ui.dangling.DanglingTagAnalyzeResultView;
 
 

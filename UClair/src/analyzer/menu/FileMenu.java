@@ -25,6 +25,7 @@ public class FileMenu {
 		
 		menu.setMnemonic(KeyEvent.VK_F);
 
+		/* TODO disabled
 		JMenuItem fileMenuItem1 = new JMenuItem("테스트 테이블 열기");
 		fileMenuItem1.addActionListener(new ActionListener() {
 			@Override
@@ -32,12 +33,13 @@ public class FileMenu {
 				excel.ExcelLoad.openExcel();
 			}
 		});
-		menu.add(fileMenuItem1);
+		menu.add(fileMenuItem1);*/
 
 		//분석기 메뉴 - 프로젝트 열기
 		menu.add(actionFactory.getAction(AnalyzerActionFactory.OPEN_PROJECT));
 
 		//분석기 메뉴 - 프로젝트 저장
+		/* TODO disabled
 		JMenuItem fileMenuItem2 = new JMenuItem("프로젝트 저장");
 		fileMenuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK | ActionEvent.ALT_MASK));
 		fileMenuItem2.addActionListener(new ActionListener()
@@ -49,10 +51,11 @@ public class FileMenu {
 				//}
 			}
 		});
-		menu.add(fileMenuItem2);
+		menu.add(fileMenuItem2);*/
 		
-		//분석기 메뉴 - 프로젝트 닫기
-		menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT));
+		//분석기 메뉴 - 프로젝트 닫기 
+		// TODO disabled
+		//menu.add(actionFactory.getAction(AnalyzerActionFactory.CLOSE_PROJECT));
 
 		menu.addSeparator();
 
