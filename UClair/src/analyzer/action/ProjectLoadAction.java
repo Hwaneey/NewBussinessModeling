@@ -18,6 +18,7 @@ import com.naru.uclair.project.ProjectLoader;
 import analyzer.Analyzer;
 import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
+import analyzer.frame.MessageFrame;
 
 public class ProjectLoadAction extends AbstractCommonAction implements PropertyChangeListener {
 
@@ -28,6 +29,7 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 	private static DocumentPane _workspacePane = AnalyzerMainFrame._workspacePane;
 	private String FILE_LOAD_MSG = AnalyzerConstants
 			.getString("ProjectLoadAction.Load.File");
+	
 	private String DATABASE_LOAD_MSG = AnalyzerConstants
 			.getString("ProjectLoadAction.Load.DB");
 	/**
@@ -156,8 +158,10 @@ public class ProjectLoadAction extends AbstractCommonAction implements PropertyC
 			progressWindow.setText(String.format(DATABASE_LOAD_MSG, msg,
 					progress)
 					+ "%");
-			progressWindow.setProgress(progress);
 
+			MessageFrame.WarningMessage();
+			progressWindow.setProgress(progress);
+			
 			if (ProjectLoader.SAVE_LOAD_COMPLETE.equals(msg)) {
 				progressWindow.setText(AnalyzerConstants
 						.getString("ProjectLoadAction.Load.Complete"));

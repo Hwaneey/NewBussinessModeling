@@ -102,7 +102,7 @@ public class AnalyzerMainFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						MessageFrame.appendMessage(_workspacePane.getActiveDocumentName()+" closed");
+						MessageFrame.appendMessage(_workspacePane.getActiveDocumentName()+" 창이 닫혔습니다.");
 						_workspacePane.closeDocument(_workspacePane.getActiveDocumentName());
 					}
 					

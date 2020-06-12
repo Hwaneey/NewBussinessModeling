@@ -2,18 +2,14 @@ package analyzer;
 
 import java.awt.Component;
 import java.awt.HeadlessException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import com.jidesoft.action.DefaultDockableBarDockableHolder;
 import com.jidesoft.plaf.LookAndFeelFactory;
@@ -28,8 +24,6 @@ import com.naru.uclair.workspace.HMIWorkspace;
 
 import analyzer.constants.AnalyzerConstants;
 import analyzer.frame.AnalyzerMainFrame;
-import analyzer.frame.ToolBarFrame;
-import analyzer.icon.AnalyzerIconFactory;
 import analyzer.listener.AnalyzerEventListener;
 import analyzer.menu.MenuBar;
 

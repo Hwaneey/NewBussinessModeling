@@ -1,19 +1,14 @@
 package analyzer.util;
 
-import java.awt.Component;
-
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import com.jidesoft.document.DocumentComponent;
 import com.jidesoft.document.DocumentPane;
 
-import analyzer.AnalyzerActionFactory;
 import analyzer.AnalyzerEditorFactory;
 import analyzer.frame.AnalyzerMainFrame;
 import analyzer.frame.MessageFrame;
-import analyzer.icon.AnalyzerIconFactory;
 
 public class OpenView {
 	private static DocumentPane _workspacePane = AnalyzerMainFrame._workspacePane;
@@ -29,7 +24,7 @@ public class OpenView {
 		} else {
 			_workspacePane.openDocument(document);
 			_workspacePane.setActiveDocument(viewkey);
-			MessageFrame.appendMessage(viewkey + " open");
+			MessageFrame.appendMessage(viewkey + " 창이 열렸습니다.");
 		}
 	}
 }

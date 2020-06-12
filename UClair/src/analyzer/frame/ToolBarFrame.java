@@ -1,20 +1,13 @@
 package analyzer.frame;
 
-import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
 
 import com.jidesoft.action.CommandBar;
-import com.jidesoft.action.DockableBar;
 import com.jidesoft.action.DockableBarContext;
 import com.jidesoft.swing.JideButton;
-import com.jidesoft.swing.JideSplitButton;
 
 import analyzer.Analyzer;
-import analyzer.AnalyzerActionFactory;
 import analyzer.action.ProjectLoadAction;
-import analyzer.constants.AnalyzerConstants;
-import analyzer.icon.AnalyzerIconFactory;
 import analyzer.icon.Office2003IconsFactory;
 
 public class ToolBarFrame {

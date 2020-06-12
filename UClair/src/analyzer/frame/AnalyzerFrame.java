@@ -112,7 +112,7 @@ public class AnalyzerFrame {
 		frame.getContext().setInitSide(DockContext.DOCK_SIDE_WEST);
 		frame.getContext().setInitIndex(0);
 		frame.getContentPane().setLayout(new BorderLayout());
-		frame.add(AnalyzerMainFrame.createScrollPane(AnalyzerMainFrame.analysorTree));
+		frame.add((AnalyzerMainFrame.analysorTree));
 
 		return frame;
 	}

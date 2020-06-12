@@ -1,20 +1,15 @@
 package analyzer.views.projectinfo;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.Iterator;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import com.naru.uclair.alarm.AlarmGroup;
@@ -51,9 +46,9 @@ import com.naru.uclair.tag.Tag;
 import analyzer.constants.AnalyzerConstants;
 import analyzer.util.OpenView;
 /************************************************
- * @date	: 	2020. 05. 30
- * @책임자 	:  	
- * @설명  	:   프로젝트 정보 분석
+ * @date	: 2020. 5.07.
+ * @책임자 :  지한별
+ * @설명  	:   IO 테스트 
  * @변경이력 	: 
  ************************************************/
 public class ProjectInfoView extends JPanel {
@@ -64,20 +59,37 @@ public class ProjectInfoView extends JPanel {
 			.getString("AnalyzerEditorFactory.ProjectInfo.key"); //$NON-NLS-1$
 	
 	private JComponent initialize() {
-		this.setLayout(new BorderLayout(0, 0));
+		
+		this.setLayout(new BorderLayout());
 		systemOutTextArea = new JTextArea();		
 		systemOutTextArea.setEditable(false);
-		//systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, 17));
 		
+		systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, 17));
+		systemOutTextArea.addMouseWheelListener(new MouseWheelListener() {
+			
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				// TODO Auto-generated method stub
+				int size = systemOutTextArea.getFont().getSize();
+				// TODO Auto-generated method stub
+				if (e.isControlDown()) {
+			        if (e.getWheelRotation() < 0) {            
+			            size += 3;
+			        } else {
+			            size -= 3;
+			        } 
+			        systemOutTextArea.setFont(new Font("Fixedsys", Font.BOLD, size));
+			    }       
+			}
+		});
 		DefaultCaret caret = (DefaultCaret)
 				systemOutTextArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 		
 		JScrollPane resultTableScrollPane = new JScrollPane();
 		resultTableScrollPane.setViewportView(systemOutTextArea);
-		this.add(resultTableScrollPane, BorderLayout.CENTER);
 		
-		return this;
+		return resultTableScrollPane;
 	}
 
 	public ProjectInfoView(String key) {
@@ -184,7 +196,7 @@ public class ProjectInfoView extends JPanel {
 			}
 		}
 		
-		this.appendText("#####<태그사전 정보>#####\n");
+		this.appendText("<태그사전 정보>\n");
 		this.appendText("\n");
 		this.appendText("총 태그 수 : " + totalCount);
 		this.appendText(", 가상 태그 수 : " + virtualCount);
@@ -199,7 +211,7 @@ public class ProjectInfoView extends JPanel {
 	
 	private void initDatabase(Project p) {
 		DatabaseConfiguration configuration = p.getDatabaseConfiguration();
-		this.appendText("####<데이터베이스 정보>####\n");
+		this.appendText("<데이터베이스 정보>\n");
 		this.appendText("\n");
 		this.appendText("마스터 저장 데이터베이스 : " + ((null == configuration.getMasterDatabase()) ? "없음" : configuration.getMasterDatabase()));
 		this.appendText("\n");
@@ -219,7 +231,7 @@ public class ProjectInfoView extends JPanel {
 	private void initNetwork(Project p) {
 		NetworkConfiguration configuration = p.getNetworkConfiguration();
 		Iterator<HMINode> ntIt = configuration.getAllNodes();
-		this.appendText("#####<네트워크 정보>#####\n");
+		this.appendText("<네트워크 정보>\n");
 		this.appendText("\n");
 		while(ntIt.hasNext()) {
 			HMINode node = ntIt.next();
@@ -237,7 +249,7 @@ public class ProjectInfoView extends JPanel {
 	
 	private void initAlarmGroup(Project p) {
 		AlarmConfiguration configuration = p.getAlarmConfiguration();
-		this.appendText("#####<경보그룹 정보>#####\n");
+		this.appendText("<경보그룹 정보>\n");
 		this.appendText("\n");
 		Iterator<AlarmGroup> alarmGroupIt = configuration.getAllAlarmGroups().iterator();
 		while(alarmGroupIt.hasNext()) {
@@ -251,7 +263,7 @@ public class ProjectInfoView extends JPanel {
 	
 	private void initDevice(Project p) {
 		DeviceConfiguration configuration = p.getDeviceConfiguration();
-		this.appendText("#####<디바이스 정보>#####\n");
+		this.appendText("<디바이스 정보>\n");
 		Iterator<DeviceGroupList> dgIt = configuration.getAllDeviceList();
 		while(dgIt.hasNext()) {
 			DeviceGroupList groupList = dgIt.next();
@@ -278,7 +290,7 @@ public class ProjectInfoView extends JPanel {
 	private void initDataCollection(Project p) {
 		DataCollectionConfiguration configuration = p.getDataCollectionConfiguration();
 		Iterator<CollectionList> clistIt  = configuration.getAllCollectionList().iterator();
-		this.appendText("####<데이터 수집환경 정보>####\n");
+		this.appendText("<데이터 수집환경 정보>\n");
 		this.appendText("\n");
 		while(clistIt.hasNext()) {
 			CollectionList collectionList = clistIt.next();
@@ -317,7 +329,7 @@ public class ProjectInfoView extends JPanel {
 	private void initEvent(Project p) {
 		EventDictionary eventDictionary = p.getEventDictionary();
 		Iterator<EventGroupList> egIt = eventDictionary.getEventGroupLists().iterator();
-		this.appendText("####<이벤트 사전 정보>####\n");
+		this.appendText("<이벤트 사전 정보>\n");
 		this.appendText("\n");
 		while(egIt.hasNext()) {
 			EventGroupList eGroupList = egIt.next();
@@ -337,7 +349,7 @@ public class ProjectInfoView extends JPanel {
 	
 	private void initScriptDictionary(Project p) {
 		ScriptDictionary scriptDictionary = p.getScriptDictionary();
-		this.appendText("####<사용자 함수 사전 정보>####\n");
+		this.appendText("<사용자 함수 사전 정보>\n");
 		this.appendText("\n");
 		this.appendText("사용자 함수 수 : " + scriptDictionary.getAllScripts().toArray().length);
 		this.appendText("\n");
@@ -346,7 +358,7 @@ public class ProjectInfoView extends JPanel {
 	private void initUser(Project p) {
 		SecurityConfiguration configuration = p.getSecurityConfiguration();
 		Iterator<UserGroup> userGroupIt = configuration.getUserGroupList().iterator();
-		this.appendText("####<사용자 환경 정보>####\n");
+		this.appendText("<사용자 환경 정보>\n");
 		this.appendText("\n");
 		while(userGroupIt.hasNext()) {
 			UserGroup userGroup = userGroupIt.next();
